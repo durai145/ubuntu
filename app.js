@@ -238,7 +238,7 @@ var BrowserInfo=
 ,GEO_DTL 		: req.headers['user-agent']
 ,GEO_REGION 		: geo.region
 };
-
+/*
 res.locals.BrowserInfo  = BrowserInfo;
 		fs.readFile('jsonSchema/PersonalInfo1.json', function(err, data)
 		{
@@ -251,7 +251,7 @@ res.locals.BrowserInfo  = BrowserInfo;
 			//console.log('res.locals.BrowserInfo ='  + res.locals.BrowserInfo );
 		}); 
 
-
+*/
 
 
 		next();
