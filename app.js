@@ -6,7 +6,16 @@ var useragent = require('useragent');
 var geoip = require('geoip-lite');
 var cookieParser  = require('cookie-parser');
 
-var device     = require('express-device');
+var device     = require('express-device')
+var ms     = require('ms');
+
+var secretkey ="KEY1";
+
+var jwt = require('jsonwebtoken');
+
+
+ Promise = require('bluebird'),
+ request = Promise.promisify(require('request'));
 
 var app = express();
 
@@ -29,6 +38,19 @@ var uss=require('./idb/USS_10');
 
 
 var log                 = require('./libs/log')(module);
+
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(device.capture());
+app.set('view options', { layout: true });
+device.enableViewRouting(app);
+app.use(cookieParser());
+app.use(session({secret: 'glbladmin',
+resave: false,
+saveUninitialized: true
+}));
+var sess ;
+console.log(new Date());
 /*[]
 app.use(multer({ dest: './uploads/',
  rename: function (fieldname, filename) {
@@ -45,9 +67,19 @@ onFileUploadComplete: function (file) {
 
 */
 
+pool.on('enqueue', function () {
+  console.log('Waiting for available connection slot');
+});
+
 function checkpwd(inUsername, inPassword, callback ){
+
+	if(inUsername != "" && inPassword != "")
+	{
+
+	log.info("call get connection..");
 	pool.getConnection(function(err, connection) 
 	{
+
 
 		var query='select PROD_NAME , PROD_VERSION , PRTL_NAME, GRP_NAME ,f_name FIRST_NAME, l_name  LAST_NAME,  i.email_id EMAIL  , i.GRP_ID , USR_ID from GID001MB i, GRP001MB g , PRTL002MB prtl ,PROD001MB prod WHERE prtl.prtl_id  = g.prtl_id AND prod.prod_id = prtl.prod_id AND prtl.PRTL_ST =\'ACTIVE\' AND g.grp_id  = i.grp_id AND  i.email_id ='+ connection.escape(inUsername)+' and i.password = '+ connection.escape(inPassword ) + '';
 
@@ -76,8 +108,14 @@ function checkpwd(inUsername, inPassword, callback ){
 				callback(true,{"message" : "success"},rows);
 			}
 		});
-	
+	connection.release();
 });
+
+}
+else
+{
+	callback(false,{"message" : "Username or Password should not be null" },{});
+}
 	
 }
 
@@ -142,19 +180,9 @@ checkpwd( username,password, function( result,response, record ){
  //   mongoose.disconnect();
 //}, 3000);
 //app.use(bodyParser.urlencoded);
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(device.capture());
-app.set('view options', { layout: true });
-device.enableViewRouting(app);
-app.use(cookieParser());
-app.use(session({secret: 'glbladmin',
-resave: false,
-saveUninitialized: true
-}));
-var sess ;
-console.log(new Date());
 
 
+/*
 
 app.all('*', function(req, res, next)
 {
@@ -256,7 +284,9 @@ res.locals.BrowserInfo  = BrowserInfo;
 
 		next();
 
-});    
+});   
+
+*/ 
 
 function insertLogin(BrowserInfo)
 {
@@ -306,6 +336,9 @@ res.redirect('GenTool/GenJson_21.html');
 );
 
 
+
+
+
 app.post('/glbladmin/page/:id' , function(req,res) {
 	console.log( req.body );
 	//req.params.id
@@ -344,17 +377,17 @@ app.post('/glbladmin/page/:id' , function(req,res) {
 			if ( ! req.session.email  )
 			{
 				
-				checkpwd( req.body.email,req.body.password, function( result,response, logindata ){
+				checkpwd( req.body.email,req.body.password, function( result,respObj, logindata ){
 
 					  console.log( "Return:" +result );
 					  console.log( "Response:" +response.message );
 					  console.log( "record:" + logindata );
 
-					res.locals.BrowserInfo.USR_ID       =  logindata[0].USR_ID;
-					res.locals.BrowserInfo.GRP_ID       =  logindata[0].GRP_ID;
-					res.locals.BrowserInfo.LOGIN_STATUS =  (result == true ) ? "SUCCESS" : "FAILED";
-					res.locals.BrowserInfo.LOGIN_DESRC  =  response.message;
-					insertLogin( res.locals.BrowserInfo );
+				//	res.locals.BrowserInfo.USR_ID       =  logindata[0].USR_ID;
+				//	res.locals.BrowserInfo.GRP_ID       =  logindata[0].GRP_ID;
+				//	res.locals.BrowserInfo.LOGIN_STATUS =  (result == true ) ? "SUCCESS" : "FAILED";
+				//	res.locals.BrowserInfo.LOGIN_DESRC  =  response.message;
+				//	insertLogin( res.locals.BrowserInfo );
 
 
 					if ( result  ==  false  )
@@ -368,8 +401,8 @@ app.post('/glbladmin/page/:id' , function(req,res) {
 							{
 								PersonalInfo="";
 							}
-								var session= { PersonalInfo : PersonalInfo, idb : idb, uss: uss };
-								res.render('index.ejs', { session : session });
+							var session= { PersonalInfo : PersonalInfo, idb : idb, uss: uss };
+							res.render('index.ejs', { session : session });
 					}
 					else
 					{
@@ -623,11 +656,289 @@ app.post('/api/photo',function(req,res){
   }
 });
 
+///token start
+
+
+function addCoreFunction(req,callback)
+{
+
+	req.getHeader=function(arg)
+	{
+
+		var retVal="";
+		try
+		{
+			retVal=req.headers[arg]
+		}
+		catch(e)
+		{
+
+			retVal="";
+		}
+		return retVal;
+
+	}
+
+	req.getParam = function(arg)
+	{
+		var retVal="";
+		if(req.method == "POST")
+		{
+			try
+			{
+				retVal=req.params[arg] || req.body[arg]  ;	
+			}
+			catch(e)
+			{
+				retVal="";
+			}
+			
+		}
+		else if (req.method == "GET")
+		{
+
+			try
+			{
+				retVal=req.query[arg]  || req.body[arg];	
+			}
+			catch(e)
+			{
+				retVal="";
+			}
+
+		}
+		return retVal;
+	}
+
+
+	callback(req);
+
+}
+
+
+
+function validInput(req,callback)
+{
+
+
+	addCoreFunction(req,function(req){
+
+	//var contentType = response.getHeader('content-type');
+
+	console.log(req);
+   var accessToken=	req.getHeader("x-access-token");
+
+   var grantType=req.getParam("grantType");
+   var clientId=req.getParam("clientId");
+   var scope=req.getParam("scope");
+
+   var respObj= {
+   	 respCode : 0
+   	,respDescr :""
+   	,accessToken :accessToken
+   	,userName    :""
+   	,error : ""
+   	,grantType : ""
+   	,isAccessTokenFound : false
+   	,clientId :""
+   	,isClientIdFound: false
+   	,isValidGrantType : false
+   	,isScopeFound: false
+   	,redirectURI :""
+   	,scope:""
+   };
+   if(respObj.accessToken != null)
+   {
+   	respObj.isAccessTokenFound = true; 
+   }
+
+
+
+	/*need To be introduce table*/
+
+	if(grantType == "password")
+	{
+	 respObj.isValidGrantType = true;
+	 respObj.grantType=grantType;
+		
+	}
+	else
+	{
+		respObj.respCode=1;
+		respObj.grantType=grantType;
+		respObj.error="Invalid Grant Type";
+	}
+	if(clientId == "CLIENTSP")
+	{
+	 
+	 respObj.isClientIdFound = true;
+	 respObj.clientId=clientId;
+		
+	}
+	else
+	{
+		
+		respObj.respCode=2;
+
+		 respObj.clientId=clientId;
+		respObj.error="Invalid Client Id";
+	}
+	if(scope == "GSA")
+	{
+	 respObj.isScopeFound = true;
+	 respObj.SCOPE=scope;
+		
+	}
+	else
+	{
+		respObj.respCode=3;
+		respObj.SCOPE=scope;
+		respObj.error="Invalid Scope";
+	}
+
+     
+    
+
+
+	//res.respObj= respObj;
+	log.info("in validate input :resp OBJ:")
+	console.log(respObj);
+
+	callback(req,respObj);
+
+});
+   
+}
+
+
+function signToken(res,secretkey,callback)
+{
+
+	var payload={
+		 iss: "Heaerie GSL"
+		,aud: "www.myroomexpense.com"
+		,iat: ms(60)
+		};
+
+
+
+var token = jwt.sign(payload, secretkey);
+
+	res.setHeader("x-access-token",token );
+	callback(res);
+}
+
+
+function verifyToken(req,secretkey,callback)
+{
+
+	var payload={
+		 iss: "Heaerie GSL"
+		,aud: "www.myroomexpense.com"
+		,iat: ms(60)
+		};
+
+
+
+var token = jwt.verify(payload, secretkey);
+
+	res.setHeader("x-access-token",token );
+	callback(res);
+}
+
+function token(req,res)
+{
+
+res.setHeader("x-access-token","tests" );
+	log.info("in token");
+	validInput(req, function(req,respObj)
+	{
+		log.info("AF:001:validInput ");
+		//console.log(res.respObj);
+		
+		if (respObj.respCode == 0)
+		{
+
+				var username=req.getParam("username");
+				var password=req.getParam("password");
+
+
+				//log.info("userName:" + username);
+				//log.info("password:" + password);
+				checkpwd( username,password, function( result,response, logindata ){
+
+
+						if(result ==false)
+						{
+
+							res.respObj=4;
+							res.error="Access Denied";
+							log.info("af : 001 : checkpwd");
+							//res.statusCode =302;
+							//res.end(302,JSON.stringify(res.respObj));
+
+							res.send(JSON.stringify(respObj));
+
+							
+
+
+						}
+						else
+						{
+							log.info("T:001:Sign Token");
+
+							signToken(res,secretkey, function(res){
+								//res.statusCode=302;
+
+								res.send(JSON.stringify(respObj));	
+							});
+
+							
+
+						}
+
+				});
+
+				
+
+	
+		}
+		else
+		{
+				res.statusCode = 303;
+				res.send(JSON.stringify(res.respObj));
+							//res.send(JSON.stringify(res.respObj));
+
+		}
+		
+
+
+	});
+
+
+
+}
+
+app.post('/token' , function(req,res) {
+
+	token(req,res);
+	
+}
+);
+
+
+app.get('/token' , function(req,res) {
+	
+	token(req,res);
+}
+);
+///token
+
 console.log(__dirname);
 app.use(express.static(__dirname+'/public'));
 app.use(express.static(__dirname+'/mids'));
 
-var server = app.listen(3000, function() {
+var server = app.listen(80, function() {
     console.log('Listening on port %d', server.address().port);
 });
 
