@@ -1,3 +1,3 @@
 set -x
-/usr/bin/nohup  node app.js &
+/usr/bin/nohup  node app.js 
 
