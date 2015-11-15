@@ -731,6 +731,7 @@ function validInput(req,callback)
    var grantType=req.getParam("grantType");
    var clientId=req.getParam("clientId");
    var scope=req.getParam("scope");
+   var state =req.getHeader("user-agent");
 
    var respObj= {
    	 respCode : 0
@@ -746,7 +747,109 @@ function validInput(req,callback)
    	,isScopeFound: false
    	,redirectURI :""
    	,scope:""
+   	,state: ""
    };
+
+   respObj.state=state;
+   if(respObj.accessToken != null)
+   {
+   	respObj.isAccessTokenFound = true; 
+   }
+
+
+
+	/*need To be introduce table*/
+
+	if(grantType == "password")
+	{
+	 respObj.isValidGrantType = true;
+	 respObj.grantType=grantType;
+		
+	}
+	else
+	{
+		respObj.respCode=1;
+		respObj.grantType=grantType;
+		respObj.error="Invalid Grant Type";
+	}
+	if(clientId == "CLIENTSP")
+	{
+	 
+	 respObj.isClientIdFound = true;
+	 respObj.clientId=clientId;
+		
+	}
+	else
+	{
+		
+		respObj.respCode=2;
+
+		 respObj.clientId=clientId;
+		respObj.error="Invalid Client Id";
+	}
+	if(scope == "GSA")
+	{
+	 respObj.isScopeFound = true;
+	 respObj.SCOPE=scope;
+		
+	}
+	else
+	{
+		respObj.respCode=3;
+		respObj.SCOPE=scope;
+		respObj.error="Invalid Scope";
+	}
+
+     
+    
+
+
+	//res.respObj= respObj;
+	log.info("in validate input :resp OBJ:")
+	console.log(respObj);
+
+	callback(req,respObj);
+
+});
+   
+}
+
+
+
+function authvalidInput(req,callback)
+{
+
+
+	addCoreFunction(req,function(req){
+
+	//var contentType = response.getHeader('content-type');
+
+	console.log(req);
+   var accessToken=	req.getHeader("x-access-token");
+
+   var grantType=req.getParam("grantType");
+   var clientId=req.getParam("clientId");
+   var scope=req.getParam("scope");
+   var state =req.getHeader("user-agent");
+
+   var respObj= {
+   	 respCode : 0
+   	,respDescr :""
+   	,accessToken :accessToken
+   	,userName    :""
+   	,error : ""
+   	,grantType : ""
+   	,isAccessTokenFound : false
+   	,clientId :""
+   	,isClientIdFound: false
+   	,isValidGrantType : false
+   	,isScopeFound: false
+   	,redirectURI :""
+   	,scope:""
+   	,state: ""
+   };
+
+   respObj.state=state;
    if(respObj.accessToken != null)
    {
    	respObj.isAccessTokenFound = true; 
@@ -821,36 +924,61 @@ function signToken(res,secretkey,callback)
 		};
 
 
-
-var token = jwt.sign(payload, secretkey);
+//jwt.setExpiration(new Date().getTime() + ms(60));
+var token = jwt.sign(payload, secretkey,{complete: true, maxAge:ms(60)});
 
 	res.setHeader("x-access-token",token );
 	callback(res);
 }
 
 
-function verifyToken(req,secretkey,callback)
+function verifyToken(accessToken,secretkey,callback)
 {
 
-	var payload={
-		 iss: "Heaerie GSL"
-		,aud: "www.myroomexpense.com"
-		,iat: ms(60)
-		};
 
+	
+var rslt=false;
+try
+{
 
+log.info("in verifyToken");
+var token = jwt.verify(accessToken, secretkey);
+rslt=true;
 
-var token = jwt.verify(payload, secretkey);
+}
+catch(e)
+{
+	rslt=false;
+	token={};
+}
 
-	res.setHeader("x-access-token",token );
-	callback(res);
+log.info("in verifyToken:token");
+console.log(token);
+callback(rslt,token);
 }
 
 function token(req,res)
 {
 
-res.setHeader("x-access-token","tests" );
+//res.setHeader("x-access-token","tests" );
 	log.info("in token");
+	var successRespObj={
+		token_type:"jwt"
+
+	};
+	var errorArr=[
+"invalid_request"
+,"unauthorized_client"
+,"access_denied"
+,"unsupported_response_type"
+,"invalid_scope"
+,"server_error"
+,"temporarily_unavailable"
+];
+	var errorRespObj={
+		error : ""
+		,error_uri:""
+	};
 	validInput(req, function(req,respObj)
 	{
 		log.info("AF:001:validInput ");
@@ -865,6 +993,8 @@ res.setHeader("x-access-token","tests" );
 
 				//log.info("userName:" + username);
 				//log.info("password:" + password);
+				
+
 				checkpwd( username,password, function( result,response, logindata ){
 
 
@@ -876,8 +1006,9 @@ res.setHeader("x-access-token","tests" );
 							log.info("af : 001 : checkpwd");
 							//res.statusCode =302;
 							//res.end(302,JSON.stringify(res.respObj));
-
-							res.send(JSON.stringify(respObj));
+							errorRespObj.error=errorArr[3];
+							res.statusCode=302;										
+							res.send(JSON.stringify(errorRespObj));
 
 							
 
@@ -890,7 +1021,7 @@ res.setHeader("x-access-token","tests" );
 							signToken(res,secretkey, function(res){
 								//res.statusCode=302;
 
-								res.send(JSON.stringify(respObj));	
+								res.send(JSON.stringify(successRespObj));	
 							});
 
 							
@@ -905,8 +1036,132 @@ res.setHeader("x-access-token","tests" );
 		}
 		else
 		{
-				res.statusCode = 303;
-				res.send(JSON.stringify(res.respObj));
+
+				if(respObj.isClientIdFound == false)
+							{
+								errorRespObj.error=errorArr[1];
+							}
+							else if (respObj.isValidGrantType ==false)
+							{
+								errorRespObj.error=errorArr[0];
+							
+							}
+
+				errorRespObj.error=errorArr[3];
+							res.statusCode=302;										
+							res.send(JSON.stringify(errorRespObj));
+							//res.send(JSON.stringify(res.respObj));
+
+		}
+		
+
+
+	});
+
+
+
+}
+
+
+function authorize(req,res)
+{
+
+//res.setHeader("x-access-token","tests" );
+	log.info("in token");
+	var successRespObj={
+		token_type:"jwt"
+
+	};
+	var errorArr=[
+"invalid_request"
+,"unauthorized_client"
+,"access_denied"
+,"unsupported_response_type"
+,"invalid_scope"
+,"server_error"
+,"temporarily_unavailable"
+];
+	var errorRespObj={
+		error : ""
+		,error_uri:""
+	};
+	authvalidInput(req, function(req,respObj)
+	{
+		log.info("AF:001:validInput ");
+		//console.log(res.respObj);
+		
+		if (respObj.respCode == 0)
+		{
+
+				//var username=req.getParam("username");
+				//var password=req.getParam("password");
+
+
+				//log.info("userName:" + username);
+				log.info("tocken:" + respObj.accessToken);
+				
+
+				//checkpwd( username,password, function( result,response, logindata ){
+						verifyToken(respObj.accessToken, secretkey,function(result,token)
+						{
+
+						if(result ==false)
+						{
+
+							res.respObj=4;
+							res.error="Access Denied";
+							log.info("af : 001 : checkpwd");
+							//res.statusCode =302;
+							//res.end(302,JSON.stringify(res.respObj));
+							errorRespObj.error=errorArr[3];
+							res.statusCode=302;										
+							res.send(JSON.stringify(errorRespObj));
+
+							
+
+
+						}
+						else
+						{
+							log.info("T:001:Sign Token");
+
+							console.log(token);
+
+							signToken(res,secretkey, function(res){
+								//res.statusCode=302;
+
+								res.send(JSON.stringify(successRespObj));	
+							});
+
+							
+
+						
+						}
+
+					});
+
+		
+				
+				
+
+	
+		}
+		else
+		{
+
+				if(respObj.isClientIdFound == false)
+							{
+								errorRespObj.error=errorArr[1];
+							}
+							else if (respObj.isValidGrantType ==false)
+							{
+								errorRespObj.error=errorArr[0];
+							
+							}
+
+				errorRespObj.error=errorArr[3];
+							res.statusCode=302;										
+							res.send(JSON.stringify(errorRespObj));
 							//res.send(JSON.stringify(res.respObj));
 
 		}
@@ -930,6 +1185,21 @@ app.post('/token' , function(req,res) {
 app.get('/token' , function(req,res) {
 	
 	token(req,res);
+}
+);
+
+
+app.post('/authorize' , function(req,res) {
+
+	authorize(req,res);
+	
+}
+);
+
+
+app.get('/authorize' , function(req,res) {
+	
+	authorize(req,res);
 }
 );
 ///token
