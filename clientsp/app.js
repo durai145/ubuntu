@@ -491,7 +491,7 @@ if  ( req.session  === undefined )
 
 	req.session={email : ""};
 console.log('No session' );
-	res.redirect('glbladmin/pages/login.html');
+	res.redirect('www/index.html');
 }
 else
 {
@@ -500,7 +500,9 @@ else
 	{
 		if ( ! req.session.email  )
 		{
-			res.redirect('glbladmin/pages/login.html');
+			/*res.redirect('glbladmin/pages/login.html'); */
+
+			res.redirect('www/index.html');
 		}
 	}
 	catch(e)
@@ -514,7 +516,8 @@ console.log('check session.email' );
 console.log('In session.email' );
 			if ( req.session.login )
 			{
-				res.redirect('glbladmin/page/dashboard');
+/*				res.redirect('glbladmin/page/dashboard'); */
+				res.redirect('www/index.html');
 			}
 		}
 
@@ -921,11 +924,12 @@ function signToken(res,secretkey,callback)
 		 iss: "Heaerie GSL"
 		,aud: "www.myroomexpense.com"
 		,iat: ms(60)
+
 		};
 
 
 //jwt.setExpiration(new Date().getTime() + ms(60));
-var token = jwt.sign(payload, secretkey,{complete: true, maxAge:ms(60)});
+var token = jwt.sign(payload, secretkey,{complete: true, maxAge:ms(60), expiresInMinutes: 1});
 
 	res.setHeader("x-access-token",token );
 	callback(res);
@@ -942,7 +946,7 @@ try
 {
 
 log.info("in verifyToken");
-var token = jwt.verify(accessToken, secretkey);
+var token = jwt.verify(accessToken,secretkey );
 rslt=true;
 
 }
@@ -1006,13 +1010,9 @@ function token(req,res)
 							log.info("af : 001 : checkpwd");
 							//res.statusCode =302;
 							//res.end(302,JSON.stringify(res.respObj));
-							errorRespObj.error=errorArr[3];
+							errorRespObj.error=errorArr[2];
 							res.statusCode=302;										
 							res.send(JSON.stringify(errorRespObj));
-
-							
-
-
 						}
 						else
 						{
@@ -1064,6 +1064,118 @@ function token(req,res)
 
 
 function authorize(req,res)
+{
+
+//res.setHeader("x-access-token","tests" );
+	log.info("in token");
+	var successRespObj={
+		token_type:"jwt"
+
+	};
+	var errorArr=[
+"invalid_request"
+,"unauthorized_client"
+,"access_denied"
+,"unsupported_response_type"
+,"invalid_scope"
+,"server_error"
+,"temporarily_unavailable"
+];
+	var errorRespObj={
+		error : ""
+		,error_uri:""
+	};
+	authvalidInput(req, function(req,respObj)
+	{
+		log.info("AF:001:validInput ");
+		//console.log(res.respObj);
+		
+		if (respObj.respCode == 0)
+		{
+
+				//var username=req.getParam("username");
+				//var password=req.getParam("password");
+
+
+				//log.info("userName:" + username);
+				log.info("tocken:" + respObj.accessToken);
+				
+
+				//checkpwd( username,password, function( result,response, logindata ){
+						verifyToken(respObj.accessToken, secretkey,function(result,token)
+						{
+
+						if(result ==false)
+						{
+
+							res.respObj=4;
+							res.error="Access Denied";
+							log.info("af : 001 : checkpwd");
+							//res.statusCode =302;
+							//res.end(302,JSON.stringify(res.respObj));
+							errorRespObj.error=errorArr[2];
+							res.statusCode=302;										
+							res.send(JSON.stringify(errorRespObj));
+
+							
+
+
+						}
+						else
+						{
+							log.info("T:001:Sign Token");
+
+							console.log(token);
+
+							signToken(res,secretkey, function(res){
+								//res.statusCode=302;
+
+								res.send(JSON.stringify(successRespObj));	
+							});
+
+							
+
+						
+						}
+
+					});
+
+		
+				
+				
+
+	
+		}
+		else
+		{
+
+				if(respObj.isClientIdFound == false)
+							{
+								errorRespObj.error=errorArr[1];
+							}
+							else if (respObj.isValidGrantType ==false)
+							{
+								errorRespObj.error=errorArr[0];
+							
+							}
+
+				errorRespObj.error=errorArr[3];
+							res.statusCode=302;										
+							res.send(JSON.stringify(errorRespObj));
+							//res.send(JSON.stringify(res.respObj));
+
+		}
+		
+
+
+	});
+
+
+
+}
+
+
+function authorizeSSO(req,res)
 {
 
 //res.setHeader("x-access-token","tests" );
@@ -1174,6 +1286,7 @@ function authorize(req,res)
 
 }
 
+
 app.post('/token' , function(req,res) {
 
 	token(req,res);
@@ -1188,6 +1301,34 @@ app.get('/token' , function(req,res) {
 }
 );
 
+
+app.get('/gpasso/token' , function(req,res) {
+	
+	token(req,res);
+}
+);
+
+
+app.post('/gpasso/token' , function(req,res) {
+	
+	token(req,res);
+}
+);
+
+
+
+app.get('/gpasso/authorize' , function(req,res) {
+	
+	authorize(req,res);
+}
+);
+
+
+app.post('/gpasso/authorize' , function(req,res) {
+	
+	authorize(req,res);
+}
+);
 
 app.post('/authorize' , function(req,res) {
 

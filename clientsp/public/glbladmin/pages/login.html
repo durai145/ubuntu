@@ -14,7 +14,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-
+  <script data-main="../js/app" src="../../external/require.js"></script>
+    
 
   <style>
   body {
@@ -294,76 +295,7 @@ box-shadow: inset -3px 2px 132px 51px rgba(255,255,255,1);
 </head>
 
 <script type="text/javascript">
-  var app = angular.module('myApp', []).config(['$httpProvider', function($httpProvider) {
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    }]);
 
-var toasterService=angular.module('toasterService', ['toaster', 'ngAnimate'])
-    .controller('myController', function($scope, toaster) {
-        $scope.pop = function(){
-            toaster.pop('success', "title", "text");
-        };
-    });
-
-    
-  
-
-
-  app.controller('formCtrl', function($scope,$http) {
-    $scope.master = {email: "John", password: "Doe"};
-    $scope.uss_submit = function($scope) {
-
-      //  $scope.user = angular.copy($scope.master);
-      //alert("this form submit");
-      var url = "/authorize"; 
-      var config =  { 
-          headers: {"x-access-token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJIZWFlcmllIEdTTCIsImF1ZCI6Ind3dy5teXJvb21leHBlbnNlLmNvbSIsImlhdCI6IjYwbXMifQ.G37Yj8ljUjbOf-kSyc4j3-YAlbseb1KET9CMBgbJfaE"
-           ,'Authorization': 'Basic dGVzdDp0ZXN0'
-            ,      'Content-Type': 'application/x-www-form-urlencoded'
-            ,'Access-Control-Allow-Origin': false
-
-            
-        }
-      };
-      var dataJson = 
-      {
-        "email" : "durai145@live.in"
-        ,"password" : "1qaz2wsx"
-        ,"grantType": "password"
-            ,"clientId" : "CLIENTSP"
-            ,"scope" : "GSA"
-            ,"redirectURI" :"http://localhost:5000"
-      };
-
-    /*
-    $.post(url , dataJson , function (resp,status,xhr){
-
-        alert("resp" + status);
-
-    },dataType);
-*/
-
-  $http.post(url,dataJson,config).then(function (response) 
-    { 
-     // alert("resp");
-      console.log(response);
-      alert(JSON.stringify(response));
-    },function(data){
-
-      if(data.status == 302)
-      {
-
-        alert("Invalid request");
-      }
-     });
-    };
-
-
-  //  $scope.uss_submit();
-
-
-});
 
 
 </script>
@@ -393,7 +325,7 @@ var toasterService=angular.module('toasterService', ['toaster', 'ngAnimate'])
 <div class="container-fluid">
 
   
-<div ng-app="myApp" ng-controller="formCtrl">
+<div ng-app="app" ng-controller="formCtrl">
   
     
     <div class="row">
@@ -441,7 +373,24 @@ var toasterService=angular.module('toasterService', ['toaster', 'ngAnimate'])
 
       </div>
 
-
+ <div>
+            <div ng-controller="myController">
+                <toaster-container 
+                toaster-options="{'time-out': 3000, 
+                'position-class': 'toast-bottom-right','close-button':true}"></toaster-container>
+                <button class="btn btn-primary" style="margin: 150px 0 0 150px;" ng-click="pop()">Show toasts</button>
+                <br />
+                <button class="btn btn-danger" style="margin: 10px 0 0 150px;" ng-click="clear()">Clear toasts</button>
+            </div>
+        </div>
+        
+        <script type="text/ng-template" id="toasterBodyTmpl.html">
+          <p>Render a default template!</p>
+        </script>
+        
+        <script type="text/ng-template" id="myTemplate.html">
+          <p>Render a custom template!</p>
+        </script>
       
       </form>
     </div>

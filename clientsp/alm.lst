@@ -11,3 +11,8 @@ TypeError: app.use() requires middleware functions
     at Function.Module.runMain (module.js:497:10)
     at startup (node.js:119:16)
     at node.js:902:3
+\\\\
+
+
+Error: [$injector:unpr] Unknown provider: $resourceProvider <- $resource <- loginService
+http://errors.angularjs.org/1.2.3/$injector/unpr?p0=%24resourceProvider%20%3C-%20%24resource%20%3C-%20loginService
