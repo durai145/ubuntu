@@ -22,9 +22,9 @@ require.config({
         , 'app'               : './lib/angular/app'
         , 'ngResource'        : './lib/external/angular-resource/angular-resource'
         , 'angularSanitize'   : './lib/external/angular-resource/angular-sanitize'
-        , 'jqueryFlot'        : './lib/external/jquery/flot/jquery-flot'
-        , 'excanvas'          : './lib/external/jquery/flot/excanvas'
-        , 'jqueryFlotPie'     : './lib/external/jquery/flot/jquery-flot-pie'
+        , 'jqueryFlot'        : './lib/external/jquery/jquery-flot'
+        , 'excanvas'          : './lib/external/jquery/excanvas'
+        , 'jqueryFlotPie'     : './lib/external/jquery/jquery-flot-pie'
         , 'toaster'           :'./lib/external/angularjs-toaster/toaster'
        /* , 'toaster'       : './lib/external/angular/toaster'*/
         /*, 'toasterService': './lib/angular/services/toasterService'*/
