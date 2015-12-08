@@ -10,11 +10,15 @@ define([
       ,'./filters/index'
       
     */
+
 ], function (controllers,services) {
     'use strict';
 
+console.log('controllers in app');
+console.log(controllers);
 
-console.log(angular);
+//console.log('ufi in app');
+//console.log(ufi);
 
     var webApp= angular.module('app', [
          'controllers'
@@ -23,21 +27,154 @@ console.log(angular);
         ,'services'
         ,'ui.router'
         ,'ngAnimate'
+        //,'$http'
+      //  , 'require'
+        //,'ufi'
+        //,''
         /*,'app.directives'
         ,'app.filters'
         ,'app.services'
         */
     ]);
 
-     webApp.config(['$routeProvider', '$locationProvider', '$httpProvider' ,'$stateProvider','$urlRouterProvider'
-          ,function  ($routeProvider,$locationProvider,$httpProvider,$stateProvider,$urlRouterProvider) {
-        // body...
 
+    webApp.provider('heaerieUssService', function heaerieUssServiceProvider() {
+  var GenHtmlTemplateFromSJson = false;
+
+  this.GenHtmlTemplateFromSJson = function(value,mode) {
+   // alert("test" + value);
+   var USS=require("ufi.core").USS;
+   var ufiframegen=require("ufi.frameGen");
+   var $=require("jquery");
+
+
+   var us= new ufiframegen.FG();
+/*
+
+   $http({
+  method: 'GET',
+  url: '/someUrl'
+}).then(function successCallback(response) {
+    
+      alert('success');
+  }, function errorCallback(response) {
+
+     alert('failure');
+     console.log(response);
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+  });
+*/
+
+    GenHtmlTemplateFromSJson =USS;
+
+    var schemaJson=[
+  { 
+  group:'ussms',name:'basicDet',label:'Basic Details',task:'EA',desc:'N',htmlType:'PAGE',entitle:'N',enttlname:'',mndf:'N',dataType:'PAGE',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs: 
+  [
+   {  group:'ussms',name:'name',label:'Name ',task:'NONE',desc:'N',htmlType:'TEXT',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'name1',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' }
+  ,{  group:'ussms',name:'bodyType',label:'Body Type',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'NONE',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|SLIM|Slim|AVERAGE|Average|ATHLETIC|Athletic|HEAVY|Heavy ',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' }
+  ,{  group:'ussms',name:'complexion',label:'complexion',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'N',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|VFAIR|Very Fair|FAIR|Fair |WHEATISH|Wheatish|BWHEATISH|Wheatish |BROWN|brown|DARK|Dark',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  }
+  ,{  group:'ussms',name:'age',label:'Age ',task:'NONE',desc:'N',htmlType:'TEXT',entitle:'N',enttlname:'',mndf:'N',dataType:'NUMBER',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' }
+  ,{  group:'ussms',name:'dob',label:'Date of Birth',task:'NONE',desc:'N',htmlType:'DATE',entitle:'N',enttlname:'',mndf:'Y',dataType:'DATE',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'DD/MM/YYYY or DD/MON/YYYY',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' }
+  ,{  group:'ussms',name:'phyStaus',label:'Physical Status ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'NONE',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|NORMAL|Normal|PHYSICALLYCHALLENGED|Physically challenged',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  }
+  ,{  group:'ussms',name:'height',label:'Height ',task:'NONE',desc:'N',htmlType:'TEXT',entitle:'N',enttlname:'',mndf:'Y',dataType:'WIGHT',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  }
+  ,{  group:'ussms',name:'weight ',label:'Weight ',task:'NONE',desc:'N',htmlType:'TEXT',entitle:'N',enttlname:'',mndf:'N',dataType:'HIGHT',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' }
+  ,{  group:'ussms',name:'motherTongue',label:'Mother Tongue ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  }
+  ,{  group:'ussms',name:'maritalStaus',label:'Marital Status ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|U|Unmaried|NM|Never married',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  }
+  ,{  group:'ussms',name:'eatingHabits',label:'Eating Habits ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'N',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|NV|Non Vegetarian|V|Vegetarian',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  }
+  ,{  group:'ussms',name:'drinkingHabits',label:'Drinking Habits ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'NONE',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|ND|Non-drinker|D|Drinker',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  }
+  ,{  group:'ussms',name:'smokingHabits',label:'Smoking Habits ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'NONE',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|NS|Non-smoker|S|Smoker',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  }
+  ]
+  }
+  
+];
+
+
+   // alert(GenHtmlTemplateFromSJson);
+
+   var usResource= eval(    "[{" +us.frameGenerationResoure(schemaJson[0].childs,
+  schemaJson[0]
+)  +"}]" );
+
+
+var  usListVal=eval("[{"+us.frameGenerationListVal(schemaJson[0].childs,
+    schemaJson[0]
+)  + "}]"); 
+
+
+
+var OutJson=    eval( "[{" +us.frameGenerationJson(schemaJson[0].childs,
+  schemaJson[0]
+) +"}]");
+
+var func=value;
+//alert(func);
+var inpUsListVal  = eval("usListVal[0]."+ schemaJson[0].name) ;
+var inpUsResource = eval("usResource[0]."+ schemaJson[0].name) ;
+var inpOutJson    = eval("OutJson[0]."+ schemaJson[0].name) ;
+var ussScript=us.frameGeneration(inpUsListVal
+                                              ,inpUsResource
+                                              ,inpOutJson 
+                                              ,schemaJson[0].childs
+                                              ,schemaJson[0]
+                                              ,0
+                                              ,func
+                                              ,0
+                                              ,mode
+                                          );
+
+
+  ussScript+="return USSContainer0";
+    console.log('-------------ussScript------------');
+    console.log(ussScript);
+
+    try
+    {
+      var dynFGCall=(new Function("return function(us) {" + ussScript + "};"))();
+   
+      var appendObj=dynFGCall(us);
+
+       console.log('appendObj.innerHTML');
+      console.log(appendObj.innerHTML);
+
+      //return "<div> thsis dashboard from heaerieUssServiceProvider </div>";
+      return appendObj.innerHTML;
+     
+    }
+    catch(e)
+    {
+      alert('Core App:' + e);
+    }
+
+  };
+
+  this.$get = ["apiToken", function heaerieUssServiceFactory(apiToken) {
+
+    // let's assume that the heaerieUssService constructor was also changed to
+    // accept and use the GenHtmlTemplateFromSJson argument
+    return new heaerieUssService(apiToken, GenHtmlTemplateFromSJson);
+  }];
+});
+
+
+webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) {
+  heaerieUssServiceProvider.GenHtmlTemplateFromSJson(true);
+  console.log('heaerieUssServiceProvider.GenHtmlTemplateFromSJson');
+  console.log(heaerieUssServiceProvider.GenHtmlTemplateFromSJson);
+}]);
+
+
+     webApp.config(['$routeProvider', '$locationProvider', '$httpProvider' ,'$stateProvider','$urlRouterProvider','heaerieUssServiceProvider'
+          ,function  ($routeProvider,$locationProvider,$httpProvider,$stateProvider,$urlRouterProvider ,heaerieUssServiceProvider
+            ) {
+        // body...
         console.log('$stateProvider');
         console.log($stateProvider);
         console.log($urlRouterProvider);
+       // console.log(ussService);
 
-
+       //alert(heaerieUssServiceProvider.GenHtmlTemplateFromSJson('Y'));
           $stateProvider.state('login', 
         {
             url         : '/www/'
@@ -56,16 +193,77 @@ console.log(angular);
         {
             url         : '/dashboard/'
            ,views:{
+              'pageMainContext' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/naviView.html'
+              }
+              ,
+
+              'pageSubContext' :
+              {                
+               
+                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N',"EDIT")
+                //template : 'this is test'
+               // templateUrl : 'view/loginView.html'
+
+               ,controller :  'basicDetController'
+              }
+
+             
+            }
+        });
+//basicDet/USSAdd
+
+ $stateProvider.state('basicDetUSSAdd', 
+        {
+            url         : '/basicDet/USSAdd'
+           ,views:{
 
              'pageMainContext' :
               {                
                
-                templateUrl : 'js/lib/views/loginView.html'
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/naviView.html'
+              }
+              ,
+
+              'pageSubContext' :
+              {                
+               
+                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('Y' ,'ADD')
+                ,controller :  'basicDetController'
+                //template : 'this is test'
                // templateUrl : 'view/loginView.html'
               }
             }
         });
 
+
+$stateProvider.state('basicDetUSSEdit', 
+        {
+            url         : '/basicDet/USSEdit'
+           ,views:{
+
+             'pageMainContext' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/naviView.html'
+              }
+              ,
+
+              'pageSubContext' :
+              {                
+               
+                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('Y','SAVE')
+                ,controller :  'basicDetController'
+                //template : 'this is test'
+               // templateUrl : 'view/loginView.html'
+              }
+            }
+        });
 
     $urlRouterProvider.otherwise(function ($injector, $location) {
         var $state = $injector.get('$state');
@@ -86,8 +284,9 @@ console.log(angular);
         console.log('httpProvider');
         console.log($httpProvider);
       // $httpProvider.defaults.headers.post['x-access-token'] = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJIZWFlcmllIEdTTCIsImF1ZCI6Ind3dy5teXJvb21leHBlbnNlLmNvbSIsImlhdCI6IjYwbXMiLCJleHAiOjE0NDg2ODYwNTR9.-JiMA_sU22ZVbBSxuxTnyQY6khghSjGy7hdmNk11Ysk";
-        $httpProvider.interceptors.push(['$q', '$injector','toaster','$window', 
-                                function($q, $injector,toaster,$window){  
+        $httpProvider.interceptors.push(['$q', '$injector','toaster','$window'//,'uss' 
+                                ,function($q, $injector,toaster,$window//,uss
+                                  ){  
     var sessionRecoverer = {
         responseError: function(response) {
             // Session has expired
@@ -99,6 +298,7 @@ console.log(angular);
                 var deferred = $q.defer();
                 toaster.pop('error','this', 'this is alert 302');
 
+             //   uss.Test('Test');
                 // Create a new session (recover the session)
                 // We use login method that logs the user in using the current credentials and
                 // returns a promise

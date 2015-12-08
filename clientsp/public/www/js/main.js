@@ -8,6 +8,7 @@ require.config({
    /* baseUrl: "js/lib", */
     paths: {
           'angular'           : './lib/external/angular/angular'
+          ,'ufi'              : './lib/external/angular/ufi'
          , 'angularUiRouter'           : './lib/external/angular/angular-ui-router'
 		 , 'angularAnimate'           : './lib/external/angular/angular-animate'
         , 'angularRoute'      : './lib/external/angular-route/angular-route'
@@ -26,7 +27,14 @@ require.config({
         , 'excanvas'          : './lib/external/jquery/excanvas'
         , 'jqueryFlotPie'     : './lib/external/jquery/jquery-flot-pie'
         , 'toaster'           :'./lib/external/angularjs-toaster/toaster'
-       /* , 'toaster'       : './lib/external/angular/toaster'*/
+        , 'ufi.xml'           :'./lib/ufi.xml'
+        , 'ufi.core'           :'./lib/ufi.core'
+        , 'ufi.frameGen'           :'./lib/ufi.frameGen'
+        , 'ufi.validate'           :'./lib/ufi.validate'
+        , 'require'           :'./lib/require'
+        , 'backbone'           :'./lib/backbone'
+        , 'underscore'           :'./lib/underscore'
+    /* , 'toaster'       : './lib/external/angular/toaster'*/
         /*, 'toasterService': './lib/angular/services/toasterService'*/
  	   },
 
@@ -50,6 +58,7 @@ require.config({
         , 'angularRoute'  :{ 'deps' :['angular' , 'ngResource'] }
         , 'ngResource'    :['angular'        ]
         , 'toaster'       :['angular'        ]
+        , 'ufi'           :['angular'       ]
         , 'toasterService':['toaster'        ]
         , 'services'      :['toasterService' ]
         , 'controllers'   :['angular'        ]
@@ -59,9 +68,16 @@ require.config({
         , 'resource'      :['angular'        ]
         , 'jqueryFlot'    :['jquery'         ]
         , 'angularUiRouter' : ['angular']
-        , 'angularAnimate' : ['angular']
-        , 'app'           :{ 'deps':['angular','jquery','angularRoute','ngResource','angularUiRouter','angularAnimate','excanvas','jqueryFlot','jqueryFlotPie','toaster']}
-        , 
+        , 'angularAnimate'  : ['angular']
+        , "ufi.core"        : ["require"]
+        , "backbone"        : ["underscore"]
+        , "ufi.core"        : ["backbone"]
+        , "ufi.frameGen"    : ["ufi.core"]
+        , "ufi.xml"         : ["ufi.core"]
+        , "ufi.validate"    : ["ufi.core"]
+        , "ufi.frameGen"    : { exports:'ufiFrameGen'}
+        , 'app'            :{ 'deps':['angular','jquery','angularRoute','ngResource','angularUiRouter','angularAnimate','excanvas','jqueryFlot','jqueryFlotPie','toaster','ufi','ufi.frameGen']}
+        
     }
     /*
     deps: [
@@ -84,8 +100,12 @@ requirejs([
      * place operations that need to initialize prior to app start here
      * using the `run` function on the top-level module
 
-
+    
      */
+  //  console.log('ufi');
+   //  console.log(ufi);
+
+     ///exports.ufiFrameGen = new ufiFrameGen();
      console.log(angular);
     // console.log(angularRoute);
      console.log(ngResource);

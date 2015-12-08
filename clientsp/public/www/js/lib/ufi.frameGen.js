@@ -730,6 +730,7 @@ listVal
 ,level
 ,func
 ,parentCnt
+, mode
 )
 {   var lv_str ="";	
 	var lv_rtStr="";
@@ -756,7 +757,8 @@ parent.htmlType="hidden";
 		}
 		else
 		{
-			lv_str += this.sprint('USSHeader' +  level +'     =   us.USSCreateHeader("'+ parent.label+'","'+ parent.task+'");');
+			//lv_str += this.sprint('USSHeader' +  level +'     =   us.USSCreateHeader("'+ parent.label+'","'+ parent.task+'");');
+			lv_str += this.sprint('USSHeader' +  level +'     =   us.USSCreateHeader("'+ parent.label+'","'+ parent.task+'" ,"'+ parent.name+'" ,"'+ mode +'"   );');
 		}
 		lv_str += this.sprint('USSSession'+  level +'     =   us.USSCreateSession();' );
 		

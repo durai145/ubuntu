@@ -6,13 +6,15 @@
  **/
 define([
     './loginController'
-], function (loginController) {
+    ,'./basicDetController'
+], function (loginController,basicDetController) {
     'use strict';
 
     console.log(angular);
 
     var controllers= angular.module('controllers', []);
         controllers.controller("loginController",loginController);
+        controllers.controller("basicDetController",basicDetController);
   
 
     return controllers;

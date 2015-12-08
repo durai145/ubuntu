@@ -4,7 +4,7 @@ define(function(require, exports, module) {
 
 var USS=require("ufi.core").USS;
 
-console.log(USS);
+//console.log(USS);
 
 //var USS= ufi.USS;
 var FG=USS;

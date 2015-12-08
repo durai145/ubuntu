@@ -1,10 +1,10 @@
 define(function(require, exports, module) {
 "use strict";
 
-console.log("require");
-console.log(require);
-console.log(exports);
-console.log(module);
+//console.log("require");
+//console.log(require);
+//console.log(exports);
+//console.log(module);
 var glUserId="";
 var glGroupId="";
 var USS=function ()

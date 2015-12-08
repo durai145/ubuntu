@@ -195,7 +195,7 @@ USS.prototype.USSCreareTab_=function()
 
 USS.prototype.USSCreateContainer=function()
 {
-	
+	//alert('In USSCreateContainer ');
   this.El                = document.createElement("div");
   this.El.id             = '';
   this.El.className      = 'bcontainer';
@@ -227,7 +227,7 @@ USS.prototype.USSCreateHeader=function(title)
 }
 
 
-USS.prototype.USSCreateHeader=function(title, action)
+USS.prototype.USSCreateHeader=function(title, action,name)
 {
 	
   this.El                = document.createElement("div");
@@ -249,7 +249,10 @@ USS.prototype.USSCreateHeader=function(title, action)
    this.ElEditButtonE.className       = "bheaderButton";
    this.ElEditButtonE.value          = "EDIT" ;
    this.ButtonLabelE 				= document.createTextNode("EDIT");
-   this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
+   //this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
+   this.ElEditButtonE.setAttribute("href","#"+name +"/USSEdit");
+   
+  // this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
    this.ElEditButtonE.appendChild(this.ButtonLabelE);
    this.El.appendChild(this.ElEditButtonE );
 }
@@ -262,14 +265,130 @@ if(action.indexOf("A")!=-1)
    this.ElEditButton                 = document.createElement("a");
    this.ElEditButton.className       = "bheaderButton btn ";
    this.ElEditButton.value          = "DELETE" ;
-   this.ElEditButton.setAttribute("href","#notes/delete");
-   this.ButtonLabel 				= document.createTextNode("DELETE");
+  // this.ElEditButton.setAttribute("href","#notes/delete");
+   this.ElEditButton.setAttribute("href","#"+name +"/USSAdd");
+   this.ButtonLabel 				= document.createTextNode("ADD");
    this.ElEditButton.appendChild(this.ButtonLabel);
    this.El.appendChild(this.ElEditButton );
 }
  
+
+
+
+//<a href="#" class="delete btn btn-danger btn-small">delete</a>
+   this.ElEditButton                 = document.createElement("a");
+   this.ElEditButton.className       = "bheaderButton btn ";
+   this.ElEditButton.value          = "CANCEL" ;
+  // this.ElEditButton.setAttribute("href","#notes/delete");
+   this.ElEditButton.setAttribute("href","#/dashboard/");
+   this.ButtonLabel 				= document.createTextNode("CANCEL");
+   this.ElEditButton.appendChild(this.ButtonLabel);
+   this.El.appendChild(this.ElEditButton );
+
+
   this.El.appendChild(this.ElA );
   
+  return this.El;
+	
+}
+
+
+USS.prototype.USSCreateHeader=function(title, action,name, mode)
+{
+	
+  this.El                = document.createElement("div");
+  this.El.id             = '';
+  this.El.className      = 'bheader';
+//this.El.style.display  = 'none'; 
+//this.El.style.position = 'absolute'; 
+//this.El.onclick        = 'event.cancelBubble = true;';
+  this.El.tabIndex       = -1;
+  this.ElA               = document.createElement("a");
+  this.newContent = document.createTextNode(title);
+  this.ElA.appendChild(this.newContent );
+
+  if( mode =="EDIT")
+  {
+  
+  	if(action.indexOf("E")!= -1)
+  	{
+
+
+   this.ElEditButtonE                 = document.createElement("a");
+   this.ElEditButtonE.className       = "bheaderButton";
+   this.ElEditButtonE.value          = "EDIT" ;
+   this.ButtonLabelE 				= document.createTextNode("EDIT");
+   //this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
+   this.ElEditButtonE.setAttribute("href","#"+name +"/USSEdit");
+   
+  // this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
+   this.ElEditButtonE.appendChild(this.ButtonLabelE);
+   this.El.appendChild(this.ElEditButtonE );
+}
+
+}
+
+
+ if( mode =="SAVE")
+  {
+  
+  	if(action.indexOf("E")!= -1)
+  	{
+
+
+   this.ElEditButtonE                 = document.createElement("a");
+   this.ElEditButtonE.className       = "bheaderButton";
+   this.ElEditButtonE.value          = "SAVE" ;
+   this.ButtonLabelE 				= document.createTextNode("SAVE");
+   //this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
+  // this.ElEditButtonE.setAttribute("href","#"+name +"/USSEdit");
+
+  this.ElEditButtonE.setAttribute('ng-click', name+'EditSave()');
+   
+  // this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
+   this.ElEditButtonE.appendChild(this.ButtonLabelE);
+   this.El.appendChild(this.ElEditButtonE );
+}
+
+}
+
+if(mode =="ADD")
+{
+
+if(action.indexOf("A")!=-1)
+  {
+
+//<a href="#" class="delete btn btn-danger btn-small">delete</a>
+   this.ElEditButton                 = document.createElement("a");
+   this.ElEditButton.className       = "bheaderButton btn ";
+   this.ElEditButton.value          = "DELETE" ;
+  // this.ElEditButton.setAttribute("href","#notes/delete");
+   this.ElEditButton.setAttribute("href","#"+name +"/USSAdd");
+   this.ButtonLabel 				= document.createTextNode("ADD");
+   this.ElEditButton.appendChild(this.ButtonLabel);
+   this.El.appendChild(this.ElEditButton );
+}
+ 
+ }
+
+
+if( mode == "ADD" || mode =="EDIT" || mode == "SAVE")
+{
+
+//<a href="#" class="delete btn btn-danger btn-small">delete</a>
+   this.ElEditButton                 = document.createElement("a");
+   this.ElEditButton.className       = "bheaderButton btn ";
+   this.ElEditButton.value          = "CANCEL" ;
+  // this.ElEditButton.setAttribute("href","#notes/delete");
+   this.ElEditButton.setAttribute("href","#/dashboard/");
+   this.ButtonLabel 				= document.createTextNode("CANCEL");
+   this.ElEditButton.appendChild(this.ButtonLabel);
+   this.El.appendChild(this.ElEditButton );
+}
+
+  this.El.appendChild(this.ElA );
+ 
+
   return this.El;
 	
 }
@@ -795,6 +914,7 @@ catch(e)
 	}
 
 	this.tableBodyElmnt.id  =fieldObj.name;
+	this.tableBodyElmnt.setAttribute( "ng-model" ,fieldObj.name); // added for angular js
 	this.tableBodyElmnt.setAttribute( "maxlength" ,fieldObj.max);
 	this.tableBodyElmnt.setAttribute("min" , fieldObj.min);
 	this.tableBodyElmnt.value=fieldObj.dflt;
@@ -804,12 +924,12 @@ catch(e)
 	this.tableBodyElmnt.setAttribute("ErrorBox",fieldObj.name +"ErrorBox");
 	this.tableBodyElmnt.setAttribute("label",fieldObj.label);
 	this.tableBodyElmnt.setAttribute("title",fieldObj.tips);
-	this.tableBodyElmnt.setAttribute("onchange",fieldObj.onchange);
+	/*this.tableBodyElmnt.setAttribute("onchange",fieldObj.onchange);
 	this.tableBodyElmnt.setAttribute("onclick",fieldObj.onclick);
 	this.tableBodyElmnt.setAttribute("onblure",fieldObj.onblure);
 	this.tableBodyElmnt.setAttribute("onkeydown",fieldObj.onkeydown);
 	this.tableBodyElmnt.setAttribute("onkeyup",fieldObj.onkeyup);
-	this.tableBodyElmnt.setAttribute("onkeypress",fieldObj.onkeypress);
+	this.tableBodyElmnt.setAttribute("onkeypress",fieldObj.onkeypress); */
 	this.tableBodyElmnt.setAttribute("task",fieldObj.task);
 	if (fieldObj.dataType == 'PAGE')
 	{
