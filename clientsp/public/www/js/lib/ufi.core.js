@@ -247,10 +247,11 @@ USS.prototype.USSCreateHeader=function(title, action,name)
 
    this.ElEditButtonE                 = document.createElement("a");
    this.ElEditButtonE.className       = "bheaderButton";
-   this.ElEditButtonE.value          = "EDIT" ;
-   this.ButtonLabelE 				= document.createTextNode("EDIT");
+   this.ElEditButtonE.value           = "EDIT" ;
+   this.ButtonLabelE 				  = document.createTextNode("EDIT");
    //this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
-   this.ElEditButtonE.setAttribute("href","#"+name +"/USSEdit");
+  // this.ElEditButtonE.setAttribute("href","#"+name +"/USSEdit");
+   this.ElEditButtonE.setAttribute("ng-click","basicDetEditSave()");
    
   // this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
    this.ElEditButtonE.appendChild(this.ButtonLabelE);
@@ -307,7 +308,7 @@ USS.prototype.USSCreateHeader=function(title, action,name, mode)
   this.newContent = document.createTextNode(title);
   this.ElA.appendChild(this.newContent );
 
-  if( mode =="EDIT")
+  if( mode =="EDIT" || mode == "FULL")
   {
   
   	if(action.indexOf("E")!= -1)
@@ -352,7 +353,7 @@ USS.prototype.USSCreateHeader=function(title, action,name, mode)
 
 }
 
-if(mode =="ADD")
+if(mode =="ADD" || mode== "FULL")
 {
 
 if(action.indexOf("A")!=-1)
@@ -385,6 +386,10 @@ if( mode == "ADD" || mode =="EDIT" || mode == "SAVE")
    this.ElEditButton.appendChild(this.ButtonLabel);
    this.El.appendChild(this.ElEditButton );
 }
+
+
+
+
 
   this.El.appendChild(this.ElA );
  

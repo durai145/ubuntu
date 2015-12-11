@@ -4,15 +4,39 @@ function()
 
 	return [ '$scope' , 'toaster','basicDetService','$state',function($scope,toaster,basicDetService,$state){
 
+
+
+
+      // alert("basicDetService");
 	
 		$scope.basicDetEditSave=function()
     	{
 
 
-        console.log($scope);
+       // console.log($scope);
 
     			
-    			alert('basicDetEditSave :name =' + $scope.name);
+    		alert('basicDetEditSave :name =' + $scope.name);
+
+        basicDetService.save({     "grantType"     : "password" 
+          /*loginService.authorizeSSO({     "grantType"     : "password" */
+                      ,'clientId'    :'CLIENTSP'
+                      ,'scope'       : 'GSA'
+                      ,'username'    : $scope.email
+                      ,'password'    : $scope.password
+                      ,'redirectURI' : 'http://localhost:5000/'
+
+                      },function  (resp) {
+          // body...
+          //console.log($state);
+         // $state.go('dashboard');
+
+
+          //console.log(resp);
+          toaster.pop('success','this', JSON.stringify(resp));
+
+          //alert('resp');
+        });
 
 
           //basicDetService.save()

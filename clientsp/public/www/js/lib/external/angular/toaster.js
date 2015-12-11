@@ -183,4 +183,3 @@ function ($compile, $timeout, $sce, toasterConfig, toaster) {
         '</div>'
     };
 }]);
-})(window, document);

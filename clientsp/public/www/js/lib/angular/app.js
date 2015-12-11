@@ -41,7 +41,9 @@ console.log(controllers);
     webApp.provider('heaerieUssService', function heaerieUssServiceProvider() {
   var GenHtmlTemplateFromSJson = false;
 
-  this.GenHtmlTemplateFromSJson = function(value,mode) {
+
+
+  this.GenHtmlTemplateFromSJson = function(jsonSchema,value,mode) {
    // alert("test" + value);
    var USS=require("ufi.core").USS;
    var ufiframegen=require("ufi.frameGen");
@@ -66,9 +68,7 @@ console.log(controllers);
   });
 */
 
-    GenHtmlTemplateFromSJson =USS;
-
-    var schemaJson=[
+var schemaJson=[
   { 
   group:'ussms',name:'basicDet',label:'Basic Details',task:'EA',desc:'N',htmlType:'PAGE',entitle:'N',enttlname:'',mndf:'N',dataType:'PAGE',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs: 
   [
@@ -89,6 +89,19 @@ console.log(controllers);
   }
   
 ];
+
+
+  $.post("/jsonSchema/"+jsonSchema+".sjson", {suggest: 'txt'}, function(result){
+        
+         //
+         schemaJson=result;
+
+    });
+
+
+    GenHtmlTemplateFromSJson =USS;
+
+    
 
 
    // alert(GenHtmlTemplateFromSJson);
@@ -165,14 +178,17 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
 }]);
 
 
-     webApp.config(['$routeProvider', '$locationProvider', '$httpProvider' ,'$stateProvider','$urlRouterProvider','heaerieUssServiceProvider'
-          ,function  ($routeProvider,$locationProvider,$httpProvider,$stateProvider,$urlRouterProvider ,heaerieUssServiceProvider
+     webApp.config(['$routeProvider', '$locationProvider', '$httpProvider' ,'$stateProvider','$urlRouterProvider','heaerieUssServiceProvider','$injector'
+          ,function  ($routeProvider,$locationProvider,$httpProvider,$stateProvider,$urlRouterProvider ,heaerieUssServiceProvider,$injector
             ) {
         // body...
         console.log('$stateProvider');
         console.log($stateProvider);
         console.log($urlRouterProvider);
        // console.log(ussService);
+
+
+      
 
        //alert(heaerieUssServiceProvider.GenHtmlTemplateFromSJson('Y'));
           $stateProvider.state('login', 
@@ -201,10 +217,10 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
               }
               ,
 
-              'pageSubContext' :
+              'pageSubContext@dashboard' :
               {                
                
-                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N',"EDIT")
+                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('basicDet','N',"FULL") //EIDT and ADD
                 //template : 'this is test'
                // templateUrl : 'view/loginView.html'
 
@@ -229,10 +245,10 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
               }
               ,
 
-              'pageSubContext' :
+              'pageSubContext@basicDetUSSAdd' :
               {                
                
-                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('Y' ,'ADD')
+                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('basicDet','Y' ,'ADD')
                 ,controller :  'basicDetController'
                 //template : 'this is test'
                // templateUrl : 'view/loginView.html'
@@ -254,12 +270,12 @@ $stateProvider.state('basicDetUSSEdit',
               }
               ,
 
-              'pageSubContext' :
+              'pageSubContext@basicDetUSSEdit' :
               {                
                
-                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('Y','SAVE')
-                ,controller :  'basicDetController'
-                //template : 'this is test'
+                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('basicDet','Y','SAVE')
+                //template : '<form name="myForm" > <label for="exampleInput">Pick a date in 2013:</label> <input type="date" id="exampleInput" name="input" ng-model="example.value"placeholder="yyyy-MM-dd" min="2013-01-01" max="2016-12-31" required /> <div role="alert"> <span class="error" ng-show="myForm.input.$error.required"> Required!</span> <span class="error" ng-show="myForm.input.$error.date"> Not a valid date!</span> </div> <tt>value = {{example.value | date: "yyyy-MM-dd"}}</tt><br/> <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/> <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/> <tt>myForm.$valid = {{myForm.$valid}}</tt><br/> <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/> </form>'//heaerieUssServiceProvider.GenHtmlTemplateFromSJson('Y','SAVE') ,controller :  'basicDetController'
+                ,controller :  'basicDetController'//template : 'this is test'
                // templateUrl : 'view/loginView.html'
               }
             }
@@ -296,7 +312,7 @@ $stateProvider.state('basicDetUSSEdit',
                 //var SessionService = $injector.get('SessionService');
                 var $http = $injector.get('$http');
                 var deferred = $q.defer();
-                toaster.pop('error','this', 'this is alert 302');
+                toaster.pop('error','this', 'session is expired');
 
              //   uss.Test('Test');
                 // Create a new session (recover the session)
@@ -305,6 +321,9 @@ $stateProvider.state('basicDetUSSEdit',
                 //SessionService.login().then(deferred.resolve, deferred.reject);
 
                 // When the session recovered, make the same backend call again and chain the request
+
+                $injector.get('$state').go('login');
+
                 return deferred.promise.then(function() {
                     return $http(response.config);
                 });
@@ -312,6 +331,7 @@ $stateProvider.state('basicDetUSSEdit',
             else if(response.status == 404)
             {
                 toaster.pop('error','404', 'Request services is not avaliable for You');
+                $injector.get('$state').go('login');
             }
             return $q.reject(response);
         }

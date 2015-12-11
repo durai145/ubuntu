@@ -335,7 +335,18 @@ res.redirect('GenTool/GenJson_21.html');
 }
 );
 
+app.post('/jsonSchema/:sjson' , function(req,res) {
 
+	if(req.params.sjson == "basicDet.sjson" )
+	{
+
+		res.send("[{group:'ussms',name:'basicDet',label:'Basic Details',task:'EA',desc:'N',htmlType:'PAGE',entitle:'N',enttlname:'',mndf:'N',dataType:'PAGE',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs: [{  group:'ussms',name:'name',label:'Name ',task:'NONE',desc:'N',htmlType:'TEXT',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'name1',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' } ,{  group:'ussms',name:'bodyType',label:'Body Type',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'NONE',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|SLIM|Slim|AVERAGE|Average|ATHLETIC|Athletic|HEAVY|Heavy ',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' } ,{  group:'ussms',name:'complexion',label:'complexion',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'N',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|VFAIR|Very Fair|FAIR|Fair |WHEATISH|Wheatish|BWHEATISH|Wheatish |BROWN|brown|DARK|Dark',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  } ,{  group:'ussms',name:'age',label:'Age ',task:'NONE',desc:'N',htmlType:'TEXT',entitle:'N',enttlname:'',mndf:'N',dataType:'NUMBER',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' } ,{  group:'ussms',name:'dob',label:'Date of Birth',task:'NONE',desc:'N',htmlType:'DATE',entitle:'N',enttlname:'',mndf:'Y',dataType:'DATE',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'DD/MM/YYYY or DD/MON/YYYY',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' } ,{  group:'ussms',name:'phyStaus',label:'Physical Status ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'NONE',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|NORMAL|Normal|PHYSICALLYCHALLENGED|Physically challenged',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  } ,{  group:'ussms',name:'height',label:'Height ',task:'NONE',desc:'N',htmlType:'TEXT',entitle:'N',enttlname:'',mndf:'Y',dataType:'WIGHT',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  } ,{  group:'ussms',name:'weight ',label:'Weight ',task:'NONE',desc:'N',htmlType:'TEXT',entitle:'N',enttlname:'',mndf:'N',dataType:'HIGHT',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' } ,{  group:'ussms',name:'motherTongue',label:'Mother Tongue ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  } ,{  group:'ussms',name:'maritalStaus',label:'Marital Status ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|U|Unmaried|NM|Never married',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  } ,{  group:'ussms',name:'eatingHabits',label:'Eating Habits ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'N',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|NV|Non Vegetarian|V|Vegetarian',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  } ,{  group:'ussms',name:'drinkingHabits',label:'Drinking Habits ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'NONE',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|ND|Non-drinker|D|Drinker',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  } ,{  group:'ussms',name:'smokingHabits',label:'Smoking Habits ',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'NONE',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|NS|Non-smoker|S|Smoker',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N'  } ] } ];");
+	}
+	else
+	{
+		res.send("{resp:'test'}");
+	}
+});
 
 
 
@@ -917,6 +928,106 @@ function authvalidInput(req,callback)
 }
 
 
+
+function clientValidInput(req,callback)
+{
+
+
+	addCoreFunction(req,function(req){
+
+	//var contentType = response.getHeader('content-type');
+
+	//console.log(req);
+   var accessToken=	req.getHeader("x-access-token");
+
+   var grantType=req.getParam("grantType");
+   var clientId=req.getParam("clientId");
+   var scope=req.getParam("scope");
+   var state =req.getHeader("user-agent");
+
+   var respObj= {
+   	 respCode : 0
+   	,respDescr :""
+   	,accessToken :accessToken
+   	,userName    :""
+   	,error : ""
+   	,grantType : true
+   	,isAccessTokenFound : true
+   	,clientId :""
+   	,isClientIdFound: false
+   	,isValidGrantType : true
+   	,isScopeFound: true
+   	,redirectURI :""
+   	,scope:""
+   	,state: ""
+   };
+
+   respObj.state=state;
+   if(respObj.accessToken != null)
+   {
+   	respObj.isAccessTokenFound = true; 
+   }
+
+
+
+	/*need To be introduce table*/
+/*
+	if(grantType == "password")
+	{
+	 respObj.isValidGrantType = true;
+	 respObj.grantType=grantType;
+		
+	}
+	else
+	{
+		respObj.respCode=1;
+		respObj.grantType=grantType;
+		respObj.error="Invalid Grant Type";
+	}
+	*/
+	if(clientId == "CLIENTSP")
+	{
+	 
+	 respObj.isClientIdFound = true;
+	 respObj.clientId=clientId;
+		
+	}
+	else
+	{
+		
+		respObj.respCode=2;
+
+		 respObj.clientId=clientId;
+		respObj.error="Invalid Client Id";
+	}
+	/*
+	if(scope == "GSA")
+	{
+	 respObj.isScopeFound = true;
+	 respObj.SCOPE=scope;
+		
+	}
+	else
+	{
+		respObj.respCode=3;
+		respObj.SCOPE=scope;
+		respObj.error="Invalid Scope";
+	}
+
+     
+    */
+
+
+	//res.respObj= respObj;
+	log.info("in validate input :resp OBJ:")
+	console.log(respObj);
+
+	callback(req,respObj);
+
+});
+
+}
+
 function signToken(res,secretkey,callback)
 {
 
@@ -1345,6 +1456,138 @@ app.get('/authorize' , function(req,res) {
 );
 ///token
 
+
+function clientVerifyToken(req,res,next)
+{
+
+	log.info("in token");
+	var successRespObj={
+		token_type:"jwt"
+
+	};
+	var errorArr=[
+"invalid_request"
+,"unauthorized_client"
+,"access_denied"
+,"unsupported_response_type"
+,"invalid_scope"
+,"server_error"
+,"temporarily_unavailable"
+];
+	var errorRespObj={
+		error : ""
+		,error_uri:""
+	};
+
+clientValidInput(req, function(req,respObj)
+	{
+		log.info("AF:001:validInput ");
+		//console.log(res.respObj);
+		
+		if (respObj.respCode == 0)
+		{
+
+				//var username=req.getParam("username");
+				//var password=req.getParam("password");
+
+
+				//log.info("userName:" + username);
+				log.info("tocken:" + respObj.accessToken);
+				
+
+				//checkpwd( username,password, function( result,response, logindata ){
+						verifyToken(respObj.accessToken, secretkey,function(result,token)
+						{
+
+						if(result ==false)
+						{
+
+							res.respObj=4;
+							res.error="Access Denied";
+							log.info("af : 001 : checkpwd");
+							//res.statusCode =302;
+							//res.end(302,JSON.stringify(res.respObj));
+							errorRespObj.error=errorArr[3];
+							res.statusCode=302;										
+							res.send(JSON.stringify(errorRespObj));
+
+							
+
+
+						}
+						else
+						{
+							log.info("T:001:Sign Token");
+
+							console.log(token);
+
+							signToken(res,secretkey, function(res){
+								//res.statusCode=302;
+
+								//res.send(JSON.stringify(successRespObj));	
+							});
+
+
+							next(req,res);
+							
+
+						
+						}
+
+					});
+
+		
+				
+				
+
+	
+		}
+		else
+		{
+
+				 if (respObj.isValidGrantType ==false)
+							{
+								errorRespObj.error=errorArr[0];
+							
+							}
+
+				errorRespObj.error=errorArr[3];
+							res.statusCode=302;										
+							res.send(JSON.stringify(errorRespObj));
+							//res.send(JSON.stringify(res.respObj));
+
+		}
+		
+
+
+	});
+;
+
+
+
+}
+ 
+
+app.post('/api/:module/:service', function(req,res)
+{
+
+console.log('req.params');
+
+console.log(req.params);
+
+
+	console.log('call clientVerifyToken');
+	clientVerifyToken(req, res, function (req,res){
+
+		console.log('In Process clientVerifyToken');
+
+		res.send("{'durai': 'test'}");
+
+
+	});
+	
+
+});
 console.log(__dirname);
 app.use(express.static(__dirname+'/public'));
 app.use(express.static(__dirname+'/mids'));
