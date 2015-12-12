@@ -152,7 +152,7 @@ var ussScript=us.frameGeneration(inpUsListVal
       console.log(appendObj.innerHTML);
 
       //return "<div> thsis dashboard from heaerieUssServiceProvider </div>";
-      return appendObj.innerHTML;
+      return  "<div class='pageLayout'>"+appendObj.innerHTML + "</div>";
      
     }
     catch(e)
@@ -338,8 +338,8 @@ $stateProvider.state('basicDetUSSEdit',
         ,response: function(response) {
             var deferred = $q.defer();
 
-              console.log('response');
-              console.log(response);
+             // console.log('response');
+              //console.log(response);
 
             
 

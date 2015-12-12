@@ -94,7 +94,19 @@ A:active {
 COLOR: #000000; FONT-STYLE: normal; HEIGHT: 22px; BACKGROUND-COLOR: #ffffff
 }
 .clabel {
-	BORDER-RIGHT: #f4f4f4 0px solid; BORDER-TOP: #f4f4f4 0px solid; FONT-WEIGHT: bold; FONT-SIZE: 12pt; BACKGROUND: #f4f4f4; BORDER-LEFT: #f4f4f4 0px solid; COLOR: #104e8b; BORDER-BOTTOM: #f4f4f4 0px solid; FONT-STYLE: normal; FONT-FAMILY: arial, helvetica, sans-serif; width:75%;
+	BORDER-RIGHT: #f4f4f4 0px solid; 
+	BORDER-TOP: #f4f4f4 0px solid; 
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 12pt; 
+	BACKGROUND: #f4f4f4; 
+	BORDER-LEFT: #f4f4f4 0px solid; 
+	COLOR: #104e8b; 
+	BORDER-BOTTOM: #f4f4f4 0px solid; 
+	FONT-STYLE: normal; 
+	FONT-FAMILY: arial, helvetica, sans-serif; 
+	width:75%;
+	FONT-SIZE: 13pt; 
+	padding-left: 10px;
 }
 
 .label {
@@ -282,6 +294,12 @@ A.tab:active {
 }
 
 
+#td
+{
+	padding-top: 10px;
+	PADDING-BOTTOM: 10px;
+}
+
 ul.makeMenu,
 ul.makeMenu ul {
   width: 140px;                 /* sets the size of the menu blocks */
@@ -339,3 +357,5 @@ ul.makeMenu ul {  /* copy of above declaration without the > selector, except le
 }
 </style>
 <![endif]><![endif]-->
+
+

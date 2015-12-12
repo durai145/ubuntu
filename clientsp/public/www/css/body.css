@@ -161,3 +161,13 @@ box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.75);
 	border-top-left-radius: 5px;
 
 }
+
+.pageLayout
+{
+	margin-right: 50px;
+	margin-left: 50px;
+
+	-webkit-box-shadow: 3px 3px 12px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 3px 3px 12px 0px rgba(0,0,0,0.75);
+box-shadow: 3px 3px 12px 0px rgba(0,0,0,0.75);
+}
