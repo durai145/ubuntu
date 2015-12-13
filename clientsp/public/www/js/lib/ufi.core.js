@@ -856,7 +856,7 @@ catch(e)
 						this.tableBodyElmntRadio=document.createElement("div");
 						this.tableBodyElmntRadio.innerHTML=rtString;
 					}
-				else if (fieldObj.htmlType == 'XMLCONTAINER') 
+				else if (fieldObj.htmlType == 'XMLCONTAINER' ||fieldObj.htmlType == 'PAGE'  ||  fieldObj.htmlType == 'hidden') 
 				{
 					this.tableBodyElmnt=document.createElement("input");
 					this.tableBodyElmnt.type="hidden";
@@ -939,6 +939,7 @@ catch(e)
 	if (fieldObj.dataType == 'PAGE')
 	{
 		this.tableBodyElmnt.setAttribute("parent","/");
+		//this.tableBodyElmnt.setAttribute("type","hidden");
 	}
 	else
 	{
@@ -970,7 +971,7 @@ catch(e)
 
 	}
 
-	if((fieldObj.dataType =='HIDDEN')||(fieldObj.dataType == 'XMLCONTAINER')||(fieldObj.dataType =='BUTTON'))
+	if((fieldObj.dataType =='PAGE')||(fieldObj.dataType =='HIDDEN')||(fieldObj.dataType == 'XMLCONTAINER')||(fieldObj.dataType =='BUTTON'))
 	{
 	}
 	else
