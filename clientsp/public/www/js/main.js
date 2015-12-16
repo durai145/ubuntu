@@ -76,7 +76,7 @@ require.config({
         , "ufi.xml"         : ["ufi.core"]
         , "ufi.validate"    : ["ufi.core"]
         , "ufi.frameGen"    : { exports:'ufiFrameGen'}
-        , 'app'            :{ 'deps':['angular','jquery','angularRoute','ngResource','angularUiRouter','angularAnimate','excanvas','jqueryFlot','jqueryFlotPie','toaster','ufi','ufi.frameGen']}
+        , 'app'            :{ 'deps':['angular','jquery','angularRoute','ngResource','angularUiRouter','angularAnimate','excanvas','jqueryFlot','jqueryFlotPie','toaster','ufi','ufi.frameGen','ufi.validate', 'ufi.xml']}
         
     }
     /*

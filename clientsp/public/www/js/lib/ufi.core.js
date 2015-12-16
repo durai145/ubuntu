@@ -174,7 +174,9 @@ this.help       = 'N',
 this.helpLink   = 'helpload',
 this.xml        = 'Y',
 this.xmlname    = '',
-this.Xpath      = '/'
+this.Xpath      = '/' ,
+this.maxCol     = '1',
+this.col        = '0'
 	
 }
 USS.prototype.USSCreareTab_=function()
@@ -317,8 +319,8 @@ USS.prototype.USSCreateHeader=function(title, action,name, mode)
 
    this.ElEditButtonE                 = document.createElement("a");
    this.ElEditButtonE.className       = "bheaderButton";
-   this.ElEditButtonE.value          = "EDIT" ;
-   this.ButtonLabelE 				= document.createTextNode("EDIT");
+   this.ElEditButtonE.value           = "EDIT" ;
+   this.ButtonLabelE 				  = document.createTextNode("EDIT");
    //this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
    this.ElEditButtonE.setAttribute("href","#"+name +"/USSEdit");
    
@@ -702,10 +704,11 @@ catch(e)
                                 this.tableBodyTr.className="row";
 				this.tableBodyTd=document.createElement("div");
 				this.tableBodyTd.id="td";
-				this.tableBodyTd.className = 'col-sm-6';
+				this.tableBodyTd.className = 'col-sm-' + 12/4;
 
 				this.tableBodyTd2=document.createElement("div");
-				this.tableBodyTd2.className = 'col-sm-6';
+				this.tableBodyTd2.id ="td";
+				this.tableBodyTd2.className = 'col-sm-'+ 12/4;
 		
 				if((fieldObj.dataType =='HIDDEN')||(fieldObj.dataType == 'XMLCONTAINER')||(fieldObj.dataType =='BUTTON'))
 				{
@@ -830,11 +833,11 @@ catch(e)
 							if (fieldObj.dflt ==inpStrArr[i] ) 
 							{
 							
-								fldStr='<div class="col-sm-6" > <input disabled="true" type="radio" checked=true dataType="'+fieldObj.dataType+'" htmlType="'+fieldObj.htmlType+'"    xmlname="'+fieldObj.name+'" name="'+fieldObj.name+'"  parent="'+fieldObj.parent+'" id="'+fieldObj.name+'"  value="'+inpStrArr[i]+'"  onchange="javascript:'+ fieldObj.onchange+'" > <label class="clabel" >'+ inpStrArr[i+1]  + '</label > </div>';
+								fldStr='<div class="col-sm-6" > <input disabled="true" type="radio" checked=true dataType="'+fieldObj.dataType+'" htmlType="'+fieldObj.htmlType+'"    xmlname="'+fieldObj.name+'" name="'+fieldObj.name+'"  parent="'+fieldObj.parent+'" id="'+fieldObj.name+'"  value="'+inpStrArr[i]+'"  > <label class="clabel" >'+ inpStrArr[i+1]  + '</label > </div>';
 							}
 							else
 							{
-								fldStr='<div class="col-sm-6" >  <input disabled="true"   type="radio" dataType="'+fieldObj.dataType+'"   xmlname="'+fieldObj.name+'" htmlType="'+fieldObj.htmlType+'"   name="'+fieldObj.name+'"  parent="'+fieldObj.parent+'" id="'+fieldObj.name+'"  value="'+inpStrArr[i]+'"  onchange="javascript:'+ fieldObj.onchange+'" >  <label class="clabel" >'+ inpStrArr[i+1]  + '</label >  </div>' ;
+								fldStr='<div class="col-sm-6" >  <input disabled="true"   type="radio" dataType="'+fieldObj.dataType+'"   xmlname="'+fieldObj.name+'" htmlType="'+fieldObj.htmlType+'"   name="'+fieldObj.name+'"  parent="'+fieldObj.parent+'" id="'+fieldObj.name+'"  value="'+inpStrArr[i]+'"  >  <label class="clabel" >'+ inpStrArr[i+1]  + '</label >  </div>' ;
 							}
 						}
 						else
@@ -842,11 +845,11 @@ catch(e)
 							if (fieldObj.dflt ==inpStrArr[i] ) 
 							{
 							
-								fldStr=' <div class="col-sm-6" >  <input  type="radio" checked=true dataType="'+fieldObj.dataType+'" htmlType="'+fieldObj.htmlType+'"    xmlname="'+fieldObj.name+'" name="'+fieldObj.name+'"  parent="'+fieldObj.parent+'" id="'+fieldObj.name+'"  value="'+inpStrArr[i]+'"  onchange="javascript:'+ fieldObj.onchange+'" >  <label class="clabel" >'+ inpStrArr[i+1]  + '</label >  </div>';
+								fldStr=' <div class="col-sm-6" >  <input  type="radio" checked=true dataType="'+fieldObj.dataType+'" htmlType="'+fieldObj.htmlType+'"    xmlname="'+fieldObj.name+'" name="'+fieldObj.name+'"  parent="'+fieldObj.parent+'" id="'+fieldObj.name+'"  value="'+inpStrArr[i]+'"   >  <label class="clabel" >'+ inpStrArr[i+1]  + '</label >  </div>';
 							}
 							else
 							{
-								fldStr='<div class="col-sm-6" >  <input  type="radio" dataType="'+fieldObj.dataType+'"   xmlname="'+fieldObj.name+'" htmlType="'+fieldObj.htmlType+'"              name="'+fieldObj.name+'"  parent="'+fieldObj.parent+'" id="'+fieldObj.name+'"  value="'+inpStrArr[i]+'"  onchange="javascript:'+ fieldObj.onchange+'" >  <label class="clabel" >'+ inpStrArr[i+1]  + '</label >  </div>';
+								fldStr='<div class="col-sm-6" >  <input  type="radio" dataType="'+fieldObj.dataType+'"   xmlname="'+fieldObj.name+'" htmlType="'+fieldObj.htmlType+'"              name="'+fieldObj.name+'"  parent="'+fieldObj.parent+'" id="'+fieldObj.name+'"  value="'+inpStrArr[i]+'"  >  <label class="clabel" >'+ inpStrArr[i+1]  + '</label >  </div>';
 							}
 
 						}
@@ -878,7 +881,7 @@ catch(e)
 					}
 					if(fieldObj.desc=='Y')
 					{
-						fldStr='<input type="text"  readonly class="label" name="'+fieldObj.name+'Desc"     xmlname="'+fieldObj.name+'Desc" id="'+fieldObj.name+'Desc" xml="'+fieldObj.xml+'"  parent="'+fieldObj.parent+'" dataType="LABEL" value=""  label="'+fieldObj.label+'"  onchange="javascript:'+ fieldObj.onchange+'" >';
+						fldStr='<input type="text"  readonly class="label" name="'+fieldObj.name+'Desc"     xmlname="'+fieldObj.name+'Desc" id="'+fieldObj.name+'Desc" xml="'+fieldObj.xml+'"  parent="'+fieldObj.parent+'" dataType="LABEL" value=""  label="'+fieldObj.label+'"  >';
 						rtString+=fldStr;
 					}
 					this.tableBodyElmntDesc.innerHTML=rtString;
@@ -924,13 +927,16 @@ catch(e)
 	this.tableBodyElmnt.setAttribute("min" , fieldObj.min);
 	this.tableBodyElmnt.value=fieldObj.dflt;
 	
-	this.tableBodyElmnt.setAttribute("value",fieldObj.dflt);
-	this.tableBodyElmnt.setAttribute("dflt",fieldObj.dflt);
+	this.tableBodyElmnt.setAttribute("value"   ,fieldObj.dflt);
+	this.tableBodyElmnt.setAttribute("maxCol"  ,fieldObj.maxCol);
+	this.tableBodyElmnt.setAttribute("col"     ,fieldObj.col);
+	this.tableBodyElmnt.setAttribute("dflt"    ,fieldObj.dflt);
 	this.tableBodyElmnt.setAttribute("ErrorBox",fieldObj.name +"ErrorBox");
-	this.tableBodyElmnt.setAttribute("label",fieldObj.label);
-	this.tableBodyElmnt.setAttribute("title",fieldObj.tips);
-	/*this.tableBodyElmnt.setAttribute("onchange",fieldObj.onchange);
-	this.tableBodyElmnt.setAttribute("onclick",fieldObj.onclick);
+	this.tableBodyElmnt.setAttribute("label"   ,fieldObj.label);
+	this.tableBodyElmnt.setAttribute("title"   ,fieldObj.tips);
+	this.tableBodyElmnt.setAttribute("Xpath"   ,fieldObj.Xpath);
+	this.tableBodyElmnt.onchange=fieldObj.onchange;
+	/*this.tableBodyElmnt.setAttribute("onclick",fieldObj.onclick);
 	this.tableBodyElmnt.setAttribute("onblure",fieldObj.onblure);
 	this.tableBodyElmnt.setAttribute("onkeydown",fieldObj.onkeydown);
 	this.tableBodyElmnt.setAttribute("onkeyup",fieldObj.onkeyup);

@@ -664,9 +664,17 @@ FG.prototype.frameField=function (recSch,varStrVal,varLabelStrVal,varStrListVal,
 	var lv_str="";
 	if ( varStrVal === undefined)
 	varStrVal=="";
-
+if ( (recSch.col % recSch.maxCol) == 1)
+{
 
 	lv_str  += "\n USSTableRow = us.USSCreateTableRow_();	";
+}
+
+if(recSch.col == 1)
+{
+
+	lv_str  += "\n USSTableRow = new  us.USSCreateTableRow_();	";
+}
 	lv_str  += "\n USSField    = new us.USSField_(); ";
 	lv_str  += "\n USSField" + "." + "group"      + "=" + "'" + recSch.group      + "'" + ";"
 	lv_str  += "\n USSField" + "." + "name"       + "=" + "'" + recSch.name       + "'" + ";"
@@ -696,6 +704,7 @@ FG.prototype.frameField=function (recSch,varStrVal,varLabelStrVal,varStrListVal,
 	lv_str  += "\n USSField" + "." + "tips"       + "=" + "'" + recSch.tips       + "'" + ";"
 	lv_str  += "\n USSField" + "." + "onkeyup"    + "=" + "'" + recSch.onkeyup    + "'" + ";"
 	lv_str  += "\n USSField" + "." + "onchange"   + "=" + "'" + recSch.onchange   + "'" + ";"
+	lv_str  += "\n USSField" + "." + "onchange"   + "=" + "'" + recSch.onchange   + "'" + ";"
 	lv_str  += "\n USSField" + "." + "onkeydown"  + "=" + "'" + recSch.onkeydown  + "'" + ";"
 	lv_str  += "\n USSField" + "." + "onkeypress" + "=" + "'" + recSch.onkeypress + "'" + ";"
 	lv_str  += "\n USSField" + "." + "onclick"    + "=" + "'" + recSch.onclick    + "'" + ";"
@@ -709,6 +718,8 @@ FG.prototype.frameField=function (recSch,varStrVal,varLabelStrVal,varStrListVal,
 		lv_str  += "\n USSField" + "." + "listVal"    + "=" + "'" + recSch.listVal    + "'" + ";"
 
 	}
+	lv_str  += "\n USSField" + "." + "col"       + "=" + "'" + recSch.col       + "'" + ";"
+	lv_str  += "\n USSField" + "." + "maxCol"     + "=" + "'" + recSch.maxCol       + "'" + ";"
 	lv_str  += "\n USSField" + "." + "help"       + "=" + "'" + recSch.help       + "'" + ";"
 	lv_str  += "\n USSField" + "." + "helpLink"   + "=" + "'" + recSch.helpLink   + "'" + ";"
 	lv_str  += "\n USSField" + "." + "xml"        + "=" + "'" + recSch.xml        + "'" + ";"
@@ -749,6 +760,8 @@ parent.htmlType="hidden";
 	{
 	
 	
+
+		
 		
 		lv_str += this.sprint('USSTable'  +  level +'     =   new us.USSCreateTable_();');
 		if(parent.task=="NONE")
@@ -775,7 +788,7 @@ parent.htmlType="hidden";
 		
 		recSch[recSchCnt].parent=parent.name;
 
-
+		recSch[recSchCnt].Xpath=parent.Xpath+"."+recSch[recSchCnt].name;
 			//alert("recSchCnt=<"  + recSchCnt + "> recSch.length  =<" + recSch.length  + ">recSch["+recSchCnt+"].dataType " + recSch[recSchCnt].dataType  );
 			//alert("recSchCnt="  + recSchCnt);
 
@@ -800,7 +813,7 @@ parent.htmlType="hidden";
 			
 
 
-				lv_rtStr  = this.frameGeneration(listValObjEvalStr,labelObjEvalStr,objEvalStr,recSch[recSchCnt].childs,recSch[recSchCnt],level+1,func,recSchCnt);
+				lv_rtStr  = this.frameGeneration(listValObjEvalStr,labelObjEvalStr,objEvalStr,recSch[recSchCnt].childs,recSch[recSchCnt],level+1,func,recSchCnt,mode);
 				lv_str+= this.sprint(lv_rtStr);
 
 				lv_str += this.sprint("USSSession"+level+".appendChild(USSContainer"+(level+1)+");");
@@ -833,7 +846,8 @@ parent.htmlType="hidden";
 						labelObjEvalStr='';
 					}
 
-					
+					recSch[recSchCnt].col = parent.col++;
+					recSch[recSchCnt].maxCol = parent.maxCol;
 
 				lv_rtStr= this.frameField(recSch[recSchCnt],objEvalStr,labelObjEvalStr,listValObjEvalStr,func,level,recSchCnt);
 				lv_str += this.sprint(lv_rtStr);
@@ -921,7 +935,7 @@ lv_str += this.sprint( "USSContainer"+level+".appendChild(USSHeader" +  level +"
 				
 				if( FG.hasChild(recSch[recSchCnt]))
 				{
-					lv_rtStr  = this.frameGeneration(listValObjEvalStr,labelEvalStr,objEvalStr,recSch[recSchCnt].childs,recSch[recSchCnt],level+1,func,recSchCnt);
+					lv_rtStr  = this.frameGeneration(listValObjEvalStr,labelEvalStr,objEvalStr,recSch[recSchCnt].childs,recSch[recSchCnt],level+1,func,recSchCnt,mode);
 					lv_str+= this.sprint(lv_rtStr);
 
 					lv_str += this.sprint("USSSession"+level+".appendChild(USSContainer"+(level+1)+");");
@@ -934,6 +948,7 @@ lv_str += this.sprint( "USSContainer"+level+".appendChild(USSHeader" +  level +"
 					{
 						objEvalStr='';
 					}
+					recSch[recSchCnt].col = recSch[recSchCnt].col++;
 					lv_rtStr= this.frameField(lrecSch[recSchCnt],objEvalStr,labelObjEvalStr,listValObjEvalStr,func,level,recCnt,parent.name);
 					lv_str += this.sprint(lv_rtStr);
 					lv_str += this.sprint('USSSession'+  level +'.appendChild(USSTableRow);' );

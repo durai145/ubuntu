@@ -47,10 +47,12 @@ console.log(controllers);
    // alert("test" + value);
    var USS=require("ufi.core").USS;
    var ufiframegen=require("ufi.frameGen");
+   var ufivalidate=require("ufi.validate");
    var $=require("jquery");
 
 
    var us= new ufiframegen.FG();
+   var val= new ufivalidate.VAL();
 /*
 
    $http({
@@ -70,7 +72,7 @@ console.log(controllers);
 
 var schemaJson=[
   { 
-  group:'ussms',name:'basicDet',label:'Basic Details',task:'EA',desc:'N',htmlType:'PAGE',entitle:'N',enttlname:'',mndf:'N',dataType:'PAGE',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs: 
+  group:'ussms',name:'basicDet',label:'Basic Details',task:'EA',desc:'N',htmlType:'PAGE',entitle:'N',enttlname:'', maxCol:2, col: 1,mndf:'N',dataType:'PAGE',cclass:'ctext',validate:'',dflt:'',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs: 
   [
    {  group:'ussms',name:'name',label:'Name ',task:'NONE',desc:'N',htmlType:'TEXT',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'name1',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'0',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' }
   ,{  group:'ussms',name:'bodyType',label:'Body Type',task:'NONE',desc:'N',htmlType:'OPTION',entitle:'N',enttlname:'',mndf:'Y',dataType:'VARCHAR',cclass:'ctext',validate:'',dflt:'NONE',min:'0',max:'60',tips:'',onkeyup:'onKeyUp(this)',onchange:'onChange(this)',onkeydown:'onKeyDown(this)',onkeypress:'onKeyPress(this)',onclick:'onClick(this)',listVal:'NONE|None|SLIM|Slim|AVERAGE|Average|ATHLETIC|Athletic|HEAVY|Heavy ',help:'N',helpLink:'',xml:'Y',Xpath:'N', childs:'N' }
@@ -142,11 +144,11 @@ var ussScript=us.frameGeneration(inpUsListVal
     console.log('-------------ussScript------------');
     console.log(ussScript);
 
-    try
+   // try
     {
-      var dynFGCall=(new Function("return function(us) {" + ussScript + "};"))();
+      var dynFGCall=(new Function("return function(us,val) {" + ussScript + "};"))();
    
-      var appendObj=dynFGCall(us);
+      var appendObj=dynFGCall(us,val);
 
        console.log('appendObj.innerHTML');
       console.log(appendObj.innerHTML);
@@ -155,11 +157,11 @@ var ussScript=us.frameGeneration(inpUsListVal
       return  "<div class='pageLayout'>"+appendObj.innerHTML + "</div>";
      
     }
-    catch(e)
+  /*  catch(e)
     {
       alert('Core App:' + e);
     }
-
+*/
   };
 
   this.$get = ["apiToken", function heaerieUssServiceFactory(apiToken) {

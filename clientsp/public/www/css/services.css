@@ -78,7 +78,7 @@ A:active {
 	FONT-WEIGHT: bold; FONT-SIZE: 11pt; COLOR: #000000; FONT-STYLE: normal; FONT-FAMILY: arial, helvetica, sans-serif; BACKGROUND-COLOR: #b2d4ec; TEXT-ALIGN: left
 }
 .ctext {
-	FONT-WEIGHT: normal; FONT-SIZE: 12pt; COLOR: #000000; FONT-STYLE: normal; FONT-FAMILY: arial, helvetica, sans-serif; width:75%;
+	FONT-WEIGHT: normal; FONT-SIZE: 12pt; COLOR: #000000; FONT-STYLE: normal; FONT-FAMILY: arial, helvetica, sans-serif; width:100%;
 }
 .ctext_small {
 	FONT-WEIGHT: normal; FONT-SIZE: 10pt; COLOR: #000000; FONT-STYLE: normal; FONT-FAMILY: arial, helvetica, sans-serif
@@ -298,6 +298,8 @@ A.tab:active {
 {
 	padding-top: 10px;
 	PADDING-BOTTOM: 10px;
+	padding-left: 25px;
+	padding-right: 25px;
 }
 
 ul.makeMenu,
