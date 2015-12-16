@@ -325,6 +325,11 @@ USS.prototype.USSCreateHeader=function(title, action,name, mode)
    this.ElEditButtonE.setAttribute("href","#"+name +"/USSEdit");
    
   // this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
+   
+this.fontawesome = document.createElement('i');
+   this.fontawesome.className       = "fa fa-pencil-square-o";
+  
+   this.ElEditButtonE.appendChild(this.fontawesome);
    this.ElEditButtonE.appendChild(this.ButtonLabelE);
    this.El.appendChild(this.ElEditButtonE );
 }
@@ -343,13 +348,17 @@ USS.prototype.USSCreateHeader=function(title, action,name, mode)
    this.ElEditButtonE.className       = "bheaderButton";
    this.ElEditButtonE.value          = "SAVE" ;
    this.ButtonLabelE 				= document.createTextNode("SAVE");
-   //this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
+    //this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
   // this.ElEditButtonE.setAttribute("href","#"+name +"/USSEdit");
 
   this.ElEditButtonE.setAttribute('ng-click', name+'EditSave()');
-   
-  // this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
+   this.fontawesome = document.createElement('i');
+   this.fontawesome.className       = "fa fa-floppy-o";
+  
+   this.ElEditButtonE.appendChild(this.fontawesome);
    this.ElEditButtonE.appendChild(this.ButtonLabelE);
+   
+
    this.El.appendChild(this.ElEditButtonE );
 }
 
