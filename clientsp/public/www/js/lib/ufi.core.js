@@ -285,6 +285,11 @@ if(action.indexOf("A")!=-1)
   // this.ElEditButton.setAttribute("href","#notes/delete");
    this.ElEditButton.setAttribute("href","#/dashboard/");
    this.ButtonLabel 				= document.createTextNode("CANCEL");
+
+   this.fontawesome = document.createElement('i');
+   this.fontawesome.className       = "fa fa-repeat";
+  
+   this.ElEditButton.appendChild(this.fontawesome);
    this.ElEditButton.appendChild(this.ButtonLabel);
    this.El.appendChild(this.ElEditButton );
 
@@ -317,12 +322,13 @@ USS.prototype.USSCreateHeader=function(title, action,name, mode)
   	{
 
 
-   this.ElEditButtonE                 = document.createElement("a");
-   this.ElEditButtonE.className       = "bheaderButton";
+   this.ElEditButtonE                 = document.createElement("button");
+   this.ElEditButtonE.className       = "bheaderButton btn";
    this.ElEditButtonE.value           = "EDIT" ;
    this.ButtonLabelE 				  = document.createTextNode("EDIT");
    //this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
-   this.ElEditButtonE.setAttribute("href","#"+name +"/USSEdit");
+  // this.ElEditButtonE.setAttribute("href","#"+name +"/USSSave");
+   this.ElEditButtonE.setAttribute("ng-click","goUrl('"+name +"USSSave')");
    
   // this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
    
@@ -345,7 +351,7 @@ this.fontawesome = document.createElement('i');
 
 
    this.ElEditButtonE                 = document.createElement("a");
-   this.ElEditButtonE.className       = "bheaderButton";
+   this.ElEditButtonE.className       = "btn bheaderButton";
    this.ElEditButtonE.value          = "SAVE" ;
    this.ButtonLabelE 				= document.createTextNode("SAVE");
     //this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
@@ -364,36 +370,75 @@ this.fontawesome = document.createElement('i');
 
 }
 
-if(mode =="ADD" || mode== "FULL")
+if(mode =="ADD" )
 {
 
 if(action.indexOf("A")!=-1)
   {
 
 //<a href="#" class="delete btn btn-danger btn-small">delete</a>
-   this.ElEditButton                 = document.createElement("a");
+   this.ElEditButton                 = document.createElement("button");
    this.ElEditButton.className       = "bheaderButton btn ";
    this.ElEditButton.value          = "DELETE" ;
-  // this.ElEditButton.setAttribute("href","#notes/delete");
-   this.ElEditButton.setAttribute("href","#"+name +"/USSAdd");
+ 	//this.ElEditButton.setAttribute("href","#");
+   this.ElEditButton.setAttribute("ng-click","goUrl('"+name +"USSAdd')");
    this.ButtonLabel 				= document.createTextNode("ADD");
+
+   this.fontawesome = document.createElement('i');
+   this.fontawesome.className       = "fa fa-plus-square-o";
+  
+   this.ElEditButton.appendChild(this.fontawesome);
+   
+
    this.ElEditButton.appendChild(this.ButtonLabel);
    this.El.appendChild(this.ElEditButton );
 }
  
  }
 
+if(mode =="NEW" || mode== "FULL")
+{
+
+if(action.indexOf("A")!=-1)
+  {
+
+//<a href="#" class="delete btn btn-danger btn-small">delete</a>
+   this.ElEditButton                 = document.createElement("button");
+   this.ElEditButton.className       = "bheaderButton btn ";
+   this.ElEditButton.value          = "DELETE" ;
+ 	//this.ElEditButton.setAttribute("href","#");
+   this.ElEditButton.setAttribute("ng-click","goUrl('"+name +"USSAdd')");
+   this.ButtonLabel 				= document.createTextNode("NEW");
+
+   this.fontawesome = document.createElement('i');
+   this.fontawesome.className       = "fa fa-plus-square-o";
+  
+   this.ElEditButton.appendChild(this.fontawesome);
+   
+
+   this.ElEditButton.appendChild(this.ButtonLabel);
+   this.El.appendChild(this.ElEditButton );
+}
+ 
+ }
 
 if( mode == "ADD" || mode =="EDIT" || mode == "SAVE")
 {
 
 //<a href="#" class="delete btn btn-danger btn-small">delete</a>
-   this.ElEditButton                 = document.createElement("a");
-   this.ElEditButton.className       = "bheaderButton btn ";
-   this.ElEditButton.value          = "CANCEL" ;
+   this.ElEditButton                 = document.createElement("button");
+   this.ElEditButton.className       = "bheaderButton btn";
+   this.ElEditButton.value           = "CANCEL" ;
   // this.ElEditButton.setAttribute("href","#notes/delete");
-   this.ElEditButton.setAttribute("href","#/dashboard/");
+  // this.ElEditButton.setAttribute("href","#/dashboard/");
+   this.ElEditButton.setAttribute("ng-click","goUrl('"+name +"USSView')");
    this.ButtonLabel 				= document.createTextNode("CANCEL");
+
+    this.fontawesome = document.createElement('i');
+   //this.fontawesome.className       = "fa fa-repeat";
+   this.fontawesome.className       = "fa fa-chevron-left";
+  
+   this.ElEditButton.appendChild(this.fontawesome);
    this.ElEditButton.appendChild(this.ButtonLabel);
    this.El.appendChild(this.ElEditButton );
 }
@@ -713,11 +758,11 @@ catch(e)
                                 this.tableBodyTr.className="row";
 				this.tableBodyTd=document.createElement("div");
 				this.tableBodyTd.id="td";
-				this.tableBodyTd.className = 'col-sm-' + 12/4;
+				this.tableBodyTd.className = 'col-sm-' + 12/(fieldObj.maxCol*2)  +' ' + 'col-xm-' + 12/(fieldObj.maxCol*2) ;
 
 				this.tableBodyTd2=document.createElement("div");
 				this.tableBodyTd2.id ="td";
-				this.tableBodyTd2.className = 'col-sm-'+ 12/4;
+				this.tableBodyTd2.className = 'col-sm-'+ 12/(fieldObj.maxCol*2) +' ' + 'col-xm-' + 12/(fieldObj.maxCol*2) ;
 		
 				if((fieldObj.dataType =='HIDDEN')||(fieldObj.dataType == 'XMLCONTAINER')||(fieldObj.dataType =='BUTTON'))
 				{

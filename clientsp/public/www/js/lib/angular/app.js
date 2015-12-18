@@ -23,7 +23,7 @@ console.log(controllers);
     var webApp= angular.module('app', [
          'controllers'
         ,'ngRoute'
-        ,'toaster'
+        ,'toaster' 
         ,'services'
         ,'ui.router'
         ,'ngAnimate'
@@ -36,7 +36,6 @@ console.log(controllers);
         ,'app.services'
         */
     ]);
-
 
     webApp.provider('heaerieUssService', function heaerieUssServiceProvider() {
   var GenHtmlTemplateFromSJson = false;
@@ -192,6 +191,8 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
 
       
 
+      
+
        //alert(heaerieUssServiceProvider.GenHtmlTemplateFromSJson('Y'));
           $stateProvider.state('login', 
         {
@@ -236,7 +237,7 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
 
  $stateProvider.state('basicDetUSSAdd', 
         {
-            url         : '/basicDet/USSAdd'
+            url         : '/basicDetUSSAdd'
            ,views:{
 
              'pageMainContext' :
@@ -259,9 +260,86 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
         });
 
 
+//basicDetUSSSave
+
+
+$stateProvider.state('basicDetUSSSave', 
+        {
+            url         : '/basicDetUSSSave'
+           ,views:{
+
+             'pageMainContext' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/naviView.html'
+              }
+              ,
+
+              'pageSubContext@basicDetUSSSave' :
+              {                
+               
+                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('basicDet','Y' ,'SAVE')
+                ,controller :  'basicDetController'
+                //template : 'this is test'
+               // templateUrl : 'view/loginView.html'
+              }
+            }
+        });
+
+  $stateProvider.state('basicDetUSSNew', 
+        {
+            url         : '/basicDetUSSNew'
+           ,views:{
+
+             'pageMainContext' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/naviView.html'
+              }
+              ,
+
+              'pageSubContext@basicDetUSSNew' :
+              {                
+               
+                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('basicDet','Y' ,'NEW')
+                ,controller :  'basicDetController'
+                //template : 'this is test'
+               // templateUrl : 'view/loginView.html'
+              }
+            }
+        });
+
+  $stateProvider.state('basicDetUSSView', 
+        {
+            url         : '/basicDetUSSView'
+           ,views:{
+
+             'pageMainContext' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/naviView.html'
+              }
+              ,
+
+              'pageSubContext@basicDetUSSView' :
+              {                
+               
+                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('basicDet','N',"FULL")
+                ,controller :  'basicDetController'
+                //template : 'this is test'
+               // templateUrl : 'view/loginView.html'
+              }
+            }
+        });
+
+
+
 $stateProvider.state('basicDetUSSEdit', 
         {
-            url         : '/basicDet/USSEdit'
+            url         : '/basicDetUSSEdit'
            ,views:{
 
              'pageMainContext' :
@@ -384,6 +462,22 @@ $stateProvider.state('basicDetUSSEdit',
 
 
         }]);
+
+
+
+webApp.run(['$rootScope','$q', '$injector', function($rootScope,$q, $injector) {
+
+    //$rootScope.$state = $state;
+    $rootScope.goUrl= function(stateToGo)
+    {
+
+      //alert('I am in stateToGo' );
+      //console.log(angular.toJson($state.get()));
+       // console.log($injector.get('$state').get());
+          $injector.get('$state').go(stateToGo);
+    }
+}]);
+
 
 /*
 
