@@ -2261,6 +2261,46 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
     return stateName.indexOf(".") === 0 || stateName.indexOf("^") === 0;
   }
 
+
+function removeState(stateOrName, base) {
+    if (!stateOrName) return undefined;
+
+    var isStr = isString(stateOrName),
+        name  = isStr ? stateOrName : stateOrName.name,
+        path  = isRelative(name);
+
+    if (path) {
+      if (!base) throw new Error("No reference point given for path '"  + name + "'");
+      base = findState(base);
+      
+      var rel = name.split("."), i = 0, pathLength = rel.length, current = base;
+
+      for (; i < pathLength; i++) {
+        if (rel[i] === "" && i === 0) {
+          current = base;
+          continue;
+        }
+        if (rel[i] === "^") {
+          if (!current.parent) throw new Error("Path '" + name + "' not valid for state '" + base.name + "'");
+          current = current.parent;
+          continue;
+        }
+        break;
+      }
+      rel = rel.slice(i).join(".");
+      name = current.name + (current.name && rel ? "." : "") + rel;
+    }
+    //var state = states[name];
+    var state = states[name];
+   // var index = states.indexOf(name);
+    delete states[name];
+
+    if (state && (isStr || (!isStr && (state === stateOrName || state.self === stateOrName)))) {
+      return state;
+    }
+    return undefined;
+  }
+
   function findState(stateOrName, base) {
     if (!stateOrName) return undefined;
 
@@ -2321,7 +2361,9 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
 
     var name = state.name;
     if (!isString(name) || name.indexOf('@') >= 0) throw new Error("State must have a valid name");
-    if (states.hasOwnProperty(name)) throw new Error("State '" + name + "'' is already defined");
+    /* uss: change to fix existing */
+    /*if (states.hasOwnProperty(name)) throw new Error("State '" + name + "'' is already defined");*/
+    if (states.hasOwnProperty(name)) return state;//throw new Error("State '" + name + "'' is already defined");
 
     // Get parent name
     var parentName = (name.indexOf('.') !== -1) ? name.substring(0, name.lastIndexOf('.'))
@@ -3525,6 +3567,13 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
       var state = findState(stateOrName, context || $state.$current);
       return (state && state.self) ? state.self : null;
     };
+
+    $state.remove = function(stateOrName, context) {
+      if (arguments.length === 0) return map(objectKeys(states), function(name) { delete states[name].self; });
+      var state = removeState(stateOrName, context || $state.$current);
+      delete (state && state.self) ? state.self : null;
+    };
+
 
     function resolveState(state, params, paramsAreFiltered, inherited, dst, options) {
       // Make a restricted $stateParams with only the parameters that apply to this state if

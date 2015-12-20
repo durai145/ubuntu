@@ -145,7 +145,7 @@ log.info(query);
 var queryRslt=connection.query(query,function(err, rows, fields) {
 
 	if(err)  callback(false,{"message" : err},rows);
-	
+	rows= rows|| [];
 	if ( rows.length ==0 )
 	{
 		callback(false,{"message" : "Access Denied"},rows);
@@ -1129,8 +1129,34 @@ function token(req,res)
 						{
 							log.info("T:001:Sign Token");
 
+
+
+							getGroupNav( logindata[0].USR_ID, function (result,response, grpdata  ) 
+						{
+							log.info('in after  getGroupNav T:001 ');
+							console.log(result)
+							if( result ) 
+							{
+								log.info('in after  getGroupNav T:002 ');
+							
+							}
+							else
+							{
+
+								log.info('in after  getGroupNav T:005 ');
+								
+							}
+							
+
+						});
+
+
+
+
 							signToken(res,secretkey, function(res){
 								//res.statusCode=302;
+
+
 
 								res.send(JSON.stringify(successRespObj));	
 							});

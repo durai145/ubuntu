@@ -287,7 +287,7 @@ if(action.indexOf("A")!=-1)
    this.ButtonLabel 				= document.createTextNode("CANCEL");
 
    this.fontawesome = document.createElement('i');
-   this.fontawesome.className       = "fa fa-repeat";
+   this.fontawesome.className       = "fa fa-square-o fa-repeat";
   
    this.ElEditButton.appendChild(this.fontawesome);
    this.ElEditButton.appendChild(this.ButtonLabel);
@@ -328,7 +328,7 @@ USS.prototype.USSCreateHeader=function(title, action,name, mode)
    this.ButtonLabelE 				  = document.createTextNode("EDIT");
    //this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
   // this.ElEditButtonE.setAttribute("href","#"+name +"/USSSave");
-   this.ElEditButtonE.setAttribute("ng-click","goUrl('"+name +"USSSave')");
+   this.ElEditButtonE.setAttribute("ng-click","goUrl('"+name +"USSNavi')");
    
   // this.ElEditButtonE.setAttribute("href","#notes/USSEdit");
    
@@ -341,7 +341,7 @@ this.fontawesome = document.createElement('i');
 }
 
 }
-
+//basicDetUSSNavi
 
  if( mode =="SAVE")
   {
@@ -436,7 +436,7 @@ if( mode == "ADD" || mode =="EDIT" || mode == "SAVE")
 
     this.fontawesome = document.createElement('i');
    //this.fontawesome.className       = "fa fa-repeat";
-   this.fontawesome.className       = "fa fa-chevron-left";
+   this.fontawesome.className       = "fa  fa-chevron-left";
   
    this.ElEditButton.appendChild(this.fontawesome);
    this.ElEditButton.appendChild(this.ButtonLabel);
@@ -464,7 +464,7 @@ USS.prototype.USSCreateSession =function()
   //this.El.style.display  = 'none'; 
   //this.El.style.position = 'absolute'; 
   //this.El.onclick        = 'event.cancelBubble = true;';
-  this.El.tabIndex       = -1;
+  //this.El.tabIndex       = -1;
   
   return this.El;
 	
@@ -478,10 +478,10 @@ USS.prototype.USSCreateSession =function()
 USS.prototype.USSCreateTable_=function()
 {
 	
-  this.ussTable = document.createElement("div");
-  this.ussTable.id = 'mainTable';
+  this.ussTable           = document.createElement("div");
+  this.ussTable.id        = 'mainTable';
   this.ussTable.className = 'container';
-  this.ussTable.border=0;
+  this.ussTable.border    = 0;
  // this.ussTable.style.display  = 'none'; 
  // this.ussTable.style.position = 'absolute'; 
  // this.ussTable.onclick = 'event.cancelBubble = true;';
@@ -515,11 +515,11 @@ return USSTable;
 USS.prototype.USSCreateTableRow_=function()
 {
 	
-  this.ussTableRow = document.createElement("div");
+  this.ussTableRow           = document.createElement("div");
   this.ussTableRow.className = 'row';
-  this.ussTableRow.border=1;
+  this.ussTableRow.border    = 1;
  // this.ussTableRow.onclick = 'event.cancelBubble = true;';
-  this.ussTableRow.tabIndex = -1;
+  this.ussTableRow.tabIndex  = -1;
 
 return this.ussTableRow;
 	
@@ -539,8 +539,8 @@ return this.ussTableAccordion;
 
 USS.prototype.USSAccordionCreateDflt=function()
 {
-	this.ussTableAccordionD= document.createElement("div");
-	this.ussTableAccordionD.className ="panel panel-default" ;
+	this.ussTableAccordionD           = document.createElement("div");
+	this.ussTableAccordionD.className = "panel panel-default" ;
 
 	return this.ussTableAccordionD;
 }
@@ -558,16 +558,16 @@ USS.prototype.USSAppendAccordionDflt=function(obj,dflt)
 
 USS.prototype.USSAppendAccordionHeader=function(obj,title)
 {
-this.ussTableAccordion=obj; 
-this.ussTableAccordionH= document.createElement("div");
-this.ussTableAccordionH.className ="panel-heading" ;
-this.ussTableAccordionH4= document.createElement("H4");
-this.ussTableAccordionH4.className ="panel-title" ;
-this.ussTableAccordionH4.border=1;
+this.ussTableAccordion             = obj; 
+this.ussTableAccordionH            = document.createElement("div");
+this.ussTableAccordionH.className  = "panel-heading" ;
+this.ussTableAccordionH4           = document.createElement("H4");
+this.ussTableAccordionH4.className = "panel-title" ;
+this.ussTableAccordionH4.border    = 1;
 this.ussTableAccordionA= document.createElement("a");
 //this.ussTableAccordionA.setAttribute("data-toggle", "collapse" ); -- collapse
 this.ussTableAccordionA.setAttribute("href", "#collapse1" );
-this.newContent = document.createTextNode(title);
+this.newContent                    = document.createTextNode(title);
 this.ussTableAccordionA.appendChild(this.newContent);
 //this.ussTableAccordionA.setAttribute("data-toggle","collapse");
 this.ussTableAccordionA.setAttribute("data-parent","container1");
@@ -579,16 +579,16 @@ return this.ussTableAccordion;
 
 USS.prototype.USSAppendAccordionHeader=function(obj,title,pid,cid)
 {
-this.ussTableAccordion=obj; 
-this.ussTableAccordionH= document.createElement("div");
-this.ussTableAccordionH.className ="panel-heading" ;
-this.ussTableAccordionH4= document.createElement("H4");
-this.ussTableAccordionH4.className ="panel-title" ;
-this.ussTableAccordionH4.border=1;
-this.ussTableAccordionA= document.createElement("a");
+this.ussTableAccordion             = obj; 
+this.ussTableAccordionH            = document.createElement("div");
+this.ussTableAccordionH.className  = "panel-heading" ;
+this.ussTableAccordionH4           = document.createElement("H4");
+this.ussTableAccordionH4.className = "panel-title" ;
+this.ussTableAccordionH4.border    = 1;
+this.ussTableAccordionA            = document.createElement("a");
 //this.ussTableAccordionA.setAttribute("data-toggle", "collapse" );
 this.ussTableAccordionA.setAttribute("href", "#collapse"+cid );
-this.newContent = document.createTextNode(title);
+this.newContent                    = document.createTextNode(title);
 this.ussTableAccordionA.appendChild(this.newContent);
 //this.ussTableAccordionA.setAttribute("data-toggle","collapse");
 this.ussTableAccordionA.setAttribute("data-parent","#accordion"+pid);
@@ -601,13 +601,13 @@ return this.ussTableAccordion;
 USS.prototype.USSAppendAccordionSection=function(obj ,table)
 {
 
-this.ussTableAccordion= obj; //document.createElement("div");
-this.ussTableAccordionDiv=document.createElement("div");
+this.ussTableAccordion               = obj; //document.createElement("div");
+this.ussTableAccordionDiv            = document.createElement("div");
 //this.ussTableAccordionDiv.className ="panel-collapse collapse" ;
-this.ussTableAccordionDiv.id="collapse1";
-this.ussTableAccordionBody=document.createElement("div");
-this.ussTableAccordionBody.className ="panel-body" ;
-this.ussTableAccordionBody.innerHTML=table.outerHTML;
+this.ussTableAccordionDiv.id         = "collapse1";
+this.ussTableAccordionBody           = document.createElement("div");
+this.ussTableAccordionBody.className = "panel-body" ;
+this.ussTableAccordionBody.innerHTML = table.outerHTML;
 this.ussTableAccordionDiv.appendChild(this.ussTableAccordionBody);
 this.ussTableAccordion.appendChild(this.ussTableAccordionDiv);
 
@@ -618,13 +618,13 @@ return this.ussTableAccordion;
 USS.prototype.USSAppendAccordionSection=function(obj ,table,pid,cid)
 {
 
-this.ussTableAccordion= obj; //document.createElement("div");
-this.ussTableAccordionDiv=document.createElement("div");
+this.ussTableAccordion               = obj; //document.createElement("div");
+this.ussTableAccordionDiv            = document.createElement("div");
 //this.ussTableAccordionDiv.className ="panel-collapse collapse" ;
-this.ussTableAccordionDiv.id="collapse"+cid;
-this.ussTableAccordionBody=document.createElement("div");
-this.ussTableAccordionBody.className ="panel-body" ;
-this.ussTableAccordionBody.innerHTML=table.outerHTML;
+this.ussTableAccordionDiv.id         = "collapse"+cid;
+this.ussTableAccordionBody           = document.createElement("div");
+this.ussTableAccordionBody.className = "panel-body" ;
+this.ussTableAccordionBody.innerHTML = table.outerHTML;
 this.ussTableAccordionDiv.appendChild(this.ussTableAccordionBody);
 this.ussTableAccordion.appendChild(this.ussTableAccordionDiv);
 
@@ -639,16 +639,16 @@ USS.prototype.USSAppendAccordion=function(obj,title,table)
 this.ussTableAccordionH= document.createElement("div");
 
 
- this.ussTableAccordionH.className ="headline" ;
+ this.ussTableAccordionH.className  = "headline" ;
 
 
-this.ussTableAccordionSpan= document.createElement("span");
- this.newContent = document.createTextNode(title);
- this.ussTableAccordionDiv=document.createElement("div");
-this.ussTableAccordionDiv.className ="section" ;
+this.ussTableAccordionSpan          = document.createElement("span");
+ this.newContent                    = document.createTextNode(title);
+ this.ussTableAccordionDiv          = document.createElement("div");
+this.ussTableAccordionDiv.className = "section" ;
  
 
-this.ussTableAccordionDiv.innerHTML=table.outerHTML;
+this.ussTableAccordionDiv.innerHTML = table.outerHTML;
 
 this.ussTableAccordionH.appendChild(this.ussTableAccordionSpan);
 this.ussTableAccordionH.appendChild(this.newContent);
@@ -665,9 +665,9 @@ USS.prototype.USSAppendAccordionExapnd=function(obj)
 {
 	
 
-this.ussTableAccordion=obj;  // --document.createElement("div");
-this.ussTableAccordionExpand= document.createElement("div");
-this.ussTableAccordionExpand.id="expand";
+this.ussTableAccordion          = obj;  // --document.createElement("div");
+this.ussTableAccordionExpand    = document.createElement("div");
+this.ussTableAccordionExpand.id = "expand";
 this.ussTableAccordionExpand.appendChild(document.createTextNode("Collapse All"));
 
 this.ussTableAccordion.appendChild(this.ussTableAccordionExpand);
