@@ -2,7 +2,7 @@ define([],
 function()
 {
 
-	return [ '$scope' , 'toaster','loginService','$state' ,'$dashboardState',function($scope,toaster,loginService,$state,$dashboardState){
+	return [ '$scope' , 'toaster','loginService','$state',function($scope,toaster,loginService,$state){
 
 		$scope.login=function()
 		{
@@ -23,44 +23,7 @@ function()
 
     									},function  (resp) {
     			// body...
-          console.log($state);
-    			console.log(resp);
-
-
-          var states = $state.get();
-            var itemsToBeRemoved = [];
-            var removalIndex = 0;
-            for (var i = 0; i < states.length; i++) {
-
-               
-                if (states[i].name != 'shell.error404' &&
-                    states[i].name != 'shell.error500' &&
-                    states[i].name != 'shell' &&
-                    states[i].name != 'dashboard' &&
-                    states[i].name != '') {
-                    var tmplUrl = states[i].templateUrl;
-                    if (tmplUrl) {
-                        this.templateCache.remove(tmplUrl);
-                    }
-                  //  alert('Bofore' + states[i].name);
-                    $state.remove(states[i].name);
-                   // alert('Removed' +states[i].name);
-
-
-                   // delete states[i];
-                    //itemsToBeRemoved[removalIndex++] = i;
-                }
-            }
-           /* for(var j=0;j<itemsToBeRemoved.length;j++){
-               states.splice(itemsToBeRemoved[j],1);
-             }
-            */
-
-            var states = $state.get();
-
-          $dashboardState.addState('faq', null, 'content');
-
-
+    			//console.log($state);
     			$state.go('dashboard');
 
 

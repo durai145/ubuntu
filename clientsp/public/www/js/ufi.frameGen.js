@@ -39,7 +39,7 @@ var FG=USS;
 	
 	FG.prototype.commFrameGen=  function (rec,recSch,func)
 	{
-		var commonHeader="var us = new USS(); var USSContainer0 =    us.USSCreateContainer(); var USSHeader    = ''";
+		var commonHeader="var us = new USS();  var USSTableRow = us.USSCreateTableRow_(); var USSContainer0 =    us.USSCreateContainer(); var USSHeader    = ''";
 		
 
 		
@@ -750,6 +750,8 @@ parent.htmlType="hidden";
 	
 		
 		lv_str += this.sprint('USSTable'  +  level +'     =   new us.USSCreateTable_();');
+		//lv_str += this.sprint('USSTableRow'  +  level +'     =   new us.USSCreateTableRow_();');
+		lv_str += this.sprint('USSTableRow      =   new us.USSCreateTableRow_();'); // !!! need to fix 
 		if(parent.task=="NONE")
 		{
 			lv_str += this.sprint('USSHeader' +  level +'     =   us.USSCreateHeader("'+ parent.label+'");');

@@ -764,6 +764,8 @@ parent.htmlType="hidden";
 		
 		
 		lv_str += this.sprint('USSTable'  +  level +'     =   new us.USSCreateTable_();');
+		//lv_str += this.sprint('USSTableRow'  +  level +'     =   new us.USSCreateTableRow_();');
+		lv_str += this.sprint('USSTableRow     =   new us.USSCreateTableRow_();');
 		if(parent.task=="NONE")
 		{
 			lv_str += this.sprint('USSHeader' +  level +'     =   us.USSCreateHeader("'+ parent.label+'");');

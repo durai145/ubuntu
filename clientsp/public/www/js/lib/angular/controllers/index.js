@@ -7,13 +7,15 @@
 define([
     './loginController'
     ,'./basicDetController'
-], function (loginController,basicDetController) {
+    ,'./dashboardController'
+], function (loginController,basicDetController,dashboardController) {
     'use strict';
 
     console.log(angular);
 
     var controllers= angular.module('controllers', []);
         controllers.controller("loginController",loginController);
+        controllers.controller("dashboardController",dashboardController);
         controllers.controller("basicDetController",basicDetController);
   
 

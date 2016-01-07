@@ -8,13 +8,15 @@
 define([
     './loginService'
     ,'./basicDetService'
-], function (loginService,basicDetService) {
+    ,'./dashboardService'
+], function (loginService,basicDetService,dashboardService) {
     'use strict';
 
     console.log(angular);
 
     var services= angular.module('services', ['ngRoute','ngResource']);
         services.factory("loginService",loginService);
+        services.factory("dashboardService",dashboardService);
         services.factory("basicDetService",basicDetService);
   
 

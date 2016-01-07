@@ -10,6 +10,7 @@ var device     = require('express-device')
 var ms     = require('ms');
 
 var secretkey ="KEY1";
+var sessionExpSec =60*15;
 
 var jwt = require('jsonwebtoken');
 
@@ -118,6 +119,104 @@ else
 }
 	
 }
+
+
+function doLogin(inUsername, inPassword, callback ){
+
+	log.info("doLogin: LN000");
+
+	if(inUsername != "" && inPassword != "")
+	{
+
+	log.info("call get connection..");
+	pool.getConnection(function(err, connection) 
+	{
+
+
+		var query='select PROD_NAME , PROD_VERSION , PRTL_NAME, GRP_NAME ,f_name FIRST_NAME, l_name  LAST_NAME,  i.email_id EMAIL  , i.GRP_ID , USR_ID from GID001MB i, GRP001MB g , PRTL002MB prtl ,PROD001MB prod WHERE prtl.prtl_id  = g.prtl_id AND prod.prod_id = prtl.prod_id AND prtl.PRTL_ST =\'ACTIVE\' AND g.grp_id  = i.grp_id AND  i.email_id ='+ connection.escape(inUsername)+' and i.password = '+ connection.escape(inPassword ) + '';
+
+		log.info(query);
+		log.info('call LN:001');
+
+		connection.query(query,function(err, rows, fields){
+		log.info('call LN:002');
+	
+			if(err)  callback(false,{"message" : "SYSTEM ERROR" },rows);
+	
+			if ( rows.length ==0 )
+			{
+				log.info('call LN:003');
+				log.info('in Query : Nodata Found');
+
+				rows=[ {
+				"USR_ID":0
+				,"GRP_ID":0
+				}];	
+
+				log.info('call LN:004');
+				callback(false,{"message" : "Invalid Username/Password"},rows);
+			}
+			else
+			{
+				log.info('call LN:005');
+				log.info('in Query : Record Found' + rows.length);
+
+				log.info('call LN:006');
+				var query='select gid.USR_ID , rolem.ROLE_NAME  ,rapg.PRTL_PAGE_GRP_ID ,pggr.PAGE_GRP_TITLE ,pggr.PAGE_GRP_KEY  ,rapg.ACCESS_IND'
+				 + ' from '
+				 + ' DBHSP.GID001MB  gid     ,'
+				 + ' DBHSP.MEMA001MB mema    ,'
+				 + ' DBHSP.ROLA003MB rolem   ,'
+				 + ' DBHSP.RAPG004LB rapg    ,'
+				 + ' DBHSP.PGGR005MB  pggr'
+				 + ' where gid.USR_ID             = mema.USR_ID '
+				 + ' and   rolem.ROLE_ID          = mema.ROLE_ID'
+				 + ' and   rapg.PRTL_PAGE_GRP_ID  = pggr.PRTL_PAGE_GRP_ID'
+				 + ' and   gid.USR_ID             = ' + connection.escape(rows[0].USR_ID) +' '
+				 + ' and   rapg.ACCESS_IND        != \'N\' ';
+//var query='select distinct gid.USR_ID,rapgl.ROLE_ID ,PAGE_GRP_TITLE ,PAGE_GRP_KEY ,pggr.PAGE_GRP_ID  from DBHSP.MEMA001MB mem , DBHSP.GID001MB  gid  , DBHSP.RAPG004LB rapgl, DBHSP.PGGR005MB pggr where gid.usr_id  = mem.usr_id and   rapgl.ROLE_ID = mem.ROLE_ID and   rapgl.PRTL_PAGE_GRP_ID = rapgl.PRTL_PAGE_GRP_ID and  gid.USR_ID =' + connection.escape(usr_id) +'' ;
+
+log.info(query);
+
+
+			log.info('call GN:001');
+			//var queryRslt=
+			connection.query(query,function(err, rows, fields) {
+
+				log.info('GN:002');
+				if(err)  callback(false,{"message" : err},rows)
+				else
+				{
+					rows= rows|| [];
+
+					if ( rows.length ==0 )
+					{
+						log.info('call GN:003');
+						callback(false,{"message" : "Access Denied"},rows);
+					}
+					else
+					{
+						log.info('call GN:004');
+						callback(true,{"message" : "success"},rows);
+					}
+				}
+			});
+				
+				//callback(true,{"message" : "success"},rows);
+			}
+		});
+	connection.release();
+});
+
+}
+else
+{
+	callback(false,{"message" : "Username or Password should not be null" },{});
+}
+	
+}
+
+
 
 
 function getGroupNav(usr_id, callback )
@@ -739,7 +838,7 @@ function validInput(req,callback)
 
 	//var contentType = response.getHeader('content-type');
 
-	console.log(req);
+	//console.log(req);
    var accessToken=	req.getHeader("x-access-token");
 
    var grantType=req.getParam("grantType");
@@ -820,7 +919,7 @@ function validInput(req,callback)
 
 	//res.respObj= respObj;
 	log.info("in validate input :resp OBJ:")
-	console.log(respObj);
+	//console.log(respObj);
 
 	callback(req,respObj);
 
@@ -1034,13 +1133,13 @@ function signToken(res,secretkey,callback)
 	var payload={
 		 iss: "Heaerie GSL"
 		,aud: "www.myroomexpense.com"
-		,iat: ms(60)
+		,iat: ms(sessionExpSec)
 
 		};
 
 
 //jwt.setExpiration(new Date().getTime() + ms(60));
-var token = jwt.sign(payload, secretkey,{complete: true, maxAge:ms(60), expiresInMinutes: 1});
+var token = jwt.sign(payload, secretkey,{complete: true, maxAge:ms(sessionExpSec), expiresInMinutes: sessionExpSec/60});
 
 	res.setHeader("x-access-token",token );
 	callback(res);
@@ -1076,7 +1175,7 @@ function token(req,res)
 {
 
 //res.setHeader("x-access-token","tests" );
-	log.info("in token");
+	log.info("in token :001");
 	var successRespObj={
 		token_type:"jwt"
 
@@ -1094,6 +1193,8 @@ function token(req,res)
 		error : ""
 		,error_uri:""
 	};
+
+	log.info("in token :002");
 	validInput(req, function(req,respObj)
 	{
 		log.info("AF:001:validInput ");
@@ -1110,7 +1211,7 @@ function token(req,res)
 				//log.info("password:" + password);
 				
 
-				checkpwd( username,password, function( result,response, logindata ){
+				doLogin( username,password, function( result,chkRespMessage, logindata ){
 
 
 						if(result ==false)
@@ -1123,43 +1224,52 @@ function token(req,res)
 							//res.end(302,JSON.stringify(res.respObj));
 							errorRespObj.error=errorArr[2];
 							res.statusCode=302;										
-							res.send(JSON.stringify(errorRespObj));
+							res.send(JSON.stringify(errorRespObj));								
+							
 						}
 						else
 						{
 							log.info("T:001:Sign Token");
 
-
-
-							getGroupNav( logindata[0].USR_ID, function (result,response, grpdata  ) 
+							
+							successRespObj.entitlement= {entitle : 'dashboard'};
+							successRespObj.logindata= logindata;
+/*
+							getGroupNav( logindata[0].USR_ID, function (result,respMessage, grpdata  ) 
 						{
 							log.info('in after  getGroupNav T:001 ');
-							console.log(result)
+							console.log(result);
 							if( result ) 
 							{
 								log.info('in after  getGroupNav T:002 ');
+
+								successRespObj.entitlement= {entitle : 'dashboard1'};
+								
 							
 							}
 							else
 							{
 
 								log.info('in after  getGroupNav T:005 ');
+								successRespObj.entitlement= {entitle : 'dashboard2'};
+
 								
 							}
 							
+								log.info('in after  getGroupNav T:006 ');
+								
 
 						});
+*/
+								log.info('send response S001');
 
-
-
-
-							signToken(res,secretkey, function(res){
-								//res.statusCode=302;
-
-
-
+								signToken(res,secretkey, function(res){
+								
+								log.error('send response');
 								res.send(JSON.stringify(successRespObj));	
 							});
+
+						
 
 							
 
@@ -1594,20 +1704,259 @@ clientValidInput(req, function(req,respObj)
 }
  
 
+ function getUserDetail( inUsrId, inGrpId,callback)
+ {
+
+
+
+ 	pool.getConnection(function(err, connection) {
+
+var query=
+'select f_name First_Name, l_name  Last_Name,  i.acct_type  from DBHSP.GID001MB  i ,  DBHSP.GRP001MB g where g.grp_id  = i.grp_id and  i.acct_type =\'EXPENSE\' and  i.usr_id  = ' + connection.escape(inUsrId) +'';
+
+
+
+
+//var query='select distinct gid.USR_ID,rapgl.ROLE_ID ,PAGE_GRP_TITLE ,PAGE_GRP_KEY ,pggr.PAGE_GRP_ID  from DBHSP.MEMA001MB mem , DBHSP.GID001MB  gid  , DBHSP.RAPG004LB rapgl, DBHSP.PGGR005MB pggr where gid.usr_id  = mem.usr_id and   rapgl.ROLE_ID = mem.ROLE_ID and   rapgl.PRTL_PAGE_GRP_ID = rapgl.PRTL_PAGE_GRP_ID and  gid.USR_ID =' + connection.escape(usr_id) +'' ;
+
+log.info(query);
+
+var queryRslt=connection.query(query,function(err, rows, fields) {
+
+	if(err)  callback(false,{"message" : err},rows);
+	rows= rows|| [];
+	if ( rows.length ==0 )
+	{
+		callback(false,{"message" : "Access Denied"},rows);
+	}
+	else
+	{
+		callback(true,fields,rows);
+	}
+});
+connection.release();
+
+});
+ }
+
+
+ function getCardDetail( inUsrId, inGrpId,callback)
+ {
+
+
+
+ 	pool.getConnection(function(err, connection) {
+
+var query='select CARD4  , BAL_TRNS_AMT  , MIN_DUE_AMT   , TTL_BAL , DUE_DATE , DUE_DAYS , ACCT_STATUS , PURCHASE_APR , BAL_TRANS_APR , BANK_ID       from CARD001MB c WHERE  c.usr_id  = ' + connection.escape(inUsrId) +'';
+
+log.info(query);
+
+var queryRslt=connection.query(query,function(err, rows, fields) {
+
+	if(err)  callback(false,{"message" : err},rows);
+	rows= rows|| [];
+	if ( rows.length ==0 )
+	{
+		callback(false,{"message" : "Access Denied"},rows);
+	}
+	else
+	{
+		callback(true,fields,rows);
+	}
+});
+connection.release();
+
+});
+ }
+
+
+function USSField()
+{
+	
+	var retObj={
+ 'group'      : 'USS', /*it has been chabged by durai on 02-Feb-2010*/
+'name'        :  'name',
+'label'      :  'label',
+'task'       : 'NONE',
+'desc'       : '',
+'htmlType'   : 'text', /* newly introduced in USS05*/
+'entitle'    : 'READONLY', // Editable /Readonly
+'enttlname'  : '',//Entitle name to db
+'mndf'       : 'N',
+'dataType'   : 'VARCHAR',  // NUMBER/VARCHAR/DATE/EMAIL/AMOUNT/LIST/DIV/
+'cclass'     : 'ctable',   //
+'parent'     : '',
+'validate'   : '',
+'dflt'       : '',
+'min'        : '0',
+'max'        : '60',
+'tips'       : '',
+'onkeyup'    : 'onKeyUp(this);',
+'onchange'   : 'onChange(this);',
+'onkeydown'  : 'onKeyDown(this);',
+'onkeypress' : 'onKeyPress(this);',
+'onclick'    : 'onClick(this);',
+'onblure'    : 'onBlure(this);',
+'listVal'    : '||A|A-ADD|M|M-MODIFY|I|I-INQURY|C|C-CANCEL|V|V-VERIFY',
+'help'       : 'N',
+'helpLink'   : 'helpload',
+'xml'        : 'Y',
+'xmlname'    : '',
+'Xpath'      : '/' ,
+'maxCol'     : '1',
+'col'        : '0'
+};
+
+return retObj;
+}
+
+ function genSchema(title,fields)
+ {
+ 	var SchemaJson= [];
+
+fieldObj =    USSField();
+fieldObj.label    = title;
+fieldObj.name    =  title.replace(/ /g,'');
+fieldObj.listVal  = '';
+fieldObj.dataType = 'CONTAINER';
+fieldObj.htmlType = 'CONTAINER';
+fieldObj.dflt     = ''         ;
+fieldObj.mndf     = 'N';
+fieldObj.max      =  1;
+fieldObj.min      = 0;
+//maxCol:2, col: 1
+fieldObj.maxCol   = 2;
+fieldObj.col      = 1;
+
+fieldObj.childs   = []	;
+
+//task fix
+
+	
+ 	for(var i=0; i< fields.length ; i++)
+ 	{
+ 	
+ 		fieldChild       = USSField();
+ 		//fieldChild.name  = fields[i].name.replace(/_/g,'');
+ 		fieldChild.name  = fields[i].name;
+ 		fieldChild.label = fields[i].name.replace(/_/g,' ');
+ 		fieldChild.max   = fields[i].length;
+ 		//fieldObj.dataType = 'VARCHAR';
+		//fieldObj.htmlType = 'VARCHAR';
+ 		fieldChild.dflt  = '';
+
+ 		fieldObj.childs.push(fieldChild);		
+ 	};
+
+
+ 	SchemaJson.push(fieldObj);
+
+ 	return SchemaJson;
+
+ }
+
 app.post('/api/:module/:service', function(req,res)
 {
 
-console.log('req.params');
+//console.log('req.params');
 
-console.log(req.params);
+//console.log(req.params);
 
 
-	console.log('call clientVerifyToken');
+	//console.log('call clientVerifyToken');
 	clientVerifyToken(req, res, function (req,res){
 
-		console.log('In Process clientVerifyToken');
+		//console.log('In Process clientVerifyToken');
 
-		res.send("{'durai': 'test'}");
+
+		
+
+
+
+		switch (req.params.module)
+		{
+		case  'dashboard' :
+				//console.log('In dashboard module');
+
+				switch (req.params.service)
+				{
+					case  'getUserDetail' :
+
+							getUserDetail( 1, 1, function(status, respMessage,data)
+
+							{
+
+								//console.log('data');
+								//console.log(data[0]);
+								//console.log('respMessage');
+								//console.log(respMessage);
+								if( status)
+								{
+
+										var  respJson={};
+											title="UserDetails";
+											//console.log(genSchema('User Details',respMessage));
+											//respJson.schemaJson = respMessage;//genSchema(respMessage);
+											respJson.schemaJson = genSchema(title,respMessage);//genSchema(respMessage);
+											respJson.jsonData   = [ {UserDetails : data}];
+;											res.send(respJson);
+									
+								}
+								else
+								{
+									res.send(data[0]);	
+								}
+							}
+								);
+
+					break;
+
+					case  'getCardDetail' :
+
+							getCardDetail( 1, 1, function(status, respMessage,data)
+
+							{
+
+								//console.log('data');
+								//console.log(data[0]);
+								//console.log('respMessage');
+								//console.log(respMessage);
+								if( status)
+								{
+
+										var  respJson={};
+											title="CardDetail";
+											//console.log(genSchema('User Details',respMessage));
+											//respJson.schemaJson = respMessage;//genSchema(respMessage);
+											respJson.schemaJson = genSchema(title,respMessage);//genSchema(respMessage);
+											respJson.jsonData   = [ {CardDetail : data}];
+;											res.send(respJson);
+									
+								}
+								else
+								{
+									res.send(data[0]);	
+								}
+							}
+								);
+
+					break;
+
+				}
+
+
+
+
+				break;
+		case  'login' :
+				console.log('In login module');
+				break;
+
+
+		} 
+
+//res.send({"durai": "test"});
+//{ module: 'dashboard', service: 'getUserDetail' }
 
 
 	});
