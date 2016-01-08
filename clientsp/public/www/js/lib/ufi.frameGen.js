@@ -659,7 +659,7 @@ FG.prototype.jsonToListVal= function (list,obj)
 
 }
 	
-FG.prototype.frameField=function (recSch,varStrVal,varLabelStrVal,varStrListVal,func)
+FG.prototype.frameField=function (recSch,varStrVal,varLabelStrVal,varStrListVal,func,level)
 {
 	var lv_str="";
 	if ( varStrVal === undefined)
@@ -667,13 +667,13 @@ FG.prototype.frameField=function (recSch,varStrVal,varLabelStrVal,varStrListVal,
 if ( (recSch.col % recSch.maxCol) == 1)
 {
 
-	lv_str  += "\n USSTableRow = us.USSCreateTableRow_();	";
+	lv_str  += "\n USSTableRow"+  level +" = us.USSCreateTableRow_();	";
 }
 
 if(recSch.col == 1)
 {
 
-	lv_str  += "\n USSTableRow = new  us.USSCreateTableRow_();	";
+	lv_str  += "\n USSTableRow"+  level +" = new  us.USSCreateTableRow_();	";
 }
 	lv_str  += "\n USSField    = new us.USSField_(); ";
 	lv_str  += "\n USSField" + "." + "group"      + "=" + "'" + recSch.group      + "'" + ";"
@@ -698,6 +698,7 @@ if(recSch.col == 1)
 	lv_str  += "\n USSField" + "." + "cclass"     + "=" + "'" + recSch.cclass     + "'" + ";"
 	lv_str  += "\n USSField" + "." + "validate"   + "=" + "'" + recSch.validate   + "'" + ";"
 	lv_str  += "\n USSField" + "." + "parent"     + "=" + "'" + recSch.parent     + "'" + ";"
+	lv_str  += "\n USSField" + "." + "parentHtmlType"     + "=" + "'" + recSch.parentHtmlType     + "'" + ";"
 	lv_str  += "\n USSField" + "." + "dflt"       + "=" + "'" + varStrVal         + "'" + ";"
 	lv_str  += "\n USSField" + "." + "min"        + "=" + "'" + recSch.min        + "'" + ";"
 	lv_str  += "\n USSField" + "." + "max"        + "=" + "'" + recSch.max        + "'" + ";"
@@ -725,7 +726,7 @@ if(recSch.col == 1)
 	lv_str  += "\n USSField" + "." + "xml"        + "=" + "'" + recSch.xml        + "'" + ";"
 	lv_str  += "\n USSField" + "." + "xmlname"        + "=" + "'" + recSch.xmlname        + "'" + ";"
 	lv_str  += "\n USSField" + "." + "Xpath"      + "=" + "'" + recSch.Xpath      + "'" + ";"
-	lv_str  += "\n USSTableRow=us.CreateField(USSField,USSTableRow);";
+	lv_str  += "\n USSTableRow"+  level +"=us.CreateField(USSField,USSTableRow"+  level +");";
 
 return lv_str;
 
@@ -754,18 +755,19 @@ listVal
 
 lv_str += this.sprint( "USSContainer"+level+"   =   us.USSCreateContainer();");
 
-parent.htmlType="hidden";
+//parent.htmlType="hidden";
 	
 	if( parent.dataType == "CONTAINER" ||   parent.dataType == "PAGE"  )
 	{
 	
 	
 
+
 		
 		
 		lv_str += this.sprint('USSTable'  +  level +'     =   new us.USSCreateTable_();');
 		//lv_str += this.sprint('USSTableRow'  +  level +'     =   new us.USSCreateTableRow_();');
-		lv_str += this.sprint('USSTableRow     =   new us.USSCreateTableRow_();');
+		lv_str += this.sprint('USSTableRow'+ level+'    =   new us.USSCreateTableRow_();');
 		if(parent.task=="NONE")
 		{
 			lv_str += this.sprint('USSHeader' +  level +'     =   us.USSCreateHeader("'+ parent.label+'");');
@@ -779,16 +781,61 @@ parent.htmlType="hidden";
 		
 				parent.name = parent.name + "_"+level + "_"+ 0;
 
-				lv_rtStr=this.frameField(parent,'','','',func,parent.name);
+
+
+
+
+				lv_rtStr=this.frameField(parent,'','','',func,parent.name,level);
 				lv_str += this.sprint(lv_rtStr);
-				lv_str += this.sprint('USSSession'+  level +'.appendChild(USSTableRow);' );
+				lv_str += this.sprint('USSSession'+  level +'.appendChild(USSTableRow'+  level +');' );
+
+
+
 
 
 		
 		for (var recSchCnt=0;recSchCnt < recSch.length ; recSchCnt++)
 		{
+
+			var evalStr="rec["+0+"]." +recSch[recSchCnt].name;
+				var labelEvalStr="recLabel["+0+"]." +recSch[recSchCnt].name;
+				var listValEvalStr="listVal["+0+"]." +recSch[recSchCnt].name;
+				//this.debug(" evalStr =["+ evalStr+"]");
+			var  objEvalStr=eval(evalStr);
+
+
+			
+			//this.debug(" labelEvalStr =["+ labelEvalStr+"]");
+			var  labelObjEvalStr=eval(labelEvalStr);
+			var  listValObjEvalStr=eval(listValEvalStr);
+
+					//alert("objEvalStr=" + objEvalStr);
+					if( objEvalStr === undefined)
+					{
+						objEvalStr='';
+					}
+
+					if( labelObjEvalStr === undefined)
+					{
+						labelObjEvalStr='';
+					}
+
+					recSch[recSchCnt].col = parent.col++;
+					recSch[recSchCnt].maxCol = parent.maxCol;
+
+					var  recHdr=recSch[recSchCnt];
+					recHdr.parentHtmlType='HEADER';
+
+				lv_rtStr= this.frameField(recHdr,objEvalStr,labelObjEvalStr,listValObjEvalStr,func,level,recSchCnt);
+				lv_str += this.sprint(lv_rtStr);
+				lv_str += this.sprint('USSSession'+  level +'.appendChild(USSTableRow'+level+');' );
+		}
+
+		for (var recSchCnt=0;recSchCnt < recSch.length ; recSchCnt++)
+		{
 		
 		recSch[recSchCnt].parent=parent.name;
+		recSch[recSchCnt].parentHtmlType=parent.htmlType;
 
 		recSch[recSchCnt].Xpath=parent.Xpath+"."+recSch[recSchCnt].name;
 			//alert("recSchCnt=<"  + recSchCnt + "> recSch.length  =<" + recSch.length  + ">recSch["+recSchCnt+"].dataType " + recSch[recSchCnt].dataType  );
@@ -853,7 +900,7 @@ parent.htmlType="hidden";
 
 				lv_rtStr= this.frameField(recSch[recSchCnt],objEvalStr,labelObjEvalStr,listValObjEvalStr,func,level,recSchCnt);
 				lv_str += this.sprint(lv_rtStr);
-				lv_str += this.sprint('USSSession'+  level +'.appendChild(USSTableRow);' );
+				lv_str += this.sprint('USSSession'+  level +'.appendChild(USSTableRow'+level+');' );
 			}
 		
 		
@@ -901,9 +948,9 @@ lv_str += this.sprint( "USSContainer"+level+".appendChild(USSHeader" +  level +"
 		}
 			lv_str += this.sprint('USSSession'+  level +'     =   us.USSCreateSession();' );
 
-			lv_rtStr=this.frameField(parent,'','','',func,level,recCnt,parent.name);
+			lv_rtStr=this.frameField(parent,'','','',func,level,recCnt,parent.name,level);
 				lv_str += this.sprint(lv_rtStr);
-				lv_str += this.sprint('USSSession'+  level +'.appendChild(USSTableRow);' );
+				lv_str += this.sprint('USSSession'+  level +'.appendChild(USSTableRow'+  level +');' );
 			
 			for (var recSchCnt=0;recSchCnt < recSch.length ; recSchCnt++)
 			{
@@ -953,7 +1000,7 @@ lv_str += this.sprint( "USSContainer"+level+".appendChild(USSHeader" +  level +"
 					recSch[recSchCnt].col = recSch[recSchCnt].col++;
 					lv_rtStr= this.frameField(lrecSch[recSchCnt],objEvalStr,labelObjEvalStr,listValObjEvalStr,func,level,recCnt,parent.name);
 					lv_str += this.sprint(lv_rtStr);
-					lv_str += this.sprint('USSSession'+  level +'.appendChild(USSTableRow);' );
+					lv_str += this.sprint('USSSession'+  level +'.appendChild(USSTableRow'+  level +');' );
 				}
 		
 		

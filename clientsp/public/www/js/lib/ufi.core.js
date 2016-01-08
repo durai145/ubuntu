@@ -158,6 +158,7 @@ this.mndf       = 'N',
 this.dataType   = 'VARCHAR',  // NUMBER/VARCHAR/DATE/EMAIL/AMOUNT/LIST/DIV/
 this.cclass     = 'ctable',   //
 this.parent     = '',
+this.parentHtmlType     = '',
 this.validate   = '',
 this.dflt       = '',
 this.min        = '0',
@@ -719,6 +720,7 @@ USS.prototype.CreateField=function (fieldObj,USSTableRow)
 	var fldStr="";	
 	var jsfunc="";
 
+//alert('CreateField : 001');
 try
 {
 pre_cust_CreateField(fieldObj,USSTableRow)
@@ -756,13 +758,13 @@ catch(e)
 				this.tableBodyElmntScript=document.createElement("script");
                                 this.tableBodyTr=document.createElement("div");
                                 this.tableBodyTr.className="row";
-				this.tableBodyTd=document.createElement("div");
-				this.tableBodyTd.id="td";
-				this.tableBodyTd.className = 'col-sm-' + 12/(fieldObj.maxCol*2)  +' ' + 'col-xm-' + 12/(fieldObj.maxCol*2) ;
+				this.tableBodyTd1=document.createElement("div");
+				this.tableBodyTd1.id="td";
+				this.tableBodyTd1.className = 'col-sm-' + 12/(fieldObj.maxCol * 1 )  +' ' + 'col-xs-' + 12/(fieldObj.maxCol*1) ;
 
 				this.tableBodyTd2=document.createElement("div");
 				this.tableBodyTd2.id ="td";
-				this.tableBodyTd2.className = 'col-sm-'+ 12/(fieldObj.maxCol*2) +' ' + 'col-xm-' + 12/(fieldObj.maxCol*2) ;
+				this.tableBodyTd2.className = 'col-sm-'+ 12/(fieldObj.maxCol * 1) +' ' + 'col-xs-' + 12/(fieldObj.maxCol*1) ;
 		
 				if((fieldObj.dataType =='HIDDEN')||(fieldObj.dataType == 'XMLCONTAINER')||(fieldObj.dataType =='BUTTON'))
 				{
@@ -777,6 +779,7 @@ catch(e)
 					this.tableBodyLabel.className = 'clabel';
 					this.tableBodyLabel.setAttribute("for",fieldObj.name);
 //					this.tableBodyLabelContent = document.createTextNode(fieldObj.label.toLowerCase());
+
 					this.tableBodyLabelContent = document.createTextNode(fieldObj.label);
 					this.tableBodyMndf=document.createElement("span");
 					this.tableBodyMndf.id="mndf";
@@ -913,7 +916,7 @@ catch(e)
 						this.tableBodyElmntRadio=document.createElement("div");
 						this.tableBodyElmntRadio.innerHTML=rtString;
 					}
-				else if (fieldObj.htmlType == 'XMLCONTAINER' ||fieldObj.htmlType == 'PAGE'  ||  fieldObj.htmlType == 'hidden') 
+				else if (fieldObj.htmlType == 'XMLCONTAINER' ||fieldObj.htmlType == 'PAGE'  ||  fieldObj.htmlType == 'hidden' ) 
 				{
 					this.tableBodyElmnt=document.createElement("input");
 					this.tableBodyElmnt.type="hidden";
@@ -1031,16 +1034,17 @@ catch(e)
 
 	}
 
-	if((fieldObj.dataType =='PAGE')||(fieldObj.dataType =='HIDDEN')||(fieldObj.dataType == 'XMLCONTAINER')||(fieldObj.dataType =='BUTTON'))
+	if((fieldObj.dataType =='PAGE')||(fieldObj.dataType =='HIDDEN')||(fieldObj.dataType == 'XMLCONTAINER')||(fieldObj.dataType =='BUTTON')||(fieldObj.parentHtmlType =='TABLE'))
 	{
 	}
 	else
 	{
-	this.tableBodyTd.appendChild(this.tableBodyLabel);
-	USSTableRow.appendChild(this.tableBodyTd);
+	this.tableBodyTd1.appendChild(this.tableBodyLabel);
+	
 	}
-	this.tableBodyTd2.appendChild(this.tableBodyElmnt);
-	this.tableBodyTd2.appendChild(this.tableBodyElmntDesc);
+
+
+	
 
 	if ( fieldObj.htmlType == 'OPTION' )
 	{
@@ -1122,10 +1126,17 @@ this.jsfunc+="json={USRID:glUserId, GROUPID:glGroupId }; onPostReq(url,json,div,
 
 	this.tableBodyElmntScript.text=jsfunc;
 
+if( fieldObj.parentHtmlType != 'TABLE')
+{
+USSTableRow.appendChild(this.tableBodyTd1);
+}
+if( fieldObj.parentHtmlType != 'HEADER')
+{
+  this.tableBodyTd2.appendChild(this.tableBodyElmnt);
+  this.tableBodyTd2.appendChild(this.tableBodyElmntDesc);
 	this.tableBodyTd2.appendChild(this.tableBodyElmntScript);
-
-
 	USSTableRow.appendChild(this.tableBodyTd2);
+}
 
 try
 {

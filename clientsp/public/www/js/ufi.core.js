@@ -535,6 +535,8 @@ USS.prototype.hasChild=function(fieldObj)
 }
 USS.prototype.CreateField=function (fieldObj,USSTableRow)
 {
+
+	alert('CreateField 001');
 	var rtString = "";
 	var fldStr="";	
 	var jsfunc="";
@@ -850,8 +852,12 @@ catch(e)
 	}
 	else
 	{
-	this.tableBodyTd.appendChild(this.tableBodyLabel);
-	USSTableRow.appendChild(this.tableBodyTd);
+
+		if( fieldObj.label == "")
+		 {
+		 	this.tableBodyTd.appendChild(this.tableBodyLabel);
+			USSTableRow.appendChild(this.tableBodyTd);
+		}
 	}
 	this.tableBodyTd2.appendChild(this.tableBodyElmnt);
 	this.tableBodyTd2.appendChild(this.tableBodyElmntDesc);

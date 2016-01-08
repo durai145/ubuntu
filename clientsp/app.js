@@ -1747,7 +1747,7 @@ connection.release();
 
  	pool.getConnection(function(err, connection) {
 
-var query='select CARD4  , BAL_TRNS_AMT  , MIN_DUE_AMT   , TTL_BAL , DUE_DATE , DUE_DAYS , ACCT_STATUS , PURCHASE_APR , BAL_TRANS_APR , BANK_ID       from CARD001MB c WHERE  c.usr_id  = ' + connection.escape(inUsrId) +'';
+var query='select CARD4  , BAL_TRNS_AMT  , MIN_DUE_AMT   , TTL_BAL , DUE_DATE ,  ACCT_STATUS       from CARD001MB c WHERE  c.usr_id  = ' + connection.escape(inUsrId) +'';
 
 log.info(query);
 
@@ -1819,13 +1819,13 @@ fieldObj.label    = title;
 fieldObj.name    =  title.replace(/ /g,'');
 fieldObj.listVal  = '';
 fieldObj.dataType = 'CONTAINER';
-fieldObj.htmlType = 'CONTAINER';
+fieldObj.htmlType = 'TABLE';
 fieldObj.dflt     = ''         ;
 fieldObj.mndf     = 'N';
 fieldObj.max      =  1;
 fieldObj.min      = 0;
 //maxCol:2, col: 1
-fieldObj.maxCol   = 2;
+fieldObj.maxCol   =  parseInt((fields.length >6 ) ?  6 : fields.length );
 fieldObj.col      = 1;
 
 fieldObj.childs   = []	;

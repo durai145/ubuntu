@@ -31,6 +31,38 @@ box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.75);
 }
 
 
+
+.bcontainer {
+
+
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 14pt; 
+	COLOR: #caff70; 
+	FONT-STYLE: normal; 
+	FONT-FAMILY: arial, helvetica, sans-serif;
+	 BACKGROUND-COLOR: #4D7F17; 
+	 TEXT-ALIGN: center;
+	 
+	 padding: 1px 1px 1px 1px;
+	font-weight: bold;
+	 
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	border: 1px solid #b8b8b8;
+
+
+	margin-top: 0px;
+    margin-bottom: 20px;
+    margin-right: 0px;
+    margin-left: 0px;
+
+
+-webkit-box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.75);
+box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.75);
+}
 .bsession{
 	FONT-WEIGHT: bold; 
 	FONT-SIZE: 14pt; 
@@ -41,6 +73,12 @@ box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.75);
 	 TEXT-ALIGN: left;
 	padding: 4px 1px 1px 1px; 
 	opacity: 1;
+
+		margin-top: -1px;
+    margin-bottom: -1px;
+    margin-right: -1px;
+    margin-left: -1px;
+
 	
 }
 
@@ -123,6 +161,14 @@ box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.75);
 
     margin-top: 5px;
 	margin-bottom: 5px;
+
+
+
+	margin-top: -1px;
+    margin-bottom: -1px;
+    margin-right: -1px;
+    margin-left: -1px;
+
 	background-color:  #104e8b;
     text-align: left;
     max-height: 50px;
@@ -167,9 +213,7 @@ box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.75);
 	margin-right: 50px;
 	margin-left: 50px;
 
-	-webkit-box-shadow: 3px 3px 12px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 3px 3px 12px 0px rgba(0,0,0,0.75);
-box-shadow: 3px 3px 12px 0px rgba(0,0,0,0.75);
+	
 }
 
 .copyrightLayout
