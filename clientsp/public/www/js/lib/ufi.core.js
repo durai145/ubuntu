@@ -677,6 +677,30 @@ return this.ussTableAccordion;
 
 }
 
+
+
+
+USS.prototype.ceil =function (  inp)
+{
+  var rtVal=0;
+  var intVal=parseInt(inp)*1000000000000; // it will remove the decimel point
+  var floatVal=inp*1000000000000; // it has the decimel point
+
+      //  alert("intVal " +intVal);
+        //alert("floatVal" +floatVal);
+  if( intVal  <floatVal)
+  {
+    rtVal=parseInt(inp)+1;  
+  }
+  else
+  {
+    rtVal=parseInt(inp);  
+  }
+  
+
+  return rtVal;
+}
+
 USS.prototype.isContainer=function(fieldObj)
 {
 
@@ -760,11 +784,11 @@ catch(e)
                                 this.tableBodyTr.className="row";
 				this.tableBodyTd1=document.createElement("div");
 				this.tableBodyTd1.id="td";
-				this.tableBodyTd1.className = 'col-sm-' + 12/(fieldObj.maxCol * 1 )  +' ' + 'col-xs-' + 12/(fieldObj.maxCol*1) ;
+				this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
 
 				this.tableBodyTd2=document.createElement("div");
 				this.tableBodyTd2.id ="td";
-				this.tableBodyTd2.className = 'col-sm-'+ 12/(fieldObj.maxCol * 1) +' ' + 'col-xs-' + 12/(fieldObj.maxCol*1) ;
+				this.tableBodyTd2.className = 'col-sm-'+ this.ceil(12/(fieldObj.maxCol * 1)) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1)) ;
 		
 				if((fieldObj.dataType =='HIDDEN')||(fieldObj.dataType == 'XMLCONTAINER')||(fieldObj.dataType =='BUTTON'))
 				{

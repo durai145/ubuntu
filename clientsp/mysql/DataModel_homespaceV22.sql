@@ -59,7 +59,7 @@ SHOW WARNINGS;
 -- -----------------------------------------------------
 -- Table `mydb`.`CARD001MB`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`CARD001MB` ;
+DROP TABLE IF EXISTS `DBHSP`.`CARD001MB` ;
 
 SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `mydb`.`CARD001MB` (

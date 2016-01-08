@@ -1747,7 +1747,7 @@ connection.release();
 
  	pool.getConnection(function(err, connection) {
 
-var query='select CARD4  , BAL_TRNS_AMT  , MIN_DUE_AMT   , TTL_BAL , DUE_DATE ,  ACCT_STATUS       from CARD001MB c WHERE  c.usr_id  = ' + connection.escape(inUsrId) +'';
+var query='select CARD4  Card_Number ,  MIN_DUE_AMT Minimum_Due  , TTL_BAL Total_Balance, DUE_DATE Due_Date ,  ACCT_STATUS  Status      from CARD001MB c WHERE  c.usr_id  = ' + connection.escape(inUsrId) +'';
 
 log.info(query);
 
