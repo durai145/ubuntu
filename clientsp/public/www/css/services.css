@@ -96,7 +96,7 @@ COLOR: #000000; FONT-STYLE: normal; HEIGHT: 22px; BACKGROUND-COLOR: #ffffff
 .clabel {
 	BORDER-RIGHT: #f4f4f4 0px solid; 
 	BORDER-TOP: #f4f4f4 0px solid; 
-	FONT-WEIGHT: bold; 
+	/*FONT-WEIGHT: bold; */
 	FONT-SIZE: 10pt; 
 	BACKGROUND: #f4f4f4; 
 	BORDER-LEFT: #f4f4f4 0px solid; 
@@ -108,6 +108,42 @@ COLOR: #000000; FONT-STYLE: normal; HEIGHT: 22px; BACKGROUND-COLOR: #ffffff
 	FONT-SIZE: 13pt; 
 	padding-left: 10px;
 }
+
+
+.cclabel
+{
+	BORDER-RIGHT: #f4f4f4 0px solid; 
+	BORDER-TOP: #f4f4f4 0px solid; 
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 10pt; 
+	BACKGROUND: #f4f4f4; 
+	BORDER-LEFT: #f4f4f4 0px solid; 
+	COLOR: #6eac2c; 
+	BORDER-BOTTOM: #f4f4f4 0px solid; 
+	FONT-STYLE: normal; 
+	FONT-FAMILY: arial, helvetica, sans-serif; 
+	width:75%;
+	FONT-SIZE: 13pt; 
+	padding-left: 10px;
+}
+.chlabel
+{
+	BORDER-RIGHT: #f4f4f4 0px solid; 
+	BORDER-TOP: #f4f4f4 0px solid; 
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 10pt; 
+	BACKGROUND: #f4f4f4; 
+	BORDER-LEFT: #f4f4f4 0px solid; 
+	/*COLOR: #104e8b; */
+	COLOR: #6eac2c; 
+	BORDER-BOTTOM: #f4f4f4 0px solid; 
+	FONT-STYLE: normal; 
+	FONT-FAMILY: arial, helvetica, sans-serif; 
+	width:75%;
+	FONT-SIZE: 13pt; 
+	padding-left: 10px;
+}
+
 
 .label {
 	BORDER-RIGHT: #f4f4f4 0px solid; BORDER-TOP: #f4f4f4 0px solid; FONT-WEIGHT: bold; FONT-SIZE: 10pt; BACKGROUND: #f4f4f4; BORDER-LEFT: #f4f4f4 0px solid; COLOR: #000000; BORDER-BOTTOM: #f4f4f4 0px solid; FONT-STYLE: normal; FONT-FAMILY: arial, helvetica, sans-serif; width:75%;

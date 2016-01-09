@@ -782,14 +782,36 @@ catch(e)
 				this.tableBodyElmntScript=document.createElement("script");
                                 this.tableBodyTr=document.createElement("div");
                                 this.tableBodyTr.className="row";
-				this.tableBodyTd1=document.createElement("div");
+			/*	this.tableBodyTd1=document.createElement("div");
 				this.tableBodyTd1.id="td";
-				this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
+				this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 2 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
 
 				this.tableBodyTd2=document.createElement("div");
 				this.tableBodyTd2.id ="td";
 				this.tableBodyTd2.className = 'col-sm-'+ this.ceil(12/(fieldObj.maxCol * 1)) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1)) ;
 		
+    */
+        if( fieldObj.parentHtmlType == 'HEADER'  || fieldObj.parentHtmlType == 'TABLE' )
+        {
+       this.tableBodyTd1=document.createElement("div");
+        this.tableBodyTd1.id="td";
+        this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
+
+        this.tableBodyTd2=document.createElement("div");
+        this.tableBodyTd2.id ="td";
+        this.tableBodyTd2.className = 'col-sm-'+ this.ceil(12/(fieldObj.maxCol * 1)) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1)) ;
+    }
+    else
+    {
+       this.tableBodyTd1=document.createElement("div");
+        this.tableBodyTd1.id="td";
+        this.tableBodyTd1.className = 'col-sm-' + parseInt( 12/(fieldObj.maxCol * 2 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
+
+        this.tableBodyTd2=document.createElement("div");
+        this.tableBodyTd2.id ="td";
+        this.tableBodyTd2.className = 'col-sm-'+ parseInt(12/(fieldObj.maxCol * 2)) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1)) ;
+    
+    }
 				if((fieldObj.dataType =='HIDDEN')||(fieldObj.dataType == 'XMLCONTAINER')||(fieldObj.dataType =='BUTTON'))
 				{
 				//don't include the lable for hidden
@@ -800,8 +822,15 @@ catch(e)
 
 
 					this.tableBodyLabel=document.createElement("label");
-					this.tableBodyLabel.className = 'clabel';
-					this.tableBodyLabel.setAttribute("for",fieldObj.name);
+          if(fieldObj.parentHtmlType == 'TABLE')
+          {
+					 this.tableBodyLabel.className = 'cclabel';
+					}
+          else
+          {
+            this.tableBodyLabel.className = 'chlabel';
+          }
+          this.tableBodyLabel.setAttribute("for",fieldObj.name);
 //					this.tableBodyLabelContent = document.createTextNode(fieldObj.label.toLowerCase());
 
 					this.tableBodyLabelContent = document.createTextNode(fieldObj.label);

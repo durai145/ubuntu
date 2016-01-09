@@ -595,7 +595,14 @@ catch(e)
 
 
 					this.tableBodyLabel=document.createElement("label");
-					this.tableBodyLabel.className = 'clabel';
+					if( fieldObj.parentHtmlType == 'TABLE')
+					{
+						this.tableBodyLabel.className = 'ccheader';
+					}
+					else
+					{
+						this.tableBodyLabel.className = 'cclabel';
+					}
 					this.tableBodyLabel.setAttribute("for",fieldObj.name);
 //					this.tableBodyLabelContent = document.createTextNode(fieldObj.label.toLowerCase());
 					this.tableBodyLabelContent = document.createTextNode(fieldObj.label);
