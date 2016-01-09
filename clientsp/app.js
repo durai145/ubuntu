@@ -1747,7 +1747,7 @@ connection.release();
 
  	pool.getConnection(function(err, connection) {
 
-var query='select CARD4  Card_Number ,  MIN_DUE_AMT Minimum_Due  , TTL_BAL Total_Balance, DUE_DATE Due_Date ,  ACCT_STATUS  Status      from CARD001MB c WHERE  c.usr_id  = ' + connection.escape(inUsrId) +'';
+var query='select CARD4  Card_Number ,  MIN_DUE_AMT Minimum_Due  , TTL_BAL Total_Balance,  DATE_FORMAT(DUE_DATE, \'%d-%m-%Y\')  Due_Date    from CARD001MB c WHERE  c.usr_id  = ' + connection.escape(inUsrId) +'';
 
 log.info(query);
 
@@ -1855,6 +1855,52 @@ fieldObj.childs   = []	;
 
  }
 
+
+ function genSchemaCollection(title,fields)
+ {
+ 	var SchemaJson= [];
+
+fieldObj =    USSField();
+fieldObj.label    = title;
+fieldObj.name    =  title.replace(/ /g,'');
+fieldObj.listVal  = '';
+fieldObj.dataType = 'COLLECTION';
+fieldObj.htmlType = 'TABLE';
+fieldObj.dflt     = ''         ;
+fieldObj.mndf     = 'N';
+fieldObj.max      =  2;
+fieldObj.min      = 0;
+//maxCol:2, col: 1
+fieldObj.maxCol   =  parseInt((fields.length >6 ) ?  6 : fields.length );
+fieldObj.col      = 1;
+
+fieldObj.childs   = []	;
+
+//task fix
+
+	
+ 	for(var i=0; i< fields.length ; i++)
+ 	{
+ 	
+ 		fieldChild       = USSField();
+ 		//fieldChild.name  = fields[i].name.replace(/_/g,'');
+ 		fieldChild.name  = fields[i].name;
+ 		fieldChild.label = fields[i].name.replace(/_/g,' ');
+ 		fieldChild.max   = fields[i].length;
+ 		//fieldObj.dataType = 'VARCHAR';
+		//fieldObj.htmlType = 'VARCHAR';
+ 		fieldChild.dflt  = '';
+
+ 		fieldObj.childs.push(fieldChild);		
+ 	};
+
+
+ 	SchemaJson.push(fieldObj);
+
+ 	return SchemaJson;
+
+ }
+
 app.post('/api/:module/:service', function(req,res)
 {
 
@@ -1928,7 +1974,7 @@ app.post('/api/:module/:service', function(req,res)
 											title="CardDetail";
 											//console.log(genSchema('User Details',respMessage));
 											//respJson.schemaJson = respMessage;//genSchema(respMessage);
-											respJson.schemaJson = genSchema(title,respMessage);//genSchema(respMessage);
+											respJson.schemaJson = genSchemaCollection(title,respMessage);//genSchema(respMessage);
 											respJson.jsonData   = [ {CardDetail : data}];
 ;											res.send(respJson);
 									
