@@ -1868,7 +1868,7 @@ fieldObj.dataType = 'COLLECTION';
 fieldObj.htmlType = 'TABLE';
 fieldObj.dflt     = ''         ;
 fieldObj.mndf     = 'N';
-fieldObj.max      =  2;
+fieldObj.max      =  'unlimited';
 fieldObj.min      = 0;
 //maxCol:2, col: 1
 fieldObj.maxCol   =  parseInt((fields.length >6 ) ?  6 : fields.length );
