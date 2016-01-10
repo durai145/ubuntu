@@ -92,14 +92,26 @@ var schemaJson=[
 ];
 
 
-  $.post("/jsonSchema/"+jsonSchema+".sjson", {suggest: 'txt'}, function(result){
+ /* 
+ $.post("/jsonSchema/"+jsonSchema+".sjson", {suggest: 'txt'}, function(result){
         
          //
          schemaJson=result;
 
     });
+*/
 
 
+  var result=$.ajax({
+        type: "POST",
+        url: "/jsonSchema/"+jsonSchema+".sjson",
+        cache: false,
+        async: false
+    }).responseText;
+        
+ // alert('Inital Load');
+
+  schemaJson=eval(result);
     GenHtmlTemplateFromSJson =USS;
 
     
@@ -233,6 +245,33 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
              
             }
         });
+
+         $stateProvider.state('SchemaGenerator', 
+        {
+            url         : '/SchemaGenerator/'
+           ,views:{
+              'pageMainContext' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/naviView.html'
+              }
+              ,
+
+              'pageSubContext@SchemaGenerator' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('basicDet','N',"FULL") //EIDT and ADD
+                //template : 'this is test'
+                templateUrl : 'js/lib/views/SchemaGeneratorView.html'
+
+               ,controller :  'SchemaGenerator'
+              }
+
+             
+            }
+        });
+
 //basicDet/USSAdd
 
  $stateProvider.state('basicDetUSSAdd', 
@@ -463,7 +502,63 @@ $stateProvider.state('basicDetUSSEdit',
 
         }]);
 
+webApp.provider('$dashboardState', function($stateProvider,heaerieUssServiceProvider){
+        this.$get = function($state){
+            return {
+                /**
+                 * @function app.dashboard.dashboardStateProvider.addState
+                 * @memberof app.dashboard
+                 * @param {string} title - the title used to build state, url & find template
+                 * @param {string} controllerAs - the controller to be used, if false, we don't add a controller (ie. 'UserController as user')
+                 * @param {string} templatePrefix - either 'content', 'presentation' or null
+                 * @author Alex Boisselle
+                 * @description adds states to the dashboards state provider dynamically
+                 * @returns {object} user - token and id of user
+                 */
+                addState: function(title, controllerAs, templatePrefix) {
 
+                   /* $stateProvider.state('dashboard.' + title, {
+                        url: '/' + title,
+                        views: {
+                            'dashboardModule@dashboard': {
+                                templateUrl: PATHS.DASHBOARD + (templatePrefix ? templatePrefix + '/' : '/') + title + '/' + title + '.view.html',
+                                controller: controllerAs ? controllerAs : null
+                            }
+                        }
+                    });
+*/
+
+            alert('dynamic State Add');
+              $stateProvider.state('basicDetUSSNavi', 
+        {
+            url         : '/basicDetUSSNavi'
+           ,views:{
+
+             'pageMainContext' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/naviView.html'
+              }
+              ,
+
+              'pageSubContext@basicDetUSSNavi' :
+              {                
+               
+                template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('basicDet','Y','SAVE')
+                //template : '<form name="myForm" > <label for="exampleInput">Pick a date in 2013:</label> <input type="date" id="exampleInput" name="input" ng-model="example.value"placeholder="yyyy-MM-dd" min="2013-01-01" max="2016-12-31" required /> <div role="alert"> <span class="error" ng-show="myForm.input.$error.required"> Required!</span> <span class="error" ng-show="myForm.input.$error.date"> Not a valid date!</span> </div> <tt>value = {{example.value | date: "yyyy-MM-dd"}}</tt><br/> <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/> <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/> <tt>myForm.$valid = {{myForm.$valid}}</tt><br/> <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/> </form>'//heaerieUssServiceProvider.GenHtmlTemplateFromSJson('Y','SAVE') ,controller :  'basicDetController'
+                ,controller :  'basicDetController'//template : 'this is test'
+               // templateUrl : 'view/loginView.html'
+              }
+            }
+        });
+
+
+
+                }
+            }
+        }
+    });
 
 webApp.run(['$rootScope','$q', '$injector', function($rootScope,$q, $injector) {
 
