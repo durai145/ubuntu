@@ -446,6 +446,28 @@ if( mode == "ADD" || mode =="EDIT" || mode == "SAVE")
 
 
 
+if( mode == "REGISTER")
+{
+
+//<a href="#" class="delete btn btn-danger btn-small">delete</a>
+   this.ElEditButton                 = document.createElement("button");
+   this.ElEditButton.className       = "bheaderButton btn";
+   this.ElEditButton.value           = "Register" ;
+  // this.ElEditButton.setAttribute("href","#notes/delete");
+  // this.ElEditButton.setAttribute("href","#/dashboard/");
+   this.ElEditButton.setAttribute("ng-click","goUrl('"+name +"USSRegister')");
+   this.ButtonLabel         = document.createTextNode("Rigister");
+
+    this.fontawesome = document.createElement('i');
+   //this.fontawesome.className       = "fa fa-repeat";
+   this.fontawesome.className       = "fa fa fa-plus-circle";
+  
+   this.ElEditButton.appendChild(this.fontawesome);
+   this.ElEditButton.appendChild(this.ButtonLabel);
+   this.El.appendChild(this.ElEditButton );
+}
+
+
 
 
   this.El.appendChild(this.ElA );
@@ -517,8 +539,9 @@ USS.prototype.USSCreateTableRow_=function()
 {
 	
   this.ussTableRow = document.createElement("div");
-  this.ussTableRow.className = 'row';
+  this.ussTableRow.className = 'row tableRow';
   this.ussTableRow.border=1;
+  this.ussTableRow.setAttribute("style","margin-left: 0px;margin-right: 0px;");
  // this.ussTableRow.onclick = 'event.cancelBubble = true;';
   this.ussTableRow.tabIndex = -1;
 
@@ -781,7 +804,7 @@ catch(e)
 				this.tableBodyElmntDesc=document.createElement("span");
 				this.tableBodyElmntScript=document.createElement("script");
                                 this.tableBodyTr=document.createElement("div");
-                                this.tableBodyTr.className="row";
+                                this.tableBodyTr.className="row tableRow";
 			/*	this.tableBodyTd1=document.createElement("div");
 				this.tableBodyTd1.id="td";
 				this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 2 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
@@ -795,11 +818,13 @@ catch(e)
         {
        this.tableBodyTd1=document.createElement("div");
         this.tableBodyTd1.id="td";
-        this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
+       // this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
+        //this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
+        this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' ' + 'col-xs-12';
 
         this.tableBodyTd2=document.createElement("div");
         this.tableBodyTd2.id ="td";
-        this.tableBodyTd2.className = 'col-sm-'+ this.ceil(12/(fieldObj.maxCol * 1)) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1)) ;
+        this.tableBodyTd2.className = 'col-sm-'+ this.ceil(12/(fieldObj.maxCol * 1)) +' ' + 'col-xs-12' ;
     }
     else
     {
@@ -1202,6 +1227,878 @@ catch(e)
 	return USSTableRow;
 }
 
+
+
+
+USS.prototype.GenSJson=function(parentId)
+{
+
+ var fieldObj    = new this.USSField_();
+
+var elementCount=0;
+
+
+  var returnJson ="[";
+
+    
+  var form=document.forms[0];
+  var elmnts= form.elements;
+  //returnJson.childs=new Array();
+
+
+  for(var i=0;i<elmnts.length;i++)
+  {
+    if(  elmnts[i].getAttribute("parentid") == parentId )
+    {
+
+
+      if( elmnts[i].id.indexOf( "IdParentNameId") > 0 )
+      {
+        
+        if( elmnts[i].value == parentId)
+        {
+          
+
+
+
+               fieldObj    = new this.USSField_();
+              var baseid =elmnts[i].getAttribute("baseid") ;
+              //alert("elmnts[i].id=" + baseid);
+            IdName       = document.getElementById(baseid  + "IdName"     + "Id");
+            HtmlTypeId   = document.getElementById(baseid  + "HtmlType"   + "Id");
+            DataTypeId   = document.getElementById(baseid  + "DataType"   + "Id");
+            NameId       = document.getElementById(baseid  + "Name"       + "Id");
+            LabelId      = document.getElementById(baseid  + "Label"      + "Id");
+            ListValId    = document.getElementById(baseid  + "ListVal"    + "Id");
+            MndfId       = document.getElementById(baseid  + "Mndf"       + "Id");
+            EntitleId    = document.getElementById(baseid  + "Entitle"    + "Id");
+            DfltId       = document.getElementById(baseid  + "Dflt"       + "Id");
+            MaxId        = document.getElementById(baseid  + "Max"        + "Id");
+            MinId        = document.getElementById(baseid  + "Min"        + "Id");
+            TipsId       = document.getElementById(baseid  + "Tips"       + "Id");
+            XmlId        = document.getElementById(baseid  + "Xml"       + "Id");
+            
+
+            
+
+            fieldObj.name       = NameId.value;
+            fieldObj.label      = LabelId.value;
+            fieldObj.htmlType   = HtmlTypeId.value;
+            fieldObj.dataType   = DataTypeId.value;
+            fieldObj.listVal    = ListValId.value;
+            fieldObj.mndf       = MndfId.value;
+            fieldObj.dflt       = DfltId.value;
+            fieldObj.max        = MaxId.value;
+            fieldObj.min        = MinId.value;
+            fieldObj.tips       = TipsId.value;
+            fieldObj.entitle    = EntitleId.value;
+            fieldObj.xml       = XmlId.value;
+            
+
+            
+            if ( HtmlTypeId.value == "CONTAINER" || HtmlTypeId.value == "PAGE") 
+            {
+
+              fieldObj.task ="ES";// need to fix
+                
+              fieldObj.childs  = new Array();
+              var childsJson=this.GenSJson(IdName.value)
+              for (var c=0;c< childsJson.length ; c++ )
+              {
+                fieldObj.childs.push ( childsJson[c]);
+              }
+              
+              
+            }
+            else
+            {
+              fieldObj.childs  = new Array();
+            }
+            if ( elementCount==0)
+            {
+                 returnJson += "" + JSON.stringify(fieldObj);
+            }
+            else
+            {
+
+              
+                 returnJson += "," + JSON.stringify(fieldObj);
+            }
+            elementCount=+1;
+            
+        //  alert("Need to start"); //to do durai
+ //           //var fieldObj=eval( "{" + elmnts.Id  +":" +  elmnts.name +"}");
+            //returnJson.push(fieldObj);
+        }
+            
+      }
+    
+    }
+
+
+  }
+
+  returnJson+="]";
+
+  //alert(returnJson);
+  console.log("\n \n");
+  console.log(returnJson);
+
+  return eval(returnJson);
+
+}
+
+
+USS.prototype.Preview=function(obj)
+{
+
+
+
+    var baseid   =obj.getAttribute("baseid");
+    var PreviewId    = document.getElementById(baseid + "Preview"    + "Id");
+    var LabelId      = document.getElementById(baseid + "Label"      + "Id");
+    var EntitleId    = document.getElementById(baseid + "Entitle"      + "Id");
+    var ListValId    = document.getElementById(baseid + "ListVal"    + "Id");
+    var MndfId       = document.getElementById(baseid + "Mndf"       + "Id");
+    var DataTypeId   = document.getElementById(baseid + "DataType"   + "Id");
+    var HtmlTypeId   = document.getElementById(baseid + "HtmlType"   + "Id");
+    var DfltId       = document.getElementById(baseid + "Dflt"       + "Id");
+    var MaxId        = document.getElementById(baseid + "Max"        + "Id");
+    var MinId        = document.getElementById(baseid + "Min"        + "Id");
+    var TipsId       = document.getElementById(baseid + "Tips"       + "Id");
+
+    //EntitleId       = document.getElementById(baseid + "Entitle"       + "Id");
+
+    //alert(PreviewId.innerHTML);
+    PreviewId.innerHTML= "<div> </div>";
+    var fieldObj= new  this.USSField_();  
+
+    fieldObj.label    = LabelId.value;
+    fieldObj.listVal  = ListValId.value;
+    fieldObj.dataType = DataTypeId.value;
+    fieldObj.htmlType = HtmlTypeId.value;
+    fieldObj.dflt     = DfltId.value;
+    fieldObj.mndf     = MndfId.value;
+    fieldObj.max      = MaxId.value;
+    fieldObj.min      = MinId.value;
+    fieldObj.tips     = TipsId.value;
+    fieldObj.entitle  = EntitleId.value;
+//task fix
+    
+    fieldObj.task     = "ES";
+
+    fieldObj.entitle  = "NOREADONLY";
+
+    this.CreateField( fieldObj,PreviewId);   
+
+
+}
+
+
+
+
+USS.prototype.NewSibling=function(obj)
+{
+
+  var fieldObj= new this.USSField_();
+  var parentObj = document.getElementById(obj.getAttribute("parentid"));
+
+
+
+var baseid =obj.getAttribute("baseid") ;
+
+//alert(baseid);              
+           var IdName      = document.getElementById(baseid + "IdName" +"Id");
+           var HtmlTypeId  = document.getElementById(baseid + "HtmlType" +"Id");
+           var DataTypeId  = document.getElementById(baseid + "DataType" +"Id");
+           var NameId      = document.getElementById(baseid  + "Name" +"Id");
+           var LabelId     = document.getElementById(baseid  + "Label" +"Id");
+           var ListValId   = document.getElementById(baseid  + "ListVal" +"Id");
+           var MndfId      = document.getElementById(baseid  + "Mndf" +"Id");
+           var EntitleId    = document.getElementById(baseid + "Entitle"      + "Id");
+           var DfltId       = document.getElementById(baseid + "Dflt"       + "Id");
+           var MaxId        = document.getElementById(baseid + "Max"        + "Id");
+           var MinId        = document.getElementById(baseid + "Min"        + "Id");
+           var TipsId       = document.getElementById(baseid + "Tips"       + "Id");
+           var XmlId       = document.getElementById(baseid + "Xml"       + "Id");
+
+
+            fieldObj.fieldObj       = "Y";
+            fieldObj.name       = NameId.value;
+            fieldObj.label      = LabelId.value;
+            fieldObj.htmlType   = HtmlTypeId.value;
+            fieldObj.dataType   = DataTypeId.value;
+            fieldObj.listVal    = ListValId.value;
+            fieldObj.mndf       = MndfId.value;
+            fieldObj.dflt       = DfltId.value;
+            fieldObj.max        = MaxId.value;
+            fieldObj.min        = MinId.value;
+            fieldObj.tips       = TipsId.value;
+            fieldObj.entitle    = EntitleId.value;
+            fieldObj.xml        = XmlId.value;
+
+  var child=this.AddSubling(fieldObj,obj.getAttribute("parentid"));
+
+  parentObj.appendChild(child);
+
+
+}
+
+USS.prototype.NewChild=function(obj)
+{
+
+  var fieldObj= new this.USSField_();
+  var parentObj = document.getElementById(obj.getAttribute("baseid"));
+
+  //fieldObj.htmlType="CONTAINER";
+
+
+  var HtmlTypeId  = document.getElementById(obj.getAttribute("baseid") + "HtmlType" +"Id");
+
+  if (HtmlTypeId.value == "PAGE" )
+  {
+    fieldObj.htmlType="CONTAINER"
+  }
+  var child=this.AddSubling(fieldObj,obj.getAttribute("baseid"));
+
+  parentObj.appendChild(child);
+
+
+}
+
+this.ContinerCount=1;
+
+USS.prototype.AddSubling = function(fieldObj,parentid)
+{
+
+
+  var childDiv= document.createElement('div');
+
+    childDiv.id = "Container" + this.ContinerCount++;
+    //childDiv.class="bfield";
+
+
+
+
+
+
+    
+    
+    
+
+parentid=parentid;
+
+var divCurrDivName=document.createElement("input");
+  divCurrDivName.setAttribute("parentid"        ,parentid);
+  divCurrDivName.setAttribute("attribute"        ,"name");
+  divCurrDivName.setAttribute("id"               ,childDiv.id+ "Name" + "Id"  );
+  divCurrDivName.setAttribute("baseid"        ,childDiv.id );
+  divCurrDivName.setAttribute("mndf"             ,"Y");
+  divCurrDivName.setAttribute("childCount"       ,"0");
+  //divCurrDivName.setAttribute("type"             ,"hidden");
+  divCurrDivName.setAttribute("placeholder"             ,"name");
+  divCurrDivName.setAttribute("value"             ,fieldObj.name);
+  divCurrDivName.setAttribute("title","Id");
+
+
+var divCurrDivIdName=document.createElement("input");
+  divCurrDivIdName.setAttribute("parentid"        ,parentid);
+  divCurrDivIdName.setAttribute("baseid"        ,childDiv.id );
+  divCurrDivIdName.setAttribute("id"               ,childDiv.id+ "IdName" + "Id"  );
+  divCurrDivIdName.setAttribute("mndf"             ,"Y");
+  divCurrDivIdName.setAttribute("childCount"       ,"0");
+  divCurrDivIdName.setAttribute("readonly"             ,"true");
+  divCurrDivIdName.setAttribute("type"             ,"hidden");
+  divCurrDivIdName.setAttribute("placeholder"             ,"name");
+  divCurrDivIdName.setAttribute("value"             ,childDiv.id);
+  divCurrDivIdName.setAttribute("title","Curent Id");
+
+
+var divCurrDivIdParentName=document.createElement("input");
+  divCurrDivIdParentName.setAttribute("parentid"        ,parentid);
+  divCurrDivIdParentName.setAttribute("baseid"        ,childDiv.id );
+  divCurrDivIdParentName.setAttribute("id"               ,childDiv.id+ "IdParentName" + "Id"  );
+  divCurrDivIdParentName.setAttribute("mndf"             ,"Y");
+  divCurrDivIdParentName.setAttribute("childCount"       ,"0");
+  divCurrDivIdParentName.setAttribute("readonly"             ,"true");
+  divCurrDivIdParentName.setAttribute("type"             ,"hidden");
+  divCurrDivIdParentName.setAttribute("placeholder"             ,"name");
+  divCurrDivIdParentName.setAttribute("value"             ,parentid);
+  divCurrDivIdParentName.setAttribute("title","Parent Id");
+
+
+
+var divCurrDivMax=document.createElement("input");
+  divCurrDivMax.setAttribute("parentid"        ,parentid);
+  divCurrDivMax.setAttribute("baseid"        ,childDiv.id );
+  divCurrDivMax.setAttribute("attribute"        ,"Max");
+  divCurrDivMax.setAttribute("id"               ,childDiv.id +"Max"+"Id");
+  divCurrDivMax.setAttribute("mndf"             ,"Y");
+  divCurrDivMax.setAttribute("size"       ,"2");
+  divCurrDivMax.setAttribute("childCount"       ,"0");
+  divCurrDivMax.setAttribute("type"             ,"container");
+  divCurrDivMax.setAttribute("placeholder"      ,"Max");
+  divCurrDivMax.setAttribute("value"             ,fieldObj.max);
+    divCurrDivMax.setAttribute("title","Max");
+
+
+var divCurrDivMin=document.createElement("input");
+  divCurrDivMin.setAttribute("parentid"        ,parentid);
+  divCurrDivMin.setAttribute("attribute"        ,"Min");
+  divCurrDivMin.setAttribute("id"               ,childDiv.id +"Min"+"Id");
+  divCurrDivMin.setAttribute("mndf"             ,"Y");
+  divCurrDivMin.setAttribute("childCount"       ,"0");
+  divCurrDivMin.setAttribute("size"       ,"2");
+  divCurrDivMin.setAttribute("type"             ,"container");
+  divCurrDivMin.setAttribute("placeholder"             ,"Min");
+  divCurrDivMin.setAttribute("value"             ,fieldObj.min);
+  divCurrDivMin.setAttribute("title","Min");
+
+var divCurrDivTips=document.createElement("input");
+  divCurrDivTips.setAttribute("parentid"        ,parentid);
+  divCurrDivTips.setAttribute("baseid"          ,childDiv.id );
+  divCurrDivTips.setAttribute("attribute"        ,"Tips");
+  divCurrDivTips.setAttribute("id"               ,childDiv.id +"Tips"+"Id");
+  divCurrDivTips.setAttribute("mndf"             ,"Y");
+  divCurrDivTips.setAttribute("childCount"       ,"0");
+  divCurrDivTips.setAttribute("type"             ,"container");
+  divCurrDivTips.setAttribute("placeholder"             ,"Tips");
+  divCurrDivTips.setAttribute("value"             ,fieldObj.tips);
+    divCurrDivTips.setAttribute("title","Tips");
+
+
+
+var divCurrDivLabel=document.createElement("input");
+  divCurrDivLabel.setAttribute("parentid"        ,parentid);
+  divCurrDivLabel.setAttribute("baseid"          ,childDiv.id );
+  divCurrDivLabel.setAttribute("attribute"        ,"Label");
+  divCurrDivLabel.setAttribute("id"               ,childDiv.id +"Label"+"Id");
+  divCurrDivLabel.setAttribute("mndf"             ,"Y");
+  divCurrDivLabel.setAttribute("childCount"       ,"0");
+  divCurrDivLabel.setAttribute("type"             ,"container");
+  divCurrDivLabel.setAttribute("placeholder"             ,"label");
+  divCurrDivLabel.setAttribute("value"             ,fieldObj.label);
+    divCurrDivLabel.setAttribute("title","Label");
+
+
+
+var divCurrDivMndf=document.createElement("select");
+  divCurrDivMndf.setAttribute("parentid"        ,parentid);
+  divCurrDivMndf.setAttribute("baseid"          ,childDiv.id );
+  divCurrDivMndf.setAttribute("attribute"        ,"Mndf");
+  divCurrDivMndf.setAttribute("id"               ,childDiv.id +"Mndf"+"Id");
+  divCurrDivMndf.setAttribute("mndf"             ,"Y");
+  divCurrDivMndf.setAttribute("childCount"       , "0");
+  divCurrDivMndf.setAttribute("type"             ,"container");
+  divCurrDivMndf.setAttribute("placeholder"             ,"label");
+  divCurrDivMndf.setAttribute("value"             ,fieldObj.mndf);
+  divCurrDivMndf.setAttribute("class", "bmandatory");
+
+    divCurrDivMndf.setAttribute("title","mndf");
+
+
+var inpStrArr= "Y|Y|N|N".split('|');
+var divCurrDivMndfOption="";
+
+  //alert(fieldObj.htmlType );
+          for(var i=0 ; i< inpStrArr.length;i+=2)
+          {
+
+              divCurrDivMndfOption=document.createElement("option");
+              
+              
+              divCurrDivMndfOption.value=inpStrArr[i];
+              divCurrDivMndfOption.appendChild(document.createTextNode(inpStrArr[i+1]));
+              divCurrDivMndfOption.id="option";
+
+
+              if( inpStrArr[i] == fieldObj.mndf )
+              {
+                divCurrDivMndfOption.setAttribute('selected', 'true');
+              }
+                divCurrDivMndf.appendChild(divCurrDivMndfOption);
+
+          }
+
+
+
+
+
+
+
+var divCurrDivHtmlType=document.createElement("select");
+  divCurrDivHtmlType.setAttribute("parentid"         ,parentid);
+  divCurrDivHtmlType.setAttribute("baseid"           ,childDiv.id );
+  divCurrDivHtmlType.setAttribute("attribute"        ,"HtmlType");
+  divCurrDivHtmlType.setAttribute("id"               ,childDiv.id +"HtmlType"+"Id");
+  divCurrDivHtmlType.setAttribute("mndf"             ,"Y");
+  divCurrDivHtmlType.setAttribute("childCount"       ,"0");
+  divCurrDivHtmlType.setAttribute("type"             ,"container");
+  divCurrDivHtmlType.setAttribute("placeholder"             ,"label");
+  divCurrDivHtmlType.setAttribute("value"             ,fieldObj.htmlType);
+    divCurrDivHtmlType.setAttribute("title","HtmlType");
+    divCurrDivHtmlType.setAttribute("class", "bmandatory");
+
+
+ var inpStrArr= "||PAGE|PAGE|TAP|TAP|CONTAINER|CONTAINER|TEXT|TEXT|LIST|LIST|OPTION|OPTION|DIV|DIV|INPUT|INPUT|DATE|DATE".split('|');
+var divCurrDivHtmlTypeOption="";
+
+  //alert(fieldObj.htmlType );
+          for(var i=0 ; i< inpStrArr.length;i+=2)
+          {
+
+              divCurrDivHtmlTypeOption=document.createElement("option");
+              
+              
+              divCurrDivHtmlTypeOption.value=inpStrArr[i];
+              divCurrDivHtmlTypeOption.appendChild(document.createTextNode(inpStrArr[i+1]));
+              divCurrDivHtmlTypeOption.id="option";
+
+
+              if( inpStrArr[i] == fieldObj.htmlType )
+              {
+                divCurrDivHtmlTypeOption.setAttribute('selected', 'true');
+              }
+                divCurrDivHtmlType.appendChild(divCurrDivHtmlTypeOption);
+
+          }
+
+
+
+
+var divCurrDivPreView=document.createElement("div");
+  divCurrDivPreView.setAttribute("parentid"        ,parentid);
+  divCurrDivPreView.setAttribute("baseid"          ,childDiv.id );
+
+  divCurrDivPreView.setAttribute("id"               ,childDiv.id +"Preview"+"Id");
+  divCurrDivPreView.setAttribute("mndf"             ,"Y");
+  divCurrDivPreView.setAttribute("childCount"       ,"0");
+  divCurrDivPreView.setAttribute("type"             ,"container");
+  divCurrDivPreView.setAttribute("placeholder"             ,"label");
+  divCurrDivPreView.setAttribute("value"             ,fieldObj.label);
+
+divCurrDivPreView.setAttribute("title","Preview");
+//divCurrDivPreView.setAttribute("class", "bmandatory");
+
+
+
+var divCurrDivListVal=document.createElement("input");
+  divCurrDivListVal.setAttribute("parentid"        ,parentid);
+  divCurrDivListVal.setAttribute("baseid"        ,childDiv.id );
+  divCurrDivListVal.setAttribute("id"               ,childDiv.id +"ListVal"+"Id");
+  divCurrDivListVal.setAttribute("mndf"             ,"Y");
+  divCurrDivListVal.setAttribute("childCount"       ,"0");
+  divCurrDivListVal.setAttribute("type"             ,"container");
+  divCurrDivListVal.setAttribute("placeholder"             ,"List Val");
+  divCurrDivListVal.setAttribute("value"             ,fieldObj.listVal);
+    divCurrDivListVal.setAttribute("title","ListVal");
+
+
+// Entitle
+
+var divCurrDivEntitle=document.createElement("select");
+  divCurrDivEntitle.setAttribute("parentid"        ,parentid);
+  divCurrDivEntitle.setAttribute("baseid"        ,childDiv.id );
+  divCurrDivEntitle.setAttribute("id"               ,childDiv.id +"Entitle"+"Id");
+  divCurrDivEntitle.setAttribute("mndf"             ,"Y");
+  divCurrDivEntitle.setAttribute("childCount"       ,"0");
+  divCurrDivEntitle.setAttribute("type"             ,"container");
+  divCurrDivEntitle.setAttribute("placeholder"             ,"Entitle");
+  divCurrDivEntitle.setAttribute("value"             ,fieldObj.entitle);
+    divCurrDivEntitle.setAttribute("title","editable ");
+
+
+
+
+ inpStrArr= "NONREADONLY|Y|READONLY|N".split('|');
+var divCurrDivEntitleOption="";
+
+  //alert(fieldObj.htmlType );
+          for(var i=0 ; i< inpStrArr.length;i+=2)
+          {
+
+              divCurrDivEntitleOption=document.createElement("option");
+              
+              
+              divCurrDivEntitleOption.value=inpStrArr[i];
+              divCurrDivEntitleOption.appendChild(document.createTextNode(inpStrArr[i+1]));
+              divCurrDivEntitleOption.id="option";
+
+
+              if( inpStrArr[i] == fieldObj.entitle )
+              {
+                divCurrDivEntitleOption.setAttribute('selected', 'true');
+              }
+                divCurrDivEntitle.appendChild(divCurrDivEntitleOption);
+
+          }
+
+
+
+var divCurrDivXml=document.createElement("select");
+  divCurrDivXml.setAttribute("parentid"        ,parentid);
+  divCurrDivXml.setAttribute("baseid"        ,childDiv.id );
+  divCurrDivXml.setAttribute("id"               ,childDiv.id +"Xml"+"Id");
+  divCurrDivXml.setAttribute("mndf"             ,"Y");
+  divCurrDivXml.setAttribute("childCount"       ,"0");
+  divCurrDivXml.setAttribute("type"             ,"container");
+  divCurrDivXml.setAttribute("placeholder"             ,"Xml");
+  divCurrDivXml.setAttribute("value"             ,fieldObj.entitle);
+    divCurrDivXml.setAttribute("title","Xml");
+
+
+
+ inpStrArr= "Y|Y|N|N".split('|');
+var divCurrDivEntitleOption="";
+
+  //alert(fieldObj.htmlType );
+          for(var i=0 ; i< inpStrArr.length;i+=2)
+          {
+
+              divCurrDivEntitleOption=document.createElement("option");
+              
+              
+              divCurrDivEntitleOption.value=inpStrArr[i];
+              divCurrDivEntitleOption.appendChild(document.createTextNode(inpStrArr[i+1]));
+              divCurrDivEntitleOption.id="option";
+
+
+              if( inpStrArr[i] == fieldObj.xml )
+              {
+                divCurrDivEntitleOption.setAttribute('selected', 'true');
+              }
+                divCurrDivXml.appendChild(divCurrDivEntitleOption);
+
+          }
+
+
+var divCurrDivDataType=document.createElement("select");
+  divCurrDivDataType.setAttribute("parentid"         ,parentid);
+  divCurrDivDataType.setAttribute("baseid"           ,childDiv.id );
+  divCurrDivDataType.setAttribute("id"               ,childDiv.id +"DataType"+"Id");
+  divCurrDivDataType.setAttribute("mndf"             ,"Y");
+  divCurrDivDataType.setAttribute("childCount"       ,"0");
+  divCurrDivDataType.setAttribute("type"             ,"container");
+  divCurrDivDataType.setAttribute("placeholder"             ,"Data Type");
+  divCurrDivDataType.setAttribute("value"             ,fieldObj.dataType);
+    divCurrDivDataType.setAttribute("title","dataType");
+
+
+
+
+ inpStrArr= "||PAGE|PAGE|TAP|TAP|CONTAINER|CONTAINER|TEXT|TEXT|LIST|LIST|OPTION|OPTION|DIV|DIV|INPUT|INPUT|DATE|DATE|VARCHAR|VARCHAR|AMOUNT|AMOUNT|NUMBER|NUMBER".split('|');
+var divCurrDivDataTypeOption="";
+
+  //alert(fieldObj.htmlType );
+          for(var i=0 ; i< inpStrArr.length;i+=2)
+          {
+
+              divCurrDivDataTypeOption=document.createElement("option");
+              
+              
+              divCurrDivDataTypeOption.value=inpStrArr[i];
+              divCurrDivDataTypeOption.appendChild(document.createTextNode(inpStrArr[i+1]));
+              divCurrDivDataTypeOption.id="option";
+
+
+              if( inpStrArr[i] == fieldObj.dataType )
+              {
+                divCurrDivDataTypeOption.setAttribute('selected', 'true');
+              }
+                divCurrDivDataType.appendChild(divCurrDivDataTypeOption);
+
+          }
+
+
+var divCurrDivDflt=document.createElement("input");
+  divCurrDivDflt.setAttribute("parentid"         ,parentid);
+  divCurrDivDflt.setAttribute("baseid"           ,childDiv.id );
+  divCurrDivDflt.setAttribute("id"               ,childDiv.id +"Dflt"+"Id");
+  divCurrDivDflt.setAttribute("mndf"             ,"Y");
+  divCurrDivDflt.setAttribute("childCount"       ,"0");
+  divCurrDivDflt.setAttribute("type"             ,"container");
+  divCurrDivDflt.setAttribute("placeholder"       ,"Dflt");
+  divCurrDivDflt.setAttribute("value"             ,fieldObj.dflt);
+    divCurrDivDflt.setAttribute("title","Dflt");
+
+
+var divButton=document.createElement("button");
+  divButton.setAttribute("parentid"        ,parentid );
+  divButton.setAttribute("baseid"         ,childDiv.id  );
+  //divButton.setAttribute();
+  divButton.type ="button";
+  divButton.setAttribute("mndf"             ,"Y");
+  
+  divButton.setAttribute("childCount"       ,"0");
+  divButton.setAttribute("value"       ,"onclick");
+  divButton.setAttribute("type"             ,"button");
+  //divButton.textContent = "Add Sibling";
+  divButton.setAttribute("title","Add Sibling");
+    divButton.setAttribute("onclick" ,"NewSibling(this)");
+
+
+
+
+ this.fontawesome = document.createElement('i');
+   //this.fontawesome.className       = "fa fa-repeat";
+   this.fontawesome.className       = "fa fa-clone";
+  
+   divButton.appendChild(this.fontawesome);
+   //this.divButton.appendChild(this.ButtonLabel);
+
+
+
+
+
+
+var divButtonDelete=document.createElement("button");
+  divButtonDelete.setAttribute("parentid"        ,parentid );
+  divButtonDelete.setAttribute("baseid"         ,childDiv.id  );
+  divButtonDelete.type ="button";
+  divButtonDelete.setAttribute("mndf"             ,"N");
+  divButtonDelete.setAttribute("childCount"       ,"0");
+  divButtonDelete.setAttribute("value"       ,"onclick");
+  divButtonDelete.setAttribute("type"             ,"button");
+//  divButtonDelete.textContent = "Delete";
+divButtonDelete.setAttribute("title","Delete");
+
+    divButtonDelete.setAttribute("onclick" ,"DeleteThis(this)");
+
+
+this.fontawesome = document.createElement('i');
+   //this.fontawesome.className       = "fa fa-repeat";
+   this.fontawesome.className       = "fa fa-minus-circle";
+  
+   divButtonDelete.appendChild(this.fontawesome);
+
+
+
+var divButtonAddChild=document.createElement("button");
+  divButtonAddChild.setAttribute("parentid"        ,parentid );
+  divButtonAddChild.setAttribute("baseid"         ,childDiv.id  );
+  divButtonAddChild.type ="button";
+  divButtonAddChild.setAttribute("childCount"       ,"0");
+  divButtonAddChild.setAttribute("value"       ,"onclick");
+  divButtonAddChild.setAttribute("type"             ,"button");
+  //divButtonAddChild.textContent = "AddChild";
+    divButtonAddChild.setAttribute("onclick" ,"NewChild(this)");
+
+
+    this.fontawesome = document.createElement('i');
+   //this.fontawesome.className       = "fa fa-repeat";
+   this.fontawesome.className       = "fa  fa-child";
+  
+   divButtonAddChild.appendChild(this.fontawesome);
+
+
+
+var divButtonPreview=document.createElement("button");
+  divButtonPreview.setAttribute("parentid"        ,parentid );
+  divButtonPreview.setAttribute("baseid"          ,childDiv.id );
+  divButtonPreview.type ="button";
+  divButtonPreview.setAttribute("mndf"             ,"Y");
+  divButtonPreview.setAttribute("childCount"       ,"0");
+  divButtonPreview.setAttribute("value"       ,"onclick");
+  divButtonPreview.setAttribute("type"             ,"button");
+ // divButtonPreview.textContent = "Preview";
+  divButtonPreview.setAttribute("title","Preview");
+    divButtonPreview.setAttribute("onclick" ,"PreView(this)");
+
+    //fa-television
+ this.fontawesome = document.createElement('i');
+   //this.fontawesome.className       = "fa fa-repeat";
+   this.fontawesome.className       = "fa  fa-television";
+  
+   divButtonPreview.appendChild(this.fontawesome);
+
+
+
+var divCurrDivPreViewSession=document.createElement("div");
+  divCurrDivPreViewSession.setAttribute("parentid"        ,parentid);
+  divCurrDivPreViewSession.setAttribute("baseid"        ,childDiv.id );
+  divCurrDivPreViewSession.setAttribute("id"               ,childDiv.id +"Preview"+"Id"  );
+  divCurrDivPreViewSession.setAttribute("mndf"             ,"Y");
+  divCurrDivPreViewSession.setAttribute("childCount"       ,"0");
+  divCurrDivPreViewSession.setAttribute("type"             ,"container");
+  divCurrDivPreViewSession.setAttribute("placeholder"             ,"name");
+  divCurrDivPreViewSession.setAttribute("class"             ,"bsession row");
+
+
+var divCurrDivPreViewHeader=document.createElement("div");
+  divCurrDivPreViewHeader.setAttribute("parentid"         ,parentid);
+  divCurrDivPreViewHeader.setAttribute("baseid"           ,childDiv.id );
+  divCurrDivPreViewHeader.setAttribute("id"               ,childDiv.id +"PreViewHeader"+ "Id" );
+  divCurrDivPreViewHeader.setAttribute("mndf"             ,"Y");
+  divCurrDivPreViewHeader.setAttribute("childCount"       ,"0");
+  divCurrDivPreViewHeader.setAttribute("type"             ,"container");
+  divCurrDivPreViewHeader.setAttribute("placeholder"             ,"name");
+  divCurrDivPreViewHeader.setAttribute("class"             ,"bheader row");
+
+
+var divCurrDivPreViewSession=this.CreateField(fieldObj,divCurrDivPreViewSession);
+
+
+
+//childDiv.textContent =fieldObj.name +
+//'|' +fieldObj.label        +    
+//'|' +fieldObj.task         
+//'|' +fieldObj.desc        +
+//'|' +fieldObj.htmlType    +
+//'|' +fieldObj.entitle     +
+//'|' +fieldObj.enttlname   +
+//'|' +fieldObj.mndf        +
+//'|' +fieldObj.dataType    +
+//'|' +fieldObj.cclass      +
+//'|' +fieldObj.parent      +
+//'|' +fieldObj.validate    +
+//'|' +fieldObj.dflt        +
+//'|' +fieldObj.min         +
+//'|' +fieldObj.max         +
+//'|' +fieldObj.tips        +
+//'|' +fieldObj.onkeyup     +
+//'|' +fieldObj.onchange    +
+//'|' +fieldObj.onkeydown   +
+//'|' +fieldObj.onkeypress  +
+//'|' +fieldObj.onclick     +
+//'|' +fieldObj.listVal     +
+//'|' +fieldObj.help        +
+//'|' +fieldObj.helpLink    +
+//'|' +fieldObj.xml             
+              ;
+
+if ( fieldObj.htmlType =="CONTAINER" || fieldObj.htmlType =="PAGE"  )
+{
+  childDiv.setAttribute("class","bcont");
+}
+else
+{
+  childDiv.setAttribute("class","bfield");
+}
+
+              divCurrDivPreViewHeader.appendChild(divCurrDivIdName);
+              divCurrDivPreViewHeader.appendChild(divCurrDivIdParentName);
+              divCurrDivPreViewHeader.appendChild(divCurrDivName);
+              
+              divCurrDivPreViewHeader.appendChild(divCurrDivLabel);
+              divCurrDivPreViewHeader.appendChild(divCurrDivXml);
+              divCurrDivPreViewHeader.appendChild(divCurrDivEntitle);
+              divCurrDivPreViewHeader.appendChild(divCurrDivTips);
+              divCurrDivPreViewHeader.appendChild(divCurrDivMndf);
+              divCurrDivPreViewHeader.appendChild(divCurrDivMin);
+              divCurrDivPreViewHeader.appendChild(divCurrDivMax);
+              divCurrDivPreViewHeader.appendChild(divCurrDivDflt);
+              divCurrDivPreViewHeader.appendChild(divCurrDivDataType);
+              divCurrDivPreViewHeader.appendChild(divCurrDivHtmlType);
+              
+              
+              divCurrDivPreViewHeader.appendChild(divCurrDivListVal);
+              if(fieldObj.htmlType !="PAGE"  )
+              {
+                
+                divCurrDivPreViewHeader.appendChild(divButton);
+              
+
+              }
+
+              
+              divCurrDivPreViewHeader.appendChild(divButtonDelete);
+
+
+              if(fieldObj.htmlType=="CONTAINER" || fieldObj.htmlType =="PAGE"  )
+              {
+                divCurrDivPreViewHeader.appendChild(divButtonAddChild);
+              
+              
+
+              }
+
+              divCurrDivPreViewHeader.appendChild(divButtonPreview);
+
+
+              childDiv.appendChild(divCurrDivPreViewHeader);
+              childDiv.appendChild(divCurrDivPreViewSession);
+
+
+  return childDiv;
+
+}
+
+USS.prototype.ProcessSJson=function(SchemaJson,parentId)
+{
+
+  var ParentObj=document.createElement("div");
+
+  //alert("GenSJson");
+  //alert(SchemaJson);
+  //var SchemaJsonTextId = document.getElementById("SchemaJsonTextId");
+  var child=document.createElement("div");
+
+  for( var i =0 ; i <  SchemaJson.length ; i++)
+  {
+    if (this.hasChild(SchemaJson[i]) )
+    {
+      
+      child=this.AddSubling(SchemaJson[i],parentId);
+      var childs=this.ProcessSJson(SchemaJson[i].childs ,child.id);
+
+      child.appendChild(childs);
+
+    }
+    else
+    {
+
+      child=this.AddSubling(SchemaJson[i],parentId);
+    }
+
+    ParentObj.appendChild(child);
+
+  }
+
+  return ParentObj;
+}
+
+
+
+
+USS.prototype.DeleteThis=function(obj)
+{
+
+
+
+    var baseid   =obj.getAttribute("baseid");
+    
+    var curObj    = document.getElementById(baseid );
+
+
+curObj.parentNode.removeChild(curObj);
+    //Container2IdParentNameId
+
+  
+
+ 
+
+
+}
+
+
+
+
+
+
+
+USS.prototype.AddChild = function(parentObj,fieldObj)
+{
+
+
+  var childDiv= document.createElement('div');
+
+    childDiv.id = "Container" + ContinerCount++;
+ 
+
+  return childDiv;
+
+
+}
 /*
 USS.prototype.debug= function(obj)
 {

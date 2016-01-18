@@ -37,6 +37,11 @@ function()
                     states[i].name != 'shell.error500' &&
                     states[i].name != 'shell' &&
                     states[i].name != 'dashboard' &&
+                    states[i].name != 'basicDetUSSView' &&
+                    states[i].name != 'basicDetUSSAdd' &&
+                    states[i].name != 'basicDetUSSNavi' &&
+                    states[i].name != 'SchemaGeneratorView' &&
+                    states[i].name != 'SchemaGenerator' &&
                     states[i].name != '') {
                     var tmplUrl = states[i].templateUrl;
                     if (tmplUrl) {
@@ -74,9 +79,12 @@ function()
       };
       $scope.uss_auth=function()
       {
-          loginService.authorizeSSO({     "grantType"     : "password"
+
+        $state.go('signup');
+
+          /*            loginService.authorizeSSO({     "grantType"     : "password" */
           /*loginService.authorizeSSO({     "grantType"     : "password" */
-                      ,'clientId'    :'CLIENTSP'
+           /*           ,'clientId'    :'CLIENTSP'
                       ,'scope'       : 'GSA'
                       ,'username'    : 'durai145@live.in'
                       ,'password'    : '1qaz2wsx'
@@ -87,7 +95,7 @@ function()
           console.log(resp);
           toaster.pop('success','this', JSON.stringify(resp));
           //alert('resp');
-        });
+        }); */
 
         //alert("I am in uss_submit");
       };

@@ -253,12 +253,24 @@ function()
 
 
     
-  $('#editor').heaerieDocs({ fileUploadError: $scope.showErrorAlert} );
+  
+
+
+$scope.$watch('$viewContentLoaded', function(){
+    //Here your view content is fully loaded !!
+
+    $('#editor').heaerieDocs({ fileUploadError: $scope.showErrorAlert} );
     window.prettyPrint && prettyPrint();
+    
+   $scope.initToolbarBootstrapBindings();
+  });
 
 
 	}];
 	
+
+
+
 
  // $scope.initToolbarBootstrapBindings();
 

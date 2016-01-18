@@ -23,7 +23,7 @@ return ['$resource',function  ($resource) {
     	*/
          getUserDetail    : { method:'POST', params:{"action" : "getUserDetail"}      }
         ,GrpMember        : { method:'POST', params:{"action" : "GrpMember"} }
-        ,getCardDetail    : { method:'POST', params:{"action" : "getCardDetail"}     }
+        ,getCardDetail       : { method:'POST', params:{"action" : "getCardDetail"}     }
         ,getStmtDescDb    : { method:'POST', params:{"action" : "getStmtDescDb"}     }
     });
 	

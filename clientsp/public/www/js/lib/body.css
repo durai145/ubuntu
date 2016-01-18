@@ -39,7 +39,7 @@ box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.75);
 	FONT-FAMILY: arial, helvetica, sans-serif;
 	 BACKGROUND-COLOR: #f4f4f4; 
 	 TEXT-ALIGN: left;
-	padding: 4px 1px 1px 1px; 
+	padding: 1px 1px 1px 1px; 
 	opacity: 1;
 	
 }
@@ -116,7 +116,7 @@ box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.75);
 .bheader
 {
 
-    padding-top: 5px;
+    padding-top: 8px;
     padding-bottom: 5px;
      padding-left: 10px;
     
@@ -159,3 +159,4 @@ box-shadow: 2px 2px 17px 0px rgba(0,0,0,0.75);
 	border-top-left-radius: 5px;
 
 }
+

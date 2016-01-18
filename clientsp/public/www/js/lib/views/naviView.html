@@ -26,30 +26,19 @@
         </nav-->
 
 
-    <div class="collapse navbar-collapse" id="MainNavBar">
-      <ul class="nav navbar-nav">
-                    
-                        <li
+
+
+    <div class="collapse navbar-collapse" id="MainNavBar" >
+
+      <ul class="nav navbar-nav" ng-repeat="group in entitlement track by $index" >
+
+<!-- ng-class="{(isAutoScroll()) ? 'icon-autoscroll' : 'icon-autoscroll-disabled'}" -->
+
+                    <li ng-class="{{( $state.is(group.grpName)) ? 'active' : 'sss'}}"  >
+                      <a href='{{group.grpLink}}'> {{group.grpName}}  </a> {{$state.current }}
+                    </li>
         
-        class="active"
-         
-
-        >
-             <a href='#/dashboard/'
-        > Dashboard  </a>
-                        </li>
-        
-                        <li
-         
-
-        >
-             <a href='#/basicDetUSSView'
-        > basicDetUSSView  </a>
-                        </li>
-
-                   <li>     <a href='#/SchemaGenerator'
-        > SchemaGenerator  </a>
-                        </li>
+                   
         
         <!--li class="active"><a href="#">Home</a></li-->
         <!--li class="dropdown"-->

@@ -8,7 +8,10 @@ define([
     './loginController'
     ,'./basicDetController'
     ,'./dashboardController'
-], function (loginController,basicDetController,dashboardController) {
+    ,'./SchemaGeneratorController'
+    ,'./naviController'
+    ,'./signupController'
+], function (loginController,basicDetController,dashboardController,SchemaGeneratorController,naviController,signupController) {
     'use strict';
 
     console.log(angular);
@@ -17,6 +20,9 @@ define([
         controllers.controller("loginController",loginController);
         controllers.controller("dashboardController",dashboardController);
         controllers.controller("basicDetController",basicDetController);
+        controllers.controller("SchemaGeneratorController",SchemaGeneratorController);
+        controllers.controller("naviController",naviController);
+        controllers.controller("signupController",signupController);
   
 
     return controllers;

@@ -165,7 +165,7 @@ var ussScript=us.frameGeneration(inpUsListVal
       console.log(appendObj.innerHTML);
 
       //return "<div> thsis dashboard from heaerieUssServiceProvider </div>";
-      return  "<div class='pageLayout'>"+appendObj.innerHTML + "</div>";
+      return  "<div class='pageLayout'> <div class='bcontainer'>"+appendObj.innerHTML + "</div></div>";
      
     }
   /*  catch(e)
@@ -215,6 +215,7 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
               {                
                
                 templateUrl : 'js/lib/views/loginView.html'
+                ,controller :  'naviController'
                // templateUrl : 'view/loginView.html'
               }
             }
@@ -229,6 +230,7 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
                
                 //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
                templateUrl : 'js/lib/views/naviView.html'
+               ,controller :  'naviController'
               }
               ,
 
@@ -246,6 +248,9 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
             }
         });
 
+
+
+
          $stateProvider.state('SchemaGenerator', 
         {
             url         : '/SchemaGenerator/'
@@ -255,6 +260,7 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
                
                 //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
                templateUrl : 'js/lib/views/naviView.html'
+               ,controller :  'naviController'
               }
               ,
 
@@ -263,9 +269,9 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
                
                 //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('basicDet','N',"FULL") //EIDT and ADD
                 //template : 'this is test'
-                templateUrl : 'js/lib/views/SchemaGeneratorView.html'
+                templateUrl : 'js/lib/views/SchemaGenerator.html'
 
-               ,controller :  'SchemaGenerator'
+               ,controller :  'SchemaGeneratorController'
               }
 
              
@@ -276,7 +282,7 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
 
  $stateProvider.state('basicDetUSSAdd', 
         {
-            url         : '/basicDetUSSAdd'
+            url         : '/basicDetUSSAdd/'
            ,views:{
 
              'pageMainContext' :
@@ -284,6 +290,7 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
                
                 //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
                templateUrl : 'js/lib/views/naviView.html'
+               ,controller :  'naviController'
               }
               ,
 
@@ -302,9 +309,9 @@ webApp.config(["heaerieUssServiceProvider", function(heaerieUssServiceProvider) 
 //basicDetUSSSave
 
 
-$stateProvider.state('basicDetUSSSave', 
+$stateProvider.state('SchemaGeneratorView', 
         {
-            url         : '/basicDetUSSSave'
+            url         : '/SchemaGeneratorView/'
            ,views:{
 
              'pageMainContext' :
@@ -312,6 +319,59 @@ $stateProvider.state('basicDetUSSSave',
                
                 //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
                templateUrl : 'js/lib/views/naviView.html'
+               ,controller :  'naviController'
+               
+              }
+              ,
+
+              'pageSubContext@SchemaGeneratorView' :
+              {                
+               
+                templateUrl : 'js/lib/views/SchemaGeneratorView.html'
+                ,controller :  'SchemaGeneratorController'
+                //template : 'this is test'
+               // templateUrl : 'view/loginView.html'
+              }
+            }
+        });
+$stateProvider.state('SchemaGenerator', 
+        {
+            url         : '/SchemaGenerator/'
+           ,views:{
+
+             'pageMainContext' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/naviView.html'
+               ,controller :  'naviController'
+               
+              }
+              ,
+
+              'pageSubContext@SchemaGenerator' :
+              {                
+               
+                templateUrl : 'js/lib/views/SchemaGenerator.html'
+                ,controller :  'SchemaGeneratorController'
+                //template : 'this is test'
+               // templateUrl : 'view/loginView.html'
+              }
+            }
+        });
+
+
+$stateProvider.state('basicDetUSSSave', 
+        {
+            url         : '/basicDetUSSSave/'
+           ,views:{
+
+             'pageMainContext' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/naviView.html'
+               ,controller :  'naviController'
               }
               ,
 
@@ -328,7 +388,7 @@ $stateProvider.state('basicDetUSSSave',
 
   $stateProvider.state('basicDetUSSNew', 
         {
-            url         : '/basicDetUSSNew'
+            url         : '/basicDetUSSNew/'
            ,views:{
 
              'pageMainContext' :
@@ -336,6 +396,7 @@ $stateProvider.state('basicDetUSSSave',
                
                 //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
                templateUrl : 'js/lib/views/naviView.html'
+               ,controller :  'naviController'
               }
               ,
 
@@ -352,7 +413,7 @@ $stateProvider.state('basicDetUSSSave',
 
   $stateProvider.state('basicDetUSSView', 
         {
-            url         : '/basicDetUSSView'
+            url         : '/basicDetUSSView/'
            ,views:{
 
              'pageMainContext' :
@@ -360,6 +421,7 @@ $stateProvider.state('basicDetUSSSave',
                
                 //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
                templateUrl : 'js/lib/views/naviView.html'
+               ,controller :  'naviController'
               }
               ,
 
@@ -378,7 +440,7 @@ $stateProvider.state('basicDetUSSSave',
 
 $stateProvider.state('basicDetUSSEdit', 
         {
-            url         : '/basicDetUSSEdit'
+            url         : '/basicDetUSSEdit/'
            ,views:{
 
              'pageMainContext' :
@@ -386,6 +448,7 @@ $stateProvider.state('basicDetUSSEdit',
                
                 //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
                templateUrl : 'js/lib/views/naviView.html'
+               ,controller :  'naviController'
               }
               ,
 
@@ -397,6 +460,34 @@ $stateProvider.state('basicDetUSSEdit',
                 ,controller :  'basicDetController'//template : 'this is test'
                // templateUrl : 'view/loginView.html'
               }
+            }
+        });
+
+
+ $stateProvider.state('signup', 
+        {
+            url         : '/signup/'
+           ,views:{
+              'pageMainContext' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/signupView.html'
+               ,controller :  'signupController'
+              }
+              ,
+
+              'pageSubContext@signup' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('basicDet','N',"FULL") //EIDT and ADD
+                //template : 'this is test'
+               // templateUrl : 'js/lib/views/dashboardView.html',controller :  'dashboardController'
+                template:  heaerieUssServiceProvider.GenHtmlTemplateFromSJson('signup','Y',"REGISTER")
+               ,controller :  'signupController'
+              }
+
+             
             }
         });
 
@@ -528,7 +619,7 @@ webApp.provider('$dashboardState', function($stateProvider,heaerieUssServiceProv
                     });
 */
 
-            alert('dynamic State Add');
+           // alert('dynamic State Add');
               $stateProvider.state('basicDetUSSNavi', 
         {
             url         : '/basicDetUSSNavi'
