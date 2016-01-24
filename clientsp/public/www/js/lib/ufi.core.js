@@ -14,6 +14,7 @@ var USS=function ()
 	this.count=0;
 	this.version="";
 	this.USSScript="";
+  this.ContinerCount=1;
 	//this.USSBrowserDetail_()
 //include system level javascripts
 //	this.USSIncludeLinks_("xml.js")
@@ -1241,7 +1242,7 @@ var elementCount=0;
   var returnJson ="[";
 
     
-  var form=document.forms[0];
+  var form=document.dynForm;
   var elmnts= form.elements;
   //returnJson.childs=new Array();
 
@@ -1264,19 +1265,19 @@ var elementCount=0;
                fieldObj    = new this.USSField_();
               var baseid =elmnts[i].getAttribute("baseid") ;
               //alert("elmnts[i].id=" + baseid);
-            IdName       = document.getElementById(baseid  + "IdName"     + "Id");
-            HtmlTypeId   = document.getElementById(baseid  + "HtmlType"   + "Id");
-            DataTypeId   = document.getElementById(baseid  + "DataType"   + "Id");
-            NameId       = document.getElementById(baseid  + "Name"       + "Id");
-            LabelId      = document.getElementById(baseid  + "Label"      + "Id");
-            ListValId    = document.getElementById(baseid  + "ListVal"    + "Id");
-            MndfId       = document.getElementById(baseid  + "Mndf"       + "Id");
-            EntitleId    = document.getElementById(baseid  + "Entitle"    + "Id");
-            DfltId       = document.getElementById(baseid  + "Dflt"       + "Id");
-            MaxId        = document.getElementById(baseid  + "Max"        + "Id");
-            MinId        = document.getElementById(baseid  + "Min"        + "Id");
-            TipsId       = document.getElementById(baseid  + "Tips"       + "Id");
-            XmlId        = document.getElementById(baseid  + "Xml"       + "Id");
+          var  IdName       = document.getElementById(baseid  + "IdName"     + "Id");
+          var  HtmlTypeId   = document.getElementById(baseid  + "HtmlType"   + "Id");
+          var  DataTypeId   = document.getElementById(baseid  + "DataType"   + "Id");
+          var  NameId       = document.getElementById(baseid  + "Name"       + "Id");
+          var  LabelId      = document.getElementById(baseid  + "Label"      + "Id");
+          var  ListValId    = document.getElementById(baseid  + "ListVal"    + "Id");
+          var  MndfId       = document.getElementById(baseid  + "Mndf"       + "Id");
+          var  EntitleId    = document.getElementById(baseid  + "Entitle"    + "Id");
+          var  DfltId       = document.getElementById(baseid  + "Dflt"       + "Id");
+          var  MaxId        = document.getElementById(baseid  + "Max"        + "Id");
+          var  MinId        = document.getElementById(baseid  + "Min"        + "Id");
+          var  TipsId       = document.getElementById(baseid  + "Tips"       + "Id");
+          var  XmlId        = document.getElementById(baseid  + "Xml"       + "Id");
             
 
             
@@ -1466,15 +1467,18 @@ USS.prototype.NewChild=function(obj)
 
 }
 
-this.ContinerCount=1;
+
 
 USS.prototype.AddSubling = function(fieldObj,parentid)
 {
+ this.ContinerCount= ++this.ContinerCount || 0;
 
+  //arguments.callee.count = ++arguments.callee.count || 1
 
   var childDiv= document.createElement('div');
 
-    childDiv.id = "Container" + this.ContinerCount++;
+    //childDiv.id = "Container" + this.ContinerCount++;
+    childDiv.id = "Container" + this.ContinerCount;
     //childDiv.class="bfield";
 
 
@@ -2023,14 +2027,16 @@ else
 
 }
 
-USS.prototype.ProcessSJson=function(SchemaJson,parentId)
+USS.prototype.ProcessSJson=function(SchemaJson,ParentObjId)
 {
 
-  var ParentObj=document.createElement("div");
+  //var ParentObj=document.createElement("div");
 
   //alert("GenSJson");
   //alert(SchemaJson);
   //var SchemaJsonTextId = document.getElementById("SchemaJsonTextId");
+
+    var ParentObj = document.getElementById(ParentObjId);
   var child=document.createElement("div");
 
   for( var i =0 ; i <  SchemaJson.length ; i++)
@@ -2038,7 +2044,7 @@ USS.prototype.ProcessSJson=function(SchemaJson,parentId)
     if (this.hasChild(SchemaJson[i]) )
     {
       
-      child=this.AddSubling(SchemaJson[i],parentId);
+      child=this.AddSubling(SchemaJson[i],ParentObj.id);
       var childs=this.ProcessSJson(SchemaJson[i].childs ,child.id);
 
       child.appendChild(childs);
@@ -2047,7 +2053,7 @@ USS.prototype.ProcessSJson=function(SchemaJson,parentId)
     else
     {
 
-      child=this.AddSubling(SchemaJson[i],parentId);
+      child=this.AddSubling(SchemaJson[i],ParentObj.id);
     }
 
     ParentObj.appendChild(child);

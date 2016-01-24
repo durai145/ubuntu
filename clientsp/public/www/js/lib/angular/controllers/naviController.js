@@ -62,10 +62,30 @@ $scope.entitlement=  [
     ,'link' :'#transAct'}
     
     ]
-  },{'grpOrderId':1
+  }
+
+  ,{'grpOrderId':1
   ,'groupId':1
   ,'grpName':'SchemaGenerator'
   ,'grpLink':'#/SchemaGenerator/'
+  ,'dfltPage' :1
+  ,'Pages': [ {
+         'pageOrderId' : '1'
+    ,'pageName' : 'DashBoard'
+    ,'url' :''
+    ,'link' :'#Dashboard'}
+    ,
+    {
+         'pageId' : '1'
+    ,'pageName' : 'Transaction Activity'
+    ,'url' :''
+    ,'link' :'#transAct'}
+    
+    ]
+  },{'grpOrderId':1
+  ,'groupId':1
+  ,'grpName':'KeyBoard'
+  ,'grpLink':'#/KeyBoard/'
   ,'dfltPage' :1
   ,'Pages': [ {
          'pageOrderId' : '1'

@@ -12,7 +12,7 @@ var ufiframegen = require('ufi.frameGen');
 var ufixml = require('ufi.xml');
 
 
-
+  var us = new ufiuss.USS();
 
 
 
@@ -252,7 +252,7 @@ catch(e)
 {
   var FrameId=document.getElementById('FrameId');
 
-  var us = new ufiuss.USS();
+
 
   var parentId=obj.getAttribute("parentid");
 
@@ -271,7 +271,7 @@ catch(e)
   div.setAttribute("mndf"             ,"Y");
   div.setAttribute("childCount"       ,"0");
   div.setAttribute("type"             ,"container");
-  div.id  = "container" + ContinerCount++;
+  div.id  = "container" + us.ContinerCount++;
 
 
 
@@ -433,7 +433,7 @@ catch(e)
 {
   var FrameId=document.getElementById('FrameId');
 
-  var us = new ufiuss.USS();
+  //var us = new ufiuss.USS();
 
   var parentId=obj.getAttribute("parentid");
 
@@ -453,7 +453,7 @@ catch(e)
   div.setAttribute("childCount"       ,"0");
   div.setAttribute("type"             ,"container");
   div.setAttribute("class","col-sm-6");
-  div.id  = "container" + ContinerCount++;
+  div.id  = "container" + us.ContinerCount++;
 
 
 
@@ -618,7 +618,7 @@ var Sibling=0;
 {
 
   //alert('in Sibling');
-  var us= new ufiuss.USS();
+  //var us= new ufiuss.USS();
 
   us.NewSibling(obj);
 }
@@ -628,13 +628,15 @@ ProcessSJson=function()
 {
 
  // alert('in ProcessSJson');
-  var us= new ufiuss.USS();
+ // var us= new ufiuss.USS();
 
   var parentObj=document.getElementById('container0');
   var SchemaJsonTextId=document.getElementById('SchemaJsonTextId');
 
   var SchemaJson = eval(SchemaJsonTextId.value);
-  parentObj.appendChild( us.ProcessSJson(SchemaJson , parentObj.id));
+  //parentObj.appendChild(
+   us.ProcessSJson(SchemaJson , parentObj.id);
+   //);
 
 
 }
@@ -643,7 +645,7 @@ NewChild=function(obj)
 {
 
 //  alert('NewChild');
-  var us= new ufiuss.USS();
+ // var us= new ufiuss.USS();
 
   us.NewChild(obj);
 }
@@ -652,16 +654,38 @@ DeleteThis=function(obj)
 {
 
  // alert('DeleteThis');
-  var us=new ufiuss.USS();
+ // var us=new ufiuss.USS();
   us.DeleteThis(obj);
 }
 
 
 
+
+GenSJson=function (obj)
+{
+ // var us= new USS();
+
+  var parentObj=document.getElementById('container0');
+  var SchemaJsonTextId=document.getElementById('SchemaJsonTextId');
+  var SchemaJsonOuputId=document.getElementById('SchemaJsonOutputId');
+
+  var SchemaJson = eval(SchemaJsonTextId.value);
+  
+
+    var  outPut =us.GenSJson(parentObj.id);
+    console.log(outPut);
+    var jsonOutPut=JSON.stringify(  outPut );
+
+    //alert(jsonOutPut);
+       SchemaJsonOuputId.value =jsonOutPut;
+
+}
+
+
 PreView=function(obj)
 {
 //alert('Preview 0');
-var us = new ufiuss.USS();
+//var us = new ufiuss.USS();
 us.Preview(obj);
 
 }

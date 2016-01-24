@@ -359,6 +359,31 @@ $stateProvider.state('SchemaGenerator',
               }
             }
         });
+$stateProvider.state('KeyBoard', 
+        {
+            url         : '/KeyBoard/'
+           ,views:{
+
+             'pageMainContext' :
+              {                
+               
+                //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('N')
+               templateUrl : 'js/lib/views/naviView.html'
+               ,controller :  'naviController'
+               
+              }
+              ,
+
+              'pageSubContext@KeyBoard' :
+              {                
+               
+                templateUrl : 'js/lib/views/keyBoard.html'
+                ,controller :  'keyBoardController'
+                //template : 'this is test'
+               // templateUrl : 'view/loginView.html'
+              }
+            }
+        });
 
 
 $stateProvider.state('basicDetUSSSave', 

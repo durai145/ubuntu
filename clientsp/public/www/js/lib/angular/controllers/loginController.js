@@ -42,6 +42,7 @@ function()
                     states[i].name != 'basicDetUSSNavi' &&
                     states[i].name != 'SchemaGeneratorView' &&
                     states[i].name != 'SchemaGenerator' &&
+                    states[i].name != 'KeyBoard' &&
                     states[i].name != '') {
                     var tmplUrl = states[i].templateUrl;
                     if (tmplUrl) {

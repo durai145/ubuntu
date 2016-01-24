@@ -1,4 +1,4 @@
-/home/durai/node/uss13/hdocs/public/www/js/lib/external/bootstrap/jquery.hotkeys.js/*
+/*
  * jQuery Hotkeys Plugin
  * Copyright 2010, John Resig
  * Dual licensed under the MIT or GPL Version 2 licenses.

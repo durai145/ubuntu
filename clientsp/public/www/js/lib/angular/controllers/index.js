@@ -11,7 +11,8 @@ define([
     ,'./SchemaGeneratorController'
     ,'./naviController'
     ,'./signupController'
-], function (loginController,basicDetController,dashboardController,SchemaGeneratorController,naviController,signupController) {
+    ,'./keyBoardController'
+], function (loginController,basicDetController,dashboardController,SchemaGeneratorController,naviController,signupController,keyBoardController) {
     'use strict';
 
     console.log(angular);
@@ -23,6 +24,7 @@ define([
         controllers.controller("SchemaGeneratorController",SchemaGeneratorController);
         controllers.controller("naviController",naviController);
         controllers.controller("signupController",signupController);
+        controllers.controller("keyBoardController",keyBoardController);
   
 
     return controllers;
