@@ -5,6 +5,39 @@ function()
 	return [ '$scope' , 'toaster','basicDetService','$state',function($scope,toaster,basicDetService,$state){
 
 
+
+var ufivalidate=require("ufi.validate");
+
+ var VAL=new ufivalidate.VAL();
+
+$scope.ErrorBox         =VAL.ErrorBox        ;
+$scope.onKeyUp          =VAL.onKeyUp         ;
+$scope.onKeyDown        =VAL.onKeyDown       ;
+$scope.onKeyPress       =VAL.onKeyPress      ;
+$scope.onChange         =VAL.onChange        ;
+$scope.valAmount        =VAL.valAmount       ;
+$scope.valNumber        =VAL.valNumber       ;
+$scope.IsFloate         =VAL.IsFloate        ;
+$scope.IsPositiveNumber =VAL.IsPositiveNumber;
+$scope.onValidate       =VAL.onValidate      ;
+$scope.onClick          =VAL.onClick         ;
+$scope.fnValidate       =VAL.fnValidate      ;
+
+var ErrorBox         =VAL.ErrorBox        ;
+var onKeyUp          =VAL.onKeyUp         ;
+var onKeyDown        =VAL.onKeyDown       ;
+var onKeyPress       =VAL.onKeyPress      ;
+var onChange         =VAL.onChange        ;
+var valAmount        =VAL.valAmount       ;
+var valNumber        =VAL.valNumber       ;
+var IsFloate         =VAL.IsFloate        ;
+var IsPositiveNumber =VAL.IsPositiveNumber;
+var onValidate       =VAL.onValidate      ;
+var onClick          =VAL.onClick         ;
+var fnValidate       =VAL.fnValidate      ;
+
+
+
 $scope.entitlement=  [
   {
    'grpOrderId':1

@@ -623,23 +623,19 @@ var Sibling=0;
   us.NewSibling(obj);
 }
 
-
-ProcessSJson=function()
+ ProcessSJson=function()
 {
-
- // alert('in ProcessSJson');
- // var us= new ufiuss.USS();
+ // var us= new USS();
 
   var parentObj=document.getElementById('container0');
   var SchemaJsonTextId=document.getElementById('SchemaJsonTextId');
 
   var SchemaJson = eval(SchemaJsonTextId.value);
-  //parentObj.appendChild(
-   us.ProcessSJson(SchemaJson , parentObj.id);
-   //);
+  parentObj.appendChild( us.ProcessSJson(SchemaJson , parentObj.id));
 
 
 }
+
 
 NewChild=function(obj)
 {

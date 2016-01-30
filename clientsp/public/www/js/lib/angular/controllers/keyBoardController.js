@@ -19,6 +19,381 @@ chaArr[2]='\\';
 
 
 
+
+
+$scope.isNedil=function(b1,b2,b3)
+{ 
+
+
+var NedilConst=new Array(
+ 0xE0AE86
+,0xE0AE88
+,0xE0AE8A
+,0xE0AE8F
+,0xE0AE90
+,0xE0AE93
+,0xE0AE94
+,0xE0AEBE
+,0xE0AF80
+,0xE0AF82
+,0xE0AF87
+,0xE0AF88
+,0xE0AF8B
+,0xE0AF8C 
+); 
+var byte1,byte2,byte3;
+
+var rtBool=0x00;
+var constValue=0x0;
+
+//var longValue=constValue|parseInt(b1)<<(3*8)|parseInt(b2)<<(2*8)|parseInt(b3)<<(1*8);
+
+var byte1=  b1.charCodeAt();
+var byte2=  b2.charCodeAt();
+var byte3=  b3.charCodeAt();
+
+byte1= byte1<<8*2;
+byte2= byte2<<8*1;
+byte3= byte3;
+
+var longValue=constValue|byte1|byte2|byte3;
+
+for ( var j = 0;j< NedilConst.length ;j++)
+{
+  if(longValue==NedilConst[j])
+  {
+
+
+    rtBool=0x01;
+    break;
+  }
+
+}
+
+  return rtBool;
+}
+$scope.isUyir=function(b1,b2,b3)
+{ 
+
+
+var UyirConst=new Array(
+  0xE0AE85
+   ,0xE0AE87
+   ,0xE0AE89 ,0xE0AE8E ,0xE0AE92 ,0xE0AE86 ,0xE0AE88 ,0xE0AE8A ,0xE0AE8F ,0xE0AE90 ,0xE0AE93 ,0xE0AE94 
+); 
+var byte1,byte2,byte3;
+
+var rtBool=0x00;
+var constValue=0x0;
+
+//var longValue=constValue|parseInt(b1)<<(3*8)|parseInt(b2)<<(2*8)|parseInt(b3)<<(1*8);
+
+var byte1=  b1.charCodeAt();
+var byte2=  b2.charCodeAt();
+var byte3=  b3.charCodeAt();
+
+byte1= byte1<<8*2;
+byte2= byte2<<8*1;
+byte3= byte3;
+
+var longValue=constValue|byte1|byte2|byte3;
+
+for ( var j = 0;j< UyirConst.length ;j++)
+{
+  if(longValue==UyirConst[j])
+  {
+
+
+    rtBool=0x01;
+    break;
+  }
+
+}
+
+  return rtBool;
+}
+$scope.isSymbol=function(b1,b2,b3)
+{ 
+
+
+var MeiConst=new Array(
+ 0xE0AF8D
+,0xE0AEBE
+,0xE0AEBF
+,0xE0AF80
+,0xE0AF81
+,0xE0AF82
+,0xE0AF86
+,0xE0AF87
+,0xE0AF88
+,0xE0AF8A
+,0xE0AF8B
+,0xE0AF8C
+); 
+var byte1,byte2,byte3;
+
+var rtBool=0x00;
+var constValue=0x0;
+
+//var longValue=constValue|parseInt(b1)<<(3*8)|parseInt(b2)<<(2*8)|parseInt(b3)<<(1*8);
+
+var byte1=  b1.charCodeAt();
+var byte2=  b2.charCodeAt();
+var byte3=  b3.charCodeAt();
+
+byte1= byte1<<8*2;
+byte2= byte2<<8*1;
+byte3= byte3;
+
+var longValue=constValue|byte1|byte2|byte3;
+
+for ( var j = 0;j< MeiConst.length ;j++)
+{
+  if(longValue==MeiConst[j])
+  {
+
+
+    rtBool=0x01;
+    break;
+  }
+
+}
+
+  return rtBool;
+}
+$scope.isMei=function(b1,b2,b3)
+{ 
+
+
+var MeiConst=new Array(
+ 0xE0AE95
+,0xE0AE9A
+,0xE0AE9F
+,0xE0AEA4
+,0xE0AEAA
+,0xE0AEB1
+,0xE0AE99
+,0xE0AE9E
+,0xE0AEA3
+,0xE0AEA8
+,0xE0AEAE
+,0xE0AEA9
+,0xE0AEAF
+,0xE0AEB0
+,0xE0AEB2
+,0xE0AEB5
+,0xE0AEB4
+,0xE0AEB3
+); 
+var byte1,byte2,byte3;
+
+var rtBool=0x00;
+var constValue=0x0;
+
+//var longValue=constValue|parseInt(b1)<<(3*8)|parseInt(b2)<<(2*8)|parseInt(b3)<<(1*8);
+
+var byte1=  b1.charCodeAt();
+var byte2=  b2.charCodeAt();
+var byte3=  b3.charCodeAt();
+
+byte1= byte1<<8*2;
+byte2= byte2<<8*1;
+byte3= byte3;
+
+var longValue=constValue|byte1|byte2|byte3;
+
+for ( var j = 0;j< MeiConst.length ;j++)
+{
+  if(longValue==MeiConst[j])
+  {
+
+
+    rtBool=0x01;
+    break;
+  }
+
+}
+
+  return rtBool;
+}
+$scope.getMeiType=function(b1,b2,b3)
+{ 
+
+
+var valConst=new Array(
+ 0xE0AE95
+,0xE0AE9A
+,0xE0AE9F
+,0xE0AEA4
+,0xE0AEAA
+,0xE0AEB1
+);
+var melConst=new Array(
+ 0xE0AE99
+,0xE0AE9E
+,0xE0AEA3
+,0xE0AEA8
+,0xE0AEAE
+,0xE0AEA9
+); 
+var idaConst=new Array(
+ 0xE0AE99
+,0xE0AE9E
+,0xE0AEA3
+,0xE0AEA8
+,0xE0AEAE
+,0xE0AEA9
+); 
+var byte1,byte2,byte3;
+
+var rtBool=0x0;
+var constValue=0x0;
+
+//var longValue=constValue|parseInt(b1)<<(3*8)|parseInt(b2)<<(2*8)|parseInt(b3)<<(1*8);
+
+var byte1=  b1.charCodeAt();
+var byte2=  b2.charCodeAt();
+var byte3=  b3.charCodeAt();
+
+byte1= byte1<<8*2;
+byte2= byte2<<8*1;
+byte3= byte3;
+
+var longValue=constValue|byte1|byte2|byte3;
+
+for ( var j = 0;j< valConst.length ;j++)
+{
+  if(longValue==valConst[j])
+  {
+
+
+    rtBool=0x01;
+    break;
+  }
+
+}
+for ( var j = 0;j< melConst.length ;j++)
+{
+  if(longValue==melConst[j])
+  {
+
+
+    rtBool=02;
+    break;
+  }
+
+}
+for ( var j = 0;j< idaConst.length ;j++)
+{
+  if(longValue==idaConst[j])
+  {
+
+
+    rtBool=03;
+    break;
+  }
+
+}
+
+  return rtBool;
+}
+
+
+$scope.stringToByteArray=function(str) {
+    var b = [], i, unicode;
+    for(i = 0; i < str.length; i++) {
+        unicode = str.charCodeAt(i);
+        // 0x00000000 - 0x0000007f -> 0xxxxxxx
+        if (unicode <= 0x7f) {
+            b.push(String.fromCharCode(unicode));
+        // 0x00000080 - 0x000007ff -> 110xxxxx 10xxxxxx
+        } else if (unicode <= 0x7ff) {
+            b.push(String.fromCharCode((unicode >> 6) | 0xc0));
+            b.push(String.fromCharCode((unicode & 0x3F) | 0x80));
+        // 0x00000800 - 0x0000ffff -> 1110xxxx 10xxxxxx 10xxxxxx
+        } else if (unicode <= 0xffff) {
+            b.push(String.fromCharCode((unicode >> 12) | 0xe0));
+            b.push(String.fromCharCode(((unicode >> 6) & 0x3f) | 0x80));
+            b.push(String.fromCharCode((unicode & 0x3f) | 0x80));
+        // 0x00010000 - 0x001fffff -> 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+        } else {
+            b.push(String.fromCharCode((unicode >> 18) | 0xf0));
+            b.push(String.fromCharCode(((unicode >> 12) & 0x3f) | 0x80));
+            b.push(String.fromCharCode(((unicode >> 6) & 0x3f) | 0x80));
+            b.push(String.fromCharCode((unicode & 0x3f) | 0x80));
+        }
+    }
+
+    return b;
+}
+
+
+
+$scope.doCompile=function(val)
+{
+  var retVal=val;
+  var inpStrArr=$scope.stringToByteArray(val);
+
+  var respJson=[];
+var j=0;
+
+
+  if( inpStrArr.length >3)
+  for(var i=0; i<inpStrArr.length;)
+  {
+
+
+
+      if (inpStrArr[i].charCodeAt()== 0xE0)
+      {
+      var elmJson =[];
+       var mei     =$scope.isMei(inpStrArr[i],inpStrArr[i+1],inpStrArr[i+2]);
+       var uyir    =$scope.isUyir(inpStrArr[i],inpStrArr[i+1],inpStrArr[i+2]);
+       var meiType =$scope.getMeiType(inpStrArr[i],inpStrArr[i+1],inpStrArr[i+2]);
+       var Nedil   =$scope.isNedil(inpStrArr[i],inpStrArr[i+1],inpStrArr[i+2]);
+       var symbol   =$scope.isSymbol(inpStrArr[i],inpStrArr[i+1],inpStrArr[i+2]);
+
+       elmJson.push({'mei'     : mei });
+       elmJson.push({'uyir'    : uyir });
+       elmJson.push({'meiType' : meiType });
+       elmJson.push({'symbol'  : symbol });
+       elmJson.push({'Nedil'   : Nedil });
+       elmJson.push({'h1'      : d2h(inpStrArr[i].charCodeAt()) });
+       elmJson.push({'h2'      : d2h(inpStrArr[i+1].charCodeAt())  });
+       elmJson.push({'h3'      : d2h(inpStrArr[i+2].charCodeAt()) });
+       respJson.push({'ezuthu' : elmJson});
+       i+=3;
+     }
+     else
+     {
+      i++;
+     }
+  }
+
+
+document.getElementById('json').value= JSON.stringify(respJson);
+
+  return retVal ;
+
+}
+
+$scope.compile=function()
+{
+//alert("compile" + editor);
+var ed=document.getElementById('editor').innerText;
+
+var compileValue=$scope.doCompile(ed);
+
+
+document.getElementById('pad').value=compileValue;
+
+
+
+
+
+
+}
+
 $scope.keyBoard=function()
 {
 
@@ -325,46 +700,24 @@ var readFileIntoDataUrl = function (fileInfo) {
               if(command == "doMapForM")
               {
 
-                  console.log(e);
-
-
-                  document.execCommand('insertText',true,change(offsetReplace(String.fromCharCode(e.keyCode + 32))));
-
-                    /* e.keyIdentifier="U+004F";
-                  e.keyCode=78;
-                  e.originalEvent.keyIdentifier="U+004F";
-                  e.originalEvent.keyCode=78;
-                  */
-
-                  //console.log(e.currentTarget.offset());
-/*
-                   if (  e.shiftKey == true ){
-                      //e.currentTarget.innerHTML= e.currentTarget.innerHTML +"<span title='"+String.fromCharCode(e.keyCode)+"'> "+change(offsetReplace(String.fromCharCode(e.keyCode)))+"</span>"
-                      e.currentTarget.innerHTML= e.currentTarget.innerHTML +"<span title='"+String.fromCharCode(e.keyCode)+"'> "+change(offsetReplace(String.fromCharCode(e.keyCode)))+"</span>"
-                   }
-                    else{
-
-                       //  e.currentTarget.innerHTML= e.currentTarget.innerHTML +"<span title='"+String.fromCharCode(e.keyCode)+"'> "+change(offsetReplace(String.fromCharCode(e.keyCode + 32)))+"</span>"
-                         e.currentTarget.innerHTML= e.currentTarget.innerHTML +"<span title='"+String.fromCharCode(e.keyCode)+"'> "+change(offsetReplace(String.fromCharCode(e.keyCode + 32)))+"</span>"
-                 
-                    }
-*/
+                if (  e.shiftKey == true )
+                {
+                  document.execCommand('insertText',true,change(offsetReplace(String.fromCharCode(e.keyCode ))));
+                }
+                else
+                {
+                  document.execCommand('insertText',true,change(offsetReplace(String.fromCharCode(e.keyCode +32 ))));
+               
+                }
                 e.preventDefault();
                 e.stopPropagation();
-
-
-                //document.execCommand("innerHTML", true, change(offsetReplace(String.fromCharCode(e.keyCode + 32))));
-
-                console.log(e);
-
               }
               else
               {
-               e.preventDefault();
-              
-              e.stopPropagation();
-              execCommand(command);
-            }
+                e.preventDefault();
+                e.stopPropagation();
+                execCommand(command);
+              }
 
             }
           }).keyup(hotkey, function (e) {
@@ -379,8 +732,8 @@ var readFileIntoDataUrl = function (fileInfo) {
         var sel = window.getSelection();
         if (sel.getRangeAt && sel.rangeCount) {
 
-          console.log('getCurrentRange:');
-          console.log(sel.getRangeAt(0));
+         // console.log('getCurrentRange:');
+          //console.log(sel.getRangeAt(0));
           return sel.getRangeAt(0);
         }
       },
@@ -507,7 +860,8 @@ var readFileIntoDataUrl = function (fileInfo) {
       'ctrl+e meta+e': 'justifycenter',
       'ctrl+j meta+j': 'justifyfull',
       'shift+tab': 'outdent', 
-      'a b c d e f g h i j k l m n o p q r s t u v w x y z': 'doMapForM',
+      'a b c d e f g h i j k l m n o p q r s t u v w x y z ': 'doMapForM',
+      'shift+a shift+b shift+c shift+d shift+e shift+f shift+g shift+h shift+i shift+j shift+k shift+l shift+m shift+n shift+o shift+p shift+q shift+r shift+s shift+t shift+u shift+v shift+w shift+x shift+y shift+z': 'doMapForM',
       'tab': 'indent'
     },
     toolbarSelector: '[data-role=editor-toolbar]',
@@ -577,9 +931,6 @@ $.fn.selectRange = function(start, end) {
 
 
 $scope.$watch('$viewContentLoaded', function(){
-    //Here your view content is fully loaded !!
-
-alert('on viewContentLoaded');
     $('#editor').heaerieDocs({ fileUploadError: $scope.showErrorAlert} );
     window.prettyPrint && prettyPrint();
     
@@ -591,7 +942,7 @@ alert('on viewContentLoaded');
 
  $scope.$on('$viewChangeSuccess', function(){
     //Here your view content is fully loaded !!
-    alert('on viewContentLoaded');
+   // alert('on viewContentLoaded');
     //$scope.getUserDetail();
   });
 

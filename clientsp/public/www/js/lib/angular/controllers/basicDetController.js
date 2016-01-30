@@ -4,6 +4,91 @@ function()
 
 	return [ '$scope' , 'toaster','basicDetService','$state',function($scope,toaster,basicDetService,$state){
 
+var ufivalidate=require("ufi.validate");
+
+ var VAL=new ufivalidate.VAL();
+
+$scope.ErrorBox         =VAL.ErrorBox        ;
+$scope.onKeyUp          =VAL.onKeyUp         ;
+$scope.onKeyDown        =VAL.onKeyDown       ;
+$scope.onKeyPress       =VAL.onKeyPress      ;
+$scope.onChange         =VAL.onChange        ;
+$scope.valAmount        =VAL.valAmount       ;
+$scope.valNumber        =VAL.valNumber       ;
+$scope.IsFloate         =VAL.IsFloate        ;
+$scope.IsPositiveNumber =VAL.IsPositiveNumber;
+$scope.onValidate       =VAL.onValidate      ;
+$scope.onClick          =VAL.onClick         ;
+$scope.fnValidate       =VAL.fnValidate      ;
+/*var ErrorBox         =VAL.ErrorBox        ;
+var onKeyUp          =VAL.onKeyUp         ;
+var onKeyDown        =VAL.onKeyDown       ;
+var onKeyPress       =VAL.onKeyPress      ;
+var onChange         =VAL.onChange        ;
+var valAmount        =VAL.valAmount       ;
+var valNumber        =VAL.valNumber       ;
+var IsFloate         =VAL.IsFloate        ;
+var IsPositiveNumber =VAL.IsPositiveNumber;
+var onValidate       =VAL.onValidate      ;
+var onClick          =VAL.onClick         ;
+var fnValidate       =VAL.fnValidate      ;
+*/
+
+onClick=   function onClick(obj)
+{
+ // alert('onClick');
+VAL.onClick(obj);
+
+}
+onChange=   function onChange(obj)
+{
+ // alert('onClick');
+VAL.onChange(obj);
+
+}
+IsPositiveNumber=   function IsPositiveNumber(obj)
+{
+ // alert('onClick');
+VAL.IsPositiveNumber(obj);
+
+}
+IsFloate=   function IsFloate(obj)
+{
+ // alert('onClick');
+VAL.IsFloate(obj);
+
+}
+valAmount=   function valAmount(obj)
+{
+ // alert('onClick');
+VAL.valAmount(obj);
+
+}
+ErrorBox=   function ErrorBox(obj)
+{
+ // alert('onClick');
+VAL.ErrorBox(obj);
+
+}
+onKeyDown=   function onKeyDown(obj)
+{
+ // alert('onKeyDown');
+VAL.onKeyDown(obj);
+
+}
+onKeyUp=   function onKeyUp(obj)
+{
+ // alert('onKeyDown');
+VAL.onKeyUp(obj);
+
+}
+
+onKeyPress=   function onKeyPress(obj)
+{
+ // alert('onKeyDown');
+VAL.onKeyPress(obj);
+
+}
 
 
 

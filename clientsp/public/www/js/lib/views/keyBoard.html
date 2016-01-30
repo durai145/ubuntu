@@ -21,20 +21,13 @@ except left position is wrong */
 
 
  <head>
-    <meta charset="utf-8">
-    <title>Tiny, opensource, Bootstrap WYSIWYG rich text editor from MindMup</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="keywords" content="opensource rich wysiwyg text editor jquery bootstrap execCommand html5" />
-    <meta name="description" content="This tiny jQuery Bootstrap WYSIWYG plugin turns any DIV into a HTML5 rich text editor" />
-    <link rel="apple-touch-icon" href="//mindmup.s3.amazonaws.com/lib/img/apple-touch-icon.png" />
-    <link rel="shortcut icon" href="http://mindmup.s3.amazonaws.com/lib/img/favicon.ico" >
-   
+    <meta charset="utf-8"> 
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
     <script src="/www/js/lib/external/bootstrap/jquery.hotkeys.js"></script>
     <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-    <script src="/www/js/lib/external/bootstrap/google-code-prettify/prettify.js"></script>
+    <!--script src="/www/js/lib/external/bootstrap/google-code-prettify/prettify.js"></script-->
     <!--link href="hDocindex.css" rel="stylesheet"-->
     <script src="/www/js/lib/external/bootstrap/bootstrap-heaerieDoc.js"></script>
   </head>
@@ -128,6 +121,11 @@ div[data-role="editor-toolbar"] {
         <a class="btn" data-edit="insertTable" title="Insert Table (Ctrl/Cmd+T)"><i class="fa fa-table"></i></a>
      
       </div>
+
+       <div class="btn-group">
+        <a class="btn" data-edit="insertHTML" title="Insert Table (Ctrl/Cmd+H)"><i class="fa fa-table"></i></a>
+     
+      </div>
       <div class="btn-group">
       <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="icon-link"></i></a>
         <div class="dropdown-menu input-append">
@@ -149,7 +147,7 @@ div[data-role="editor-toolbar"] {
       <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
     </div>
 
-    <div id="editor">
+    <div id="editor"  ng-model="editor" >
       
     </div>
 <div id="test">  Key Board</div>
@@ -170,7 +168,10 @@ div[data-role="editor-toolbar"] {
 <option value=2304>HINDI</option>
 </select>
 
+
+<input type="button" class="cbutton" value="Compile" ng-click="compile();">
 <textarea id="pad" width="300" height="20" ></textarea>
+<textarea id="json" width="300" height="20" ></textarea>
 
 
 

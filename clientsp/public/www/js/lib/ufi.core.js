@@ -302,6 +302,29 @@ if(action.indexOf("A")!=-1)
 	
 }
 
+USS.prototype.USSCheckMode=function(mode, inpMode)
+{
+
+
+if ( mode === undefined)
+{
+
+}
+else
+{
+  var modeArr= mode.split('|');
+  for(var i=0; i<modeArr.length; i++ )
+  {
+    if( modeArr[i]== inpMode)
+    {
+      return true;
+    }
+  }
+}
+
+  return false;
+}
+
 
 USS.prototype.USSCreateHeader=function(title, action,name, mode)
 {
@@ -317,7 +340,7 @@ USS.prototype.USSCreateHeader=function(title, action,name, mode)
   this.newContent = document.createTextNode(title);
   this.ElA.appendChild(this.newContent );
 
-  if( mode =="EDIT" || mode == "FULL")
+  if( this.USSCheckMode(mode ,"EDIT")  || this.USSCheckMode(mode , "FULL"))
   {
   
   	if(action.indexOf("E")!= -1)
@@ -345,7 +368,7 @@ this.fontawesome = document.createElement('i');
 }
 
 
- if( mode =="SAVE")
+ if(  this.USSCheckMode(mode , "SAVE") )
   {
   
   	if(action.indexOf("E")!= -1)
@@ -372,7 +395,7 @@ this.fontawesome = document.createElement('i');
 
 }
 
-if(mode =="ADD" )
+if( this.USSCheckMode(mode , "ADD") )
 {
 
 if(action.indexOf("A")!=-1)
@@ -398,7 +421,7 @@ if(action.indexOf("A")!=-1)
  
  }
 
-if(mode =="NEW" || mode== "FULL")
+if(this.USSCheckMode(mode , "NEW") || this.USSCheckMode(mode ,  "FULL"))
 {
 
 if(action.indexOf("A")!=-1)
@@ -424,7 +447,7 @@ if(action.indexOf("A")!=-1)
  
  }
 
-if( mode == "ADD" || mode =="EDIT" || mode == "SAVE")
+if( this.USSCheckMode(mode , "ADD") || this.USSCheckMode(mode , "EDIT")   ||this.USSCheckMode(mode , "SAVE") )
 {
 
 //<a href="#" class="delete btn btn-danger btn-small">delete</a>
@@ -447,7 +470,7 @@ if( mode == "ADD" || mode =="EDIT" || mode == "SAVE")
 
 
 
-if( mode == "REGISTER")
+if( this.USSCheckMode(mode , "REGISTER")  )
 {
 
 //<a href="#" class="delete btn btn-danger btn-small">delete</a>
@@ -456,12 +479,32 @@ if( mode == "REGISTER")
    this.ElEditButton.value           = "Register" ;
   // this.ElEditButton.setAttribute("href","#notes/delete");
   // this.ElEditButton.setAttribute("href","#/dashboard/");
-   this.ElEditButton.setAttribute("ng-click","goUrl('"+name +"USSRegister')");
-   this.ButtonLabel         = document.createTextNode("Rigister");
+   this.ElEditButton.setAttribute("ng-click","RegisterUser()");
+   this.ButtonLabel         = document.createTextNode("REGISTER");
 
     this.fontawesome = document.createElement('i');
    //this.fontawesome.className       = "fa fa-repeat";
    this.fontawesome.className       = "fa fa fa-plus-circle";
+  
+   this.ElEditButton.appendChild(this.fontawesome);
+   this.ElEditButton.appendChild(this.ButtonLabel);
+   this.El.appendChild(this.ElEditButton );
+}
+if(this.USSCheckMode(mode , "BACK" ) )
+{
+
+//<a href="#" class="delete btn btn-danger btn-small">delete</a>
+   this.ElEditButton                 = document.createElement("button");
+   this.ElEditButton.className       = "bheaderButton btn";
+   this.ElEditButton.value           = "Register" ;
+  // this.ElEditButton.setAttribute("href","#notes/delete");
+  // this.ElEditButton.setAttribute("href","#/dashboard/");
+   this.ElEditButton.setAttribute("ng-click","goUrl('"+name +"USSBack')");
+   this.ButtonLabel         = document.createTextNode("BACK");
+
+    this.fontawesome = document.createElement('i');
+   //this.fontawesome.className       = "fa fa-repeat";
+   this.fontawesome.className       = "fa fa-chevron-left";
   
    this.ElEditButton.appendChild(this.fontawesome);
    this.ElEditButton.appendChild(this.ButtonLabel);
@@ -777,7 +820,7 @@ catch(e)
 {
 }
  
-	try
+	//try
 	{
 		if (fieldObj.htmlType == "" )
 		{
@@ -821,21 +864,21 @@ catch(e)
         this.tableBodyTd1.id="td";
        // this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
         //this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
-        this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' ' + 'col-xs-12';
+        this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' ' + 'col-md-' + this.ceil( 12/(fieldObj.maxCol * 1 ) ) +' col-xs-12 ';
 
         this.tableBodyTd2=document.createElement("div");
         this.tableBodyTd2.id ="td";
-        this.tableBodyTd2.className = 'col-sm-'+ this.ceil(12/(fieldObj.maxCol * 1)) +' ' + 'col-xs-12' ;
+        this.tableBodyTd2.className = 'col-sm-'+ this.ceil(12/(fieldObj.maxCol * 1)) +' ' + 'col-xs-12  col-md-' + + this.ceil(12/(fieldObj.maxCol * 1))  ;
     }
     else
     {
        this.tableBodyTd1=document.createElement("div");
         this.tableBodyTd1.id="td";
-        this.tableBodyTd1.className = 'col-sm-' + parseInt( 12/(fieldObj.maxCol * 2 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );
+        this.tableBodyTd1.className = 'col-md-'+ parseInt(12/(fieldObj.maxCol * 2)) +' col-sm-' + parseInt( 12/(fieldObj.maxCol * 2 ) ) +' ' + 'col-xs-12';
 
         this.tableBodyTd2=document.createElement("div");
         this.tableBodyTd2.id ="td";
-        this.tableBodyTd2.className = 'col-sm-'+ parseInt(12/(fieldObj.maxCol * 2)) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1)) ;
+        this.tableBodyTd2.className = 'col-md-'+ parseInt(12/(fieldObj.maxCol * 2)) +' col-sm-'+ parseInt(12/(fieldObj.maxCol * 2)) +' ' + 'col-xs-12' ;
     
     }
 				if((fieldObj.dataType =='HIDDEN')||(fieldObj.dataType == 'XMLCONTAINER')||(fieldObj.dataType =='BUTTON'))
@@ -1005,7 +1048,7 @@ catch(e)
 				else
 				{
 					this.tableBodyElmnt=document.createElement("input");
-					this.tableBodyElmnt.type="input";
+					this.tableBodyElmnt.type="TEXT";
 					this.tableBodyElmnt.name=fieldObj.group+'_'+fieldObj.name ;
 					this.tableBodyElmnt.className = 'ctext';
 					var fldStr="";
@@ -1027,10 +1070,11 @@ catch(e)
 				
 			}
 	}
-	catch(e)
+	/*catch(e)
 	{
 			alert("CFCException :" +e);
 	}
+  */
 	this.tableErrorBox=document.createElement("div");
 	this.tableErrorBox.id= fieldObj.name +"ErrorBox";
 
@@ -1072,11 +1116,15 @@ catch(e)
 	this.tableBodyElmnt.setAttribute("title"   ,fieldObj.tips);
 	this.tableBodyElmnt.setAttribute("Xpath"   ,fieldObj.Xpath);
 	this.tableBodyElmnt.onchange=fieldObj.onchange;
-	/*this.tableBodyElmnt.setAttribute("onclick",fieldObj.onclick);
+	this.tableBodyElmnt.setAttribute("onclick",fieldObj.onclick);
 	this.tableBodyElmnt.setAttribute("onblure",fieldObj.onblure);
 	this.tableBodyElmnt.setAttribute("onkeydown",fieldObj.onkeydown);
 	this.tableBodyElmnt.setAttribute("onkeyup",fieldObj.onkeyup);
-	this.tableBodyElmnt.setAttribute("onkeypress",fieldObj.onkeypress); */
+  this.tableBodyElmnt.setAttribute("onkeypress",fieldObj.onkeypress); 	
+  this.tableBodyElmnt.setAttribute("onchange",fieldObj.onchange); 
+
+
+
 	this.tableBodyElmnt.setAttribute("task",fieldObj.task);
 	if (fieldObj.dataType == 'PAGE')
 	{
@@ -1458,7 +1506,8 @@ USS.prototype.NewChild=function(obj)
 
   if (HtmlTypeId.value == "PAGE" )
   {
-    fieldObj.htmlType="CONTAINER"
+    fieldObj.htmlType="CONTAINER";
+    fieldObj.dataType="CONTAINER";
   }
   var child=this.AddSubling(fieldObj,obj.getAttribute("baseid"));
 
@@ -1466,19 +1515,13 @@ USS.prototype.NewChild=function(obj)
 
 
 }
-
-
-
 USS.prototype.AddSubling = function(fieldObj,parentid)
 {
- this.ContinerCount= ++this.ContinerCount || 0;
 
-  //arguments.callee.count = ++arguments.callee.count || 1
 
   var childDiv= document.createElement('div');
 
-    //childDiv.id = "Container" + this.ContinerCount++;
-    childDiv.id = "Container" + this.ContinerCount;
+    childDiv.id = "Container" + this.ContinerCount++||1;
     //childDiv.class="bfield";
 
 
@@ -1538,7 +1581,6 @@ var divCurrDivMax=document.createElement("input");
   divCurrDivMax.setAttribute("attribute"        ,"Max");
   divCurrDivMax.setAttribute("id"               ,childDiv.id +"Max"+"Id");
   divCurrDivMax.setAttribute("mndf"             ,"Y");
-  divCurrDivMax.setAttribute("size"       ,"2");
   divCurrDivMax.setAttribute("childCount"       ,"0");
   divCurrDivMax.setAttribute("type"             ,"container");
   divCurrDivMax.setAttribute("placeholder"      ,"Max");
@@ -1552,11 +1594,10 @@ var divCurrDivMin=document.createElement("input");
   divCurrDivMin.setAttribute("id"               ,childDiv.id +"Min"+"Id");
   divCurrDivMin.setAttribute("mndf"             ,"Y");
   divCurrDivMin.setAttribute("childCount"       ,"0");
-  divCurrDivMin.setAttribute("size"       ,"2");
   divCurrDivMin.setAttribute("type"             ,"container");
   divCurrDivMin.setAttribute("placeholder"             ,"Min");
   divCurrDivMin.setAttribute("value"             ,fieldObj.min);
-  divCurrDivMin.setAttribute("title","Min");
+    divCurrDivMin.setAttribute("title","Min");
 
 var divCurrDivTips=document.createElement("input");
   divCurrDivTips.setAttribute("parentid"        ,parentid);
@@ -1601,7 +1642,7 @@ var divCurrDivMndf=document.createElement("select");
     divCurrDivMndf.setAttribute("title","mndf");
 
 
-var inpStrArr= "Y|Y|N|N".split('|');
+var inpStrArr= "Y|YES|N|NO".split('|');
 var divCurrDivMndfOption="";
 
   //alert(fieldObj.htmlType );
@@ -1714,7 +1755,7 @@ var divCurrDivEntitle=document.createElement("select");
 
 
 
- inpStrArr= "NONREADONLY|Y|READONLY|N".split('|');
+ inpStrArr= "NONREADONLY|YES|READONLY|NO".split('|');
 var divCurrDivEntitleOption="";
 
   //alert(fieldObj.htmlType );
@@ -1752,7 +1793,7 @@ var divCurrDivXml=document.createElement("select");
 
 
 
- inpStrArr= "Y|Y|N|N".split('|');
+ inpStrArr= "Y|YES|N|NO".split('|');
 var divCurrDivEntitleOption="";
 
   //alert(fieldObj.htmlType );
@@ -1836,11 +1877,8 @@ var divButton=document.createElement("button");
   divButton.setAttribute("childCount"       ,"0");
   divButton.setAttribute("value"       ,"onclick");
   divButton.setAttribute("type"             ,"button");
-  //divButton.textContent = "Add Sibling";
-  divButton.setAttribute("title","Add Sibling");
+ // divButton.textContent = "Add Sibling";
     divButton.setAttribute("onclick" ,"NewSibling(this)");
-
-
 
 
  this.fontawesome = document.createElement('i');
@@ -1848,10 +1886,6 @@ var divButton=document.createElement("button");
    this.fontawesome.className       = "fa fa-clone";
   
    divButton.appendChild(this.fontawesome);
-   //this.divButton.appendChild(this.ButtonLabel);
-
-
-
 
 
 
@@ -1863,12 +1897,8 @@ var divButtonDelete=document.createElement("button");
   divButtonDelete.setAttribute("childCount"       ,"0");
   divButtonDelete.setAttribute("value"       ,"onclick");
   divButtonDelete.setAttribute("type"             ,"button");
-//  divButtonDelete.textContent = "Delete";
-divButtonDelete.setAttribute("title","Delete");
-
+ // divButtonDelete.textContent = "Delete";
     divButtonDelete.setAttribute("onclick" ,"DeleteThis(this)");
-
-
 this.fontawesome = document.createElement('i');
    //this.fontawesome.className       = "fa fa-repeat";
    this.fontawesome.className       = "fa fa-minus-circle";
@@ -1884,15 +1914,14 @@ var divButtonAddChild=document.createElement("button");
   divButtonAddChild.setAttribute("childCount"       ,"0");
   divButtonAddChild.setAttribute("value"       ,"onclick");
   divButtonAddChild.setAttribute("type"             ,"button");
-  //divButtonAddChild.textContent = "AddChild";
+ // divButtonAddChild.textContent = "AddChild";
     divButtonAddChild.setAttribute("onclick" ,"NewChild(this)");
-
-
     this.fontawesome = document.createElement('i');
    //this.fontawesome.className       = "fa fa-repeat";
    this.fontawesome.className       = "fa  fa-child";
   
    divButtonAddChild.appendChild(this.fontawesome);
+
 
 
 
@@ -1904,17 +1933,14 @@ var divButtonPreview=document.createElement("button");
   divButtonPreview.setAttribute("childCount"       ,"0");
   divButtonPreview.setAttribute("value"       ,"onclick");
   divButtonPreview.setAttribute("type"             ,"button");
- // divButtonPreview.textContent = "Preview";
-  divButtonPreview.setAttribute("title","Preview");
+//  divButtonPreview.textContent = "Preview";
     divButtonPreview.setAttribute("onclick" ,"PreView(this)");
 
-    //fa-television
- this.fontawesome = document.createElement('i');
+   this.fontawesome = document.createElement('i');
    //this.fontawesome.className       = "fa fa-repeat";
    this.fontawesome.className       = "fa  fa-television";
   
    divButtonPreview.appendChild(this.fontawesome);
-
 
 
 var divCurrDivPreViewSession=document.createElement("div");
@@ -2027,16 +2053,17 @@ else
 
 }
 
-USS.prototype.ProcessSJson=function(SchemaJson,ParentObjId)
+  
+
+
+USS.prototype.ProcessSJson=function(SchemaJson,parentId)
 {
 
-  //var ParentObj=document.createElement("div");
+  var ParentObj=document.createElement("div");
 
   //alert("GenSJson");
   //alert(SchemaJson);
   //var SchemaJsonTextId = document.getElementById("SchemaJsonTextId");
-
-    var ParentObj = document.getElementById(ParentObjId);
   var child=document.createElement("div");
 
   for( var i =0 ; i <  SchemaJson.length ; i++)
@@ -2044,7 +2071,7 @@ USS.prototype.ProcessSJson=function(SchemaJson,ParentObjId)
     if (this.hasChild(SchemaJson[i]) )
     {
       
-      child=this.AddSubling(SchemaJson[i],ParentObj.id);
+      child=this.AddSubling(SchemaJson[i],parentId);
       var childs=this.ProcessSJson(SchemaJson[i].childs ,child.id);
 
       child.appendChild(childs);
@@ -2053,7 +2080,7 @@ USS.prototype.ProcessSJson=function(SchemaJson,ParentObjId)
     else
     {
 
-      child=this.AddSubling(SchemaJson[i],ParentObj.id);
+      child=this.AddSubling(SchemaJson[i],parentId);
     }
 
     ParentObj.appendChild(child);
@@ -2062,7 +2089,6 @@ USS.prototype.ProcessSJson=function(SchemaJson,ParentObjId)
 
   return ParentObj;
 }
-
 
 
 

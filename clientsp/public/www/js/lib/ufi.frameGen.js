@@ -661,6 +661,8 @@ FG.prototype.jsonToListVal= function (list,obj)
 	
 FG.prototype.frameField=function (recSch,varStrVal,varLabelStrVal,varStrListVal,func,level)
 {
+
+	this.debug('frameField start');
 	var lv_str="";
 	if ( varStrVal === undefined)
 	varStrVal=="";
@@ -728,6 +730,8 @@ if(recSch.col == 1)
 	lv_str  += "\n USSField" + "." + "Xpath"      + "=" + "'" + recSch.Xpath      + "'" + ";"
 	lv_str  += "\n USSTableRow"+  level +"=us.CreateField(USSField,USSTableRow"+  level +");";
 
+	this.debug('frameField end');
+
 return lv_str;
 
 }
@@ -779,13 +783,13 @@ lv_str += this.sprint( "USSContainer"+level+"   =   us.USSCreateContainer();");
 		}
 		lv_str += this.sprint('USSSession'+  level +'     =   us.USSCreateSession();' );
 		
-				parent.name = parent.name + "_"+level + "_"+ 0;
+				//parent.name = parent.name + "_"+level + "_"+ 0;
 
 
 
+										// (recSch,varStrVal,varLabelStrVal,varStrListVal,func,level)
 
-
-				lv_rtStr=this.frameField(parent,'','','',func,parent.name,level);
+				lv_rtStr=this.frameField(parent , ''      ,''                     ,func,parent.name,level);
 				lv_str += this.sprint(lv_rtStr);
 				lv_str += this.sprint('USSSession'+  level +'.appendChild(USSTableRow'+  level +');' );
 

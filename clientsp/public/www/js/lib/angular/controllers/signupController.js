@@ -8,6 +8,13 @@ function()
 
 
       // alert("basicDetService");
+
+
+      $scope.RegisterUser=function()
+      {
+
+        alert('I m in RegisterUser');
+      }
 	
 		$scope.basicDetEditSave=function()
     	{

@@ -51,7 +51,7 @@ console.log(controllers);
 
 
    var us= new ufiframegen.FG();
-   var val= new ufivalidate.VAL();
+   //var val= new ufivalidate.VAL();
 /*
 
    $http({
@@ -157,9 +157,9 @@ var ussScript=us.frameGeneration(inpUsListVal
 
    // try
     {
-      var dynFGCall=(new Function("return function(us,val) {" + ussScript + "};"))();
+      var dynFGCall=(new Function("return function(us) {" + ussScript + "};"))();
    
-      var appendObj=dynFGCall(us,val);
+      var appendObj=dynFGCall(us);
 
        console.log('appendObj.innerHTML');
       console.log(appendObj.innerHTML);
@@ -508,7 +508,7 @@ $stateProvider.state('basicDetUSSEdit',
                 //template : heaerieUssServiceProvider.GenHtmlTemplateFromSJson('basicDet','N',"FULL") //EIDT and ADD
                 //template : 'this is test'
                // templateUrl : 'js/lib/views/dashboardView.html',controller :  'dashboardController'
-                template:  heaerieUssServiceProvider.GenHtmlTemplateFromSJson('signup','Y',"REGISTER")
+                template:  "<center> <div style='width:600px'>" + heaerieUssServiceProvider.GenHtmlTemplateFromSJson('signup','Y',"REGISTER|BACK") + "</div> </center>"
                ,controller :  'signupController'
               }
 
@@ -685,7 +685,19 @@ webApp.run(['$rootScope','$q', '$injector', function($rootScope,$q, $injector) {
       //alert('I am in stateToGo' );
       //console.log(angular.toJson($state.get()));
        // console.log($injector.get('$state').get());
-          $injector.get('$state').go(stateToGo);
+
+      if(stateToGo == 'registerUSSBack')
+      {
+
+         $injector.get('$state').go('login');
+      }
+      else
+      {
+         $injector.get('$state').go(stateToGo);
+      }
+
+
+         
     }
 }]);
 
