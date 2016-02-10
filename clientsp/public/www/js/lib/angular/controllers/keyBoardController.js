@@ -328,7 +328,481 @@ $scope.stringToByteArray=function(str) {
 }
 
 
+$scope.hexToByte = function(inpChar)
+{
 
+return h2d(inpChar);
+}
+
+$scope.hexToBytes=function(inpStrArr)
+{
+
+  //var rtStr=new Int8Array()
+var bytes = new Uint8Array(inpStrArr.length/2);
+j=0;
+  for(var i=0; i< inpStrArr.length ; i +=2)
+  {
+
+    // rtStr.push(String.fromCharCode($scope.hexToByte(inpStrArr[i]) <<4| $scope.hexToByte(inpStrArr[i+1])));
+     bytes[j++]=$scope.hexToByte(inpStrArr[i]) <<4| $scope.hexToByte(inpStrArr[i+1]);
+  }
+
+  return bytes;
+}
+
+$scope.getLengthVal=function(inp)
+{
+var retVal=0;
+if(inp.length==1)
+{
+retVal=inp[0]
+}
+else
+{
+  for(var i=1; i< inp.length ; i++)
+  {
+  //retVal= retVal+ (inp[i] << (inp.length-i+1)*8 ) ;
+    retVal= retVal+ (inp[i] << ((inp.length-(i+1))*8 ) );
+  }
+}
+
+return retVal;
+}
+$scope.hexArrToString = function(hexArr)
+{
+  var hexStr="";
+  for(var i=0; i< hexArr.length ; i++)
+  {
+    hexStr+=hexArr[i];
+  }
+
+  return hexStr;
+}
+$scope.ByteSubstr = function(byteArr,endlength)
+{
+  var rtbyte=[];
+  for(var i=0; i<  byteArr.length  && i<=endlength ; i++)
+  {
+    rtbyte.push(byteArr[i]);
+
+  }
+
+  return rtbyte;
+}
+$scope.ByteSubstr1 = function(byteArr,start)
+{
+  var rtbyte=[];
+  for(var i=start; i< byteArr.length ; i++)
+  {
+    rtbyte.push(byteArr[i]);
+  }
+
+  return rtbyte;
+}
+$scope.ByteSubstr2 = function(byteArr,start,endlength)
+{
+  var rtbyte=[];
+  for(var i=start; i<  byteArr.length  && i<endlength ; i++)
+  {
+    rtbyte.push(byteArr[i]);
+
+  }
+
+  return rtbyte;
+}
+$scope.parseTVL = function(inpBytes)
+{
+
+  var parentJson=[];
+  var s=0x80;
+  var  classVal=0;
+  var  primitiveOrConst=0;
+  var tagLen=0;
+  var tagByte=[];
+  var highByte=0;
+  var lowByte=0;
+  var mode=["tag", "length", "value"];
+  var modeCnt=0;
+  var leadingOctet=1; //subsequent
+  //.charCodeAt()
+  var firstBit=0;
+  var nextSubsequent=0
+  var nextSubSeqByte=0;
+  var lengthSize=0;
+  var len=[];
+  var lenByte=[];
+  var dataByte=[];
+  var data=[];
+  var ascii=[];
+  var lengthHeaderCnt=0;
+
+  for (var i=0; i < inpBytes.length ; i++)
+  {
+     firstBit=0;
+     highByte=0;
+     lowByte=0;
+     s=0x80;      
+     nextSubSeqByte=0;
+
+    //pre processing
+
+     for (var b=8; b>0; b--)
+     {
+        if(inpBytes[i]&s)
+        {
+        if(b==8 )
+        {
+
+          
+          firstBit=firstBit|s;
+        }
+
+
+         if(b==8 || b==7 || b == 6 || b == 5)
+            {
+             // if(inpBytes[i]&s)
+              highByte=highByte|s;
+            }
+            if(b==4 || b==3 || b == 2 || b == 1)
+            {
+              //if(inpBytes[i]&s)
+              lowByte=lowByte|s;
+            }
+             if(b==5||b==4 || b==3 || b == 2 || b == 1)
+            {
+              //if(inpBytes[i]&s)
+              nextSubSeqByte=nextSubSeqByte|s;
+            }
+
+        if(modeCnt ==0)
+        {
+            if(leadingOctet==1)
+            {
+
+                if(b==8 || b==7)
+                {
+
+                  
+                  classVal=classVal|s;
+                }
+                 if(b==6)
+                {
+                  //if(inpBytes[i]&s)
+                  primitiveOrConst=primitiveOrConst|s;
+                }
+            }
+           
+           
+        }
+        else if (modeCnt == 1 )
+      {
+          if (leadingOctet == 1)
+          { 
+
+            if(firstBit == 1)
+            {
+              if(b==4 || b==3 || b == 2 || b == 1)
+              {
+                lengthSize=lengthSize|s;
+              }
+            }
+
+          }
+
+      }
+      else if (modeCnt >= 2)
+      {
+        if(b==8 || b==7 || b == 6 || b == 5)
+            {
+             // if(inpBytes[i]&s)
+              highByte=highByte|s;
+            }
+            if(b==4 || b==3 || b == 2 || b == 1)
+            {
+              //if(inpBytes[i]&s)
+              lowByte=lowByte|s;
+            }
+      }
+    }
+
+        s=s>>1;
+        
+     }
+     highByte=highByte>>4;
+     firstBit=firstBit>>7;
+    //decision processing  part
+    
+    if (modeCnt== 0 )
+    {
+      if (( leadingOctet == 1 && nextSubSeqByte == 0x1F )|| ( leadingOctet == 0 && firstBit ==1)  )
+      {
+        nextSubsequent=1;
+      }
+    }
+    else 
+    if(modeCnt ==1) //length 
+    {
+        if(  leadingOctet == 1)
+        {
+          if(firstBit ==1 )
+          {
+            lengthHeaderCnt=1;
+          }
+          else
+          {
+            lengthHeaderCnt=0;
+          }
+          lengthSize= lengthSize+ lengthHeaderCnt;
+        }
+        if (lengthSize == 0)
+        {
+          nextSubsequent=0;
+        }
+        else
+        {
+          nextSubsequent=1;
+        }
+    }
+
+    //Action Part
+    if( leadingOctet ==1   ||nextSubsequent ==1)
+    {
+        if (modeCnt ==0)
+        {
+          tagByte.push(d2h(highByte));
+          tagByte.push(d2h(lowByte));
+       // nextSubsequent=1;
+          tagLen++;
+        }
+        else if (modeCnt ==1)
+        {
+           len.push(d2h(highByte));
+           len.push(d2h(lowByte));
+           lenByte.push(highByte<<4|lowByte);
+           lengthSize--;
+           tagLen++;
+        }
+        else if (modeCnt >= 2)
+        {
+           data.push(d2h(highByte));
+           data.push(d2h(lowByte));
+
+           ascii.push(String.fromCharCode(inpBytes[i])) ;
+           dataByte.push(inpBytes[i]);
+           tagLen++;
+        }
+    }
+     
+  // post procesing   
+     if(leadingOctet ==1)
+     {
+      leadingOctet=0;
+     }
+     if(nextSubsequent ==0)
+     {
+        leadingOctet=1;
+        modeCnt++;
+        tagLen=0;
+     }
+
+   //console.log(mode[modeCnt]);
+
+
+  }
+ 
+
+     classVal= classVal>>6;
+     primitiveOrConst=primitiveOrConst>>5;
+
+     var parentObj      = [];
+     var lenVal       =$scope.getLengthVal(lenByte);
+     var dataHex       =  $scope.hexArrToString(data);
+      var remData     = dataHex.substr(lenVal*2); 
+      var value       = dataHex.substr(0,lenVal*2); 
+      var valueByte   =$scope.ByteSubstr2(dataByte,0,lenVal);
+      var remDataByte =$scope.ByteSubstr1(dataByte,lenVal);
+      var tag         =$scope.hexArrToString(tagByte);
+
+     parentObj={    'class'             : classVal 
+                    ,'primitiveOrConst' : primitiveOrConst
+                    //,'tagByte'          : tagByte
+                    ,'tag'              : tag
+                    //,'len'              : len
+                    ,'lenByte'          : lenByte 
+                    ,'lenVal'           : lenVal
+                    ,'data'             : dataHex
+                    //,'dataByte'         : dataByte
+                    ,'remData'          : remData
+                    ,'value'            : value
+                    //, 'valueByte'       : valueByte
+                    , 'remDataByte'     : remDataByte
+                    ,'childs' : []
+               };
+
+
+  
+
+  if(primitiveOrConst == 1)
+  {
+    //var childJson = 
+      parentObj.childs=$scope.parseTVL(valueByte);
+  }
+   parentJson.push(parentObj);
+
+if(remDataByte.length >0)
+{
+ if(remDataByte[0] != 0x90 && remDataByte[1] != 0x00)
+  {
+    //var childJson = 
+     parentJson.push($scope.parseTVL(remDataByte));
+  }
+
+}
+
+  return parentJson;
+}
+$scope.createTreeBody = function(parentObj)
+{
+  var bodyElement= document.createElement('div');
+      bodyElement.className="bodyTreeClass";
+
+  var dataElement= document.createElement('div');
+      dataElement.className="elementClass";
+      
+var asciiElement= document.createElement('div');
+      asciiElement.className="elementClass";
+
+bodyElement.appendChild(dataElement);
+bodyElement.appendChild(asciiElement);
+
+
+   return   bodyElement;
+
+}
+$scope.createTreeHeader = function(parentObj)
+{
+  var headerElement             = document.createElement('div');
+      headerElement.className   = "headerTreeClass";
+
+  var dataElement               = document.createElement('div');
+      dataElement.className     = "elementClass";
+    
+    var  fontawesome            = document.createElement('i');
+         fontawesome.className   = "fa fa-clone";
+
+    var TextNode                = document.createTextNode(parentObj.tag);
+ 
+dataElement.appendChild(fontawesome);
+dataElement.appendChild(TextNode);
+
+headerElement.appendChild(dataElement);
+headerElement.appendChild(asciiElement);
+
+
+   return   headerElement;
+
+}
+$scope.treeView=function(parentJson)
+{
+
+  var parentElement= document.createElement('div');
+      parentElement.className="parentClass";
+  for(var i=0;i<parentJson.length ; i++)
+  {
+    var   parentObj=parentJson[i];
+
+   $scope.createTreeHeader(parentObj);
+   $scope.createTreeBody(parentObj);
+  }
+ return parentElement;
+}
+$scope.doTvl=function(val)
+{
+  var retVal=val;
+  var inpStrArr=$scope.stringToByteArray(val);
+
+  var respJson=[];
+var j=0;
+
+var pattern=/[0-9A-Fa-f]/i;
+
+
+
+if( pattern.test(inpStrArr))
+{
+
+if(inpStrArr.length %2 == 0)
+{
+var inpBytes = $scope.hexToBytes(inpStrArr);
+
+ respJson= $scope.parseTVL(inpBytes);
+
+}
+
+}
+else
+{
+
+   for(var i=0; i<inpStrArr.length;)
+  {
+
+
+
+      if (inpStrArr[i].charCodeAt()== 0xE0)
+      {
+      var elmJson =[];
+       var mei     =$scope.isMei(inpStrArr[i],inpStrArr[i+1],inpStrArr[i+2]);
+       var uyir    =$scope.isUyir(inpStrArr[i],inpStrArr[i+1],inpStrArr[i+2]);
+       var meiType =$scope.getMeiType(inpStrArr[i],inpStrArr[i+1],inpStrArr[i+2]);
+       var Nedil   =$scope.isNedil(inpStrArr[i],inpStrArr[i+1],inpStrArr[i+2]);
+       var symbol   =$scope.isSymbol(inpStrArr[i],inpStrArr[i+1],inpStrArr[i+2]);
+
+       elmJson.push({'mei'     : mei });
+       elmJson.push({'uyir'    : uyir });
+       elmJson.push({'meiType' : meiType });
+       elmJson.push({'symbol'  : symbol });
+       elmJson.push({'Nedil'   : Nedil });
+       elmJson.push({'h1'      : d2h(inpStrArr[i].charCodeAt()) });
+       elmJson.push({'h2'      : d2h(inpStrArr[i+1].charCodeAt())  });
+       elmJson.push({'h3'      : d2h(inpStrArr[i+2].charCodeAt()) });
+       respJson.push({'ezuthu' : elmJson});
+       i+=3;
+     }
+     else
+     {
+      i++;
+     }
+  }
+
+}
+  
+ 
+
+
+
+
+document.getElementById('json').value= JSON.stringify(respJson);
+
+  return retVal ;
+
+}
+
+$scope.compile=function()
+{
+//alert("compile" + editor);
+var ed=document.getElementById('editor').innerText;
+
+var compileValue=$scope.doCompile(ed);
+
+
+document.getElementById('pad').value=compileValue;
+
+
+
+
+
+
+}
 $scope.doCompile=function(val)
 {
   var retVal=val;
@@ -371,6 +845,8 @@ var j=0;
   }
 
 
+
+
 document.getElementById('json').value= JSON.stringify(respJson);
 
   return retVal ;
@@ -393,6 +869,19 @@ document.getElementById('pad').value=compileValue;
 
 
 }
+
+
+$scope.TVL=function()
+{
+//alert("compile" + editor);
+var ed=document.getElementById('editor').innerText;
+
+var compileValue=$scope.doTvl(ed);
+
+document.getElementById('pad').value=compileValue;
+
+}
+
 
 $scope.keyBoard=function()
 {
@@ -640,6 +1129,9 @@ function h2d(h) {return parseInt(h,16);}
       }
   return 1;
 }
+
+
+
 
 
 

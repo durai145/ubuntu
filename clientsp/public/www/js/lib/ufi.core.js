@@ -845,10 +845,11 @@ catch(e)
 
 		
 
-				this.tableBodyElmntDesc=document.createElement("span");
-				this.tableBodyElmntScript=document.createElement("script");
-                                this.tableBodyTr=document.createElement("div");
-                                this.tableBodyTr.className="row tableRow";
+      this.tableBodyElmntDesc=document.createElement("span");
+      this.tableBodyElmntScript=document.createElement("script");
+      this.tableBodyTr=document.createElement("div");
+      this.tableBodyTr.className="row tableRow";
+                          
 			/*	this.tableBodyTd1=document.createElement("div");
 				this.tableBodyTd1.id="td";
 				this.tableBodyTd1.className = 'col-sm-' + this.ceil( 12/(fieldObj.maxCol * 2 ) ) +' ' + 'col-xs-' + this.ceil(12/(fieldObj.maxCol*1) );

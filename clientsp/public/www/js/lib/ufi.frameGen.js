@@ -721,12 +721,12 @@ if(recSch.col == 1)
 		lv_str  += "\n USSField" + "." + "listVal"    + "=" + "'" + recSch.listVal    + "'" + ";"
 
 	}
-	lv_str  += "\n USSField" + "." + "col"       + "=" + "'" + recSch.col       + "'" + ";"
+	lv_str  += "\n USSField" + "." + "col"        + "=" + "'" + recSch.col       + "'" + ";"
 	lv_str  += "\n USSField" + "." + "maxCol"     + "=" + "'" + recSch.maxCol       + "'" + ";"
 	lv_str  += "\n USSField" + "." + "help"       + "=" + "'" + recSch.help       + "'" + ";"
 	lv_str  += "\n USSField" + "." + "helpLink"   + "=" + "'" + recSch.helpLink   + "'" + ";"
 	lv_str  += "\n USSField" + "." + "xml"        + "=" + "'" + recSch.xml        + "'" + ";"
-	lv_str  += "\n USSField" + "." + "xmlname"        + "=" + "'" + recSch.xmlname        + "'" + ";"
+	lv_str  += "\n USSField" + "." + "xmlname"    + "=" + "'" + recSch.xmlname        + "'" + ";"
 	lv_str  += "\n USSField" + "." + "Xpath"      + "=" + "'" + recSch.Xpath      + "'" + ";"
 	lv_str  += "\n USSTableRow"+  level +"=us.CreateField(USSField,USSTableRow"+  level +");";
 
@@ -877,8 +877,8 @@ lv_str += this.sprint( "USSContainer"+level+"   =   us.USSCreateContainer();");
 
 
 				var evalStr="rec["+0+"]." +recSch[recSchCnt].name;
-				var labelEvalStr="recLabel["+0+"]." +recSch[recSchCnt].name;
-				var listValEvalStr="listVal["+0+"]." +recSch[recSchCnt].name;
+				var labelEvalStr   ="recLabel["+0+"]." +recSch[recSchCnt].name;
+				var listValEvalStr ="listVal["+0+"]." +recSch[recSchCnt].name;
 				this.debug(" evalStr =["+ evalStr+"]");
 			var  objEvalStr=eval(evalStr);
 

@@ -39,7 +39,9 @@ function()
                     states[i].name != 'dashboard' &&
                     states[i].name != 'basicDetUSSView' &&
                     states[i].name != 'basicDetUSSAdd' &&
-                    states[i].name != 'basicDetUSSNavi' &&
+                    states[i].name != 'basicDetUSSNavi' && 
+                    states[i].name != 'login' && 
+                    states[i].name != 'basicDetUSSSave' &&
                     states[i].name != 'SchemaGeneratorView' &&
                     states[i].name != 'SchemaGenerator' &&
                     states[i].name != 'KeyBoard' &&
